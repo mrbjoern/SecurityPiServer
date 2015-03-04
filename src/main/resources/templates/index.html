@@ -9,6 +9,9 @@
     <link href="http://cdn.jsdelivr.net/webjars/bootstrap/3.2.0/css/bootstrap.min.css"
           th:href="@{/webjars/bootstrap/3.2.0/css/bootstrap.min.css}"
           rel="stylesheet" media="screen" />
+    <script src="http://cdn.jsdelivr.net/webjars/jquery/2.1.1/jquery.min.js"
+          th:src="@{/webjars/jquery/2.1.1/jquery.min.js}"></script>
+    <script src="../static/javascript/getTemperature.js" th:src="@{/javascript/getTemperature.js}"></script>
 </head>
 <body>
 
@@ -50,7 +53,16 @@
     <div class="row">
         <div class="col-md-4">
             <h2>Temperature</h2>
-            <p>The temperature was last measured at N/A was 0.00 degrees celsius.</p>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Last reading</h3>
+                </div>
+                <div class="panel-body">
+                    <span class="tempDegrees">0.00</span> degrees celsius.
+                </div>
+            </div>
+            <!--<p>The temperature was last measured at <span class="tempDate">N/A</span> was <span class="tempDegrees">0.00</span>
+                degrees celsius.</p>-->
             <p>The average temperature last 24 hours have been 22.43 degrees celsius</p>
             <p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>
         </div>

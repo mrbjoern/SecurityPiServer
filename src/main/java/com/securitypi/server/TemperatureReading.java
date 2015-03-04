@@ -1,14 +1,28 @@
 package com.securitypi.server;
 
 /**
- * Created by mrbjoern on 3/2/15.
+ * Stores reading of temperatures with timestamp to be stored in database or other format.
  */
 public class TemperatureReading {
 
     private double temperature;
     private String timestamp;
 
+    public TemperatureReading(double temperature, String timestamp) {
+        this.temperature = temperature;
+        this.timestamp = timestamp;
+    }
+
     public TemperatureReading() {
+
+    }
+
+    public void setTemperature(Double temperature) {
+        this.temperature = temperature;
+    }
+
+    public void setTimestamp(String timestamp) {
+        this.timestamp = timestamp;
     }
 
     public double getTemperature() {

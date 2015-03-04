@@ -6,7 +6,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
 /**
- * Created by mrbjoern on 3/2/15.
+ * Main application class for the Spring project.
  */
 @EnableAutoConfiguration
 @Configuration
@@ -14,6 +14,8 @@ import org.springframework.context.annotation.Configuration;
 public class Application {
 
     public static void main(String args[]) {
+
+        Readings readings = new Readings();
 
         SpringApplication.run(Application.class, args);
     }

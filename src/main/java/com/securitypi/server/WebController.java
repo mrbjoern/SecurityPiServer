@@ -4,7 +4,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 /**
- * Root of the SecurityPiServer.
+ * Root of the SecurityPiServer. Collects information from the system and presents it to the user interface.
  */
 @RequestMapping("/**")
 @Controller

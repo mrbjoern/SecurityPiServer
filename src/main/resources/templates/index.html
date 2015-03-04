@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Hello Spring Boot!</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link href="../static/css/core.css"
+          th:href="@{/css/core.css}"
+          rel="stylesheet" media="screen" />
+    <link href="http://cdn.jsdelivr.net/webjars/bootstrap/3.2.0/css/bootstrap.min.css"
+          th:href="@{/webjars/bootstrap/3.2.0/css/bootstrap.min.css}"
+          rel="stylesheet" media="screen" />
+</head>
+<body>
+
+<nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#">SecurityPi Server</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+            <form class="navbar-form navbar-right">
+                <div class="form-group">
+                    <input type="text" placeholder="Email" class="form-control" />
+                </div>
+                <div class="form-group">
+                    <input type="password" placeholder="Password" class="form-control" />
+                </div>
+                <button type="submit" class="btn btn-success">Sign in</button>
+            </form>
+        </div><!--/.navbar-collapse -->
+    </div>
+</nav>
+
+<!-- Main jumbotron for a primary marketing message or call to action -->
+<div class="jumbotron">
+    <div class="container">
+        <h1>Welcome</h1>
+        <p>SecurityPi is a platform for monitoring events at home.</p>
+    </div>
+</div>
+
+<div class="container">
+    <!-- Example row of columns -->
+    <div class="row">
+        <div class="col-md-4">
+            <h2>Temperature</h2>
+            <p>The temperature was last measured at N/A was 0.00 degrees celsius.</p>
+            <p>The average temperature last 24 hours have been 22.43 degrees celsius</p>
+            <p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>
+        </div>
+        <div class="col-md-4">
+            <h2>Motion detection</h2>
+            <p>Motion detection is currently <span class="label label-danger">OFF</span>.</p>
+            <p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>
+        </div>
+        <div class="col-md-4">
+            <h2>Other events</h2>
+            <p>Showing last events.</p>
+            <div class="list-group">
+                <a href="#" class="list-group-item list-group-item-success">
+                    <h4 class="list-group-item-heading">Connected to SecurityPi</h4>
+                    <p class="list-group-item-text">15.10.2020 01:23 - Connection to SecurityPi is established.</p>
+                </a>
+                <a href="#" class="list-group-item list-group-item-danger">
+                    <h4 class="list-group-item-heading">Lost connection to SecurityPi</h4>
+                    <p class="list-group-item-text">14.10.2020 23:34 - The connection to SecurityPi was lost.</p>
+                </a>
+                <a href="#" class="list-group-item">
+                    <h4 class="list-group-item-heading">Nice weather</h4>
+                    <p class="list-group-item-text">11.10.2020 13:12 - Nice weather today.</p>
+                </a>
+                <a href="#" class="list-group-item list-group-item-danger">
+                    <h4 class="list-group-item-heading">Temperature is above 30 degrees</h4>
+                    <p class="list-group-item-text">10.10.2020 10:10 - Temperature was measured above 30 degrees.</p>
+                </a>
+            </div>
+            <p><a class="btn btn-default" href="#" role="button">View more &raquo;</a></p>
+        </div>
+    </div>
+
+    <hr />
+
+    <footer>
+        <p>&copy; Halvor Bjørn 2015</p>
+    </footer>
+</div> <!-- /container -->
+
+
+<!-- Bootstrap core JavaScript
+================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+<script src="../../dist/js/bootstrap.min.js"></script>
+<!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+<script src="../../assets/js/ie10-viewport-bug-workaround.js"></script>
+
+</body>
+</html>

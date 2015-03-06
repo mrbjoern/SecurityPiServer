@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Hello Spring Boot!</title>
+    <title>SecurityPi Server</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <link href="../static/css/core.css"
           th:href="@{/css/core.css}"
@@ -11,7 +11,6 @@
           rel="stylesheet" media="screen" />
     <script src="http://cdn.jsdelivr.net/webjars/jquery/2.1.1/jquery.min.js"
           th:src="@{/webjars/jquery/2.1.1/jquery.min.js}"></script>
-    <script src="../static/javascript/getTemperature.js" th:src="@{/javascript/getTemperature.js}"></script>
 </head>
 <body>
 
@@ -58,12 +57,33 @@
                     <h3 class="panel-title">Last reading</h3>
                 </div>
                 <div class="panel-body">
+                    <span th:text="${tempReading.temperature}">0.00</span> degrees celsius.<br/>
+                    Last reading was done <span th:text="${tempReading.timestamp}">N/A</span>.
+                </div>
+                <div class="panel-heading">
+                    <h3 class="panel-title">Average last 24 hours</h3>
+                </div>
+                <div class="panel-body">
+                    <span th:text="${tempAvg}">0.00</span> degrees celsius.
+                </div>
+                <!--
+                <div class="panel-heading">
+                    <h3 class="panel-title">Last reading</h3>
+                </div>
+                <div class="panel-body">
                     <span class="tempDegrees">0.00</span> degrees celsius.
                 </div>
+                <div class="panel-body">
+                    Last reading was done <span class="tempDate">N/A</span>.
+                </div>
+                <div class="panel-heading">
+                    <h3 class="panel-title">Average last 24 hours</h3>
+                </div>
+                <div class="panel-body">
+                    <span class="tempDegreesAverage">22.43</span> degrees celsius.
+                </div>
+                -->
             </div>
-            <!--<p>The temperature was last measured at <span class="tempDate">N/A</span> was <span class="tempDegrees">0.00</span>
-                degrees celsius.</p>-->
-            <p>The average temperature last 24 hours have been 22.43 degrees celsius</p>
             <p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>
         </div>
         <div class="col-md-4">
@@ -73,7 +93,6 @@
         </div>
         <div class="col-md-4">
             <h2>Other events</h2>
-            <p>Showing last events.</p>
             <div class="list-group">
                 <a href="#" class="list-group-item list-group-item-success">
                     <h4 class="list-group-item-heading">Connected to SecurityPi</h4>

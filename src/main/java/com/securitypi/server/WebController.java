@@ -1,6 +1,7 @@
 package com.securitypi.server;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 /**
@@ -11,13 +12,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class WebController {
 
     @RequestMapping("/")
-    public String index() {
+    public String index(Model model) {
+        model.addAttribute("tempReading", Readings.getLastReading());
+        model.addAttribute("tempAvg", Readings.getAverageTemperature(0));
         return "index";
     }
-
-    @RequestMapping("/test")
-    public String test() {
-        return "index";
-    }
-
 }

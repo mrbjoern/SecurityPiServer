@@ -8,10 +8,10 @@ public class TemperatureReading {
     private double temperature;
     private String timestamp;
 
-    public TemperatureReading(double temperature, String timestamp) {
+    /*public TemperatureReading(double temperature, String timestamp) {
         this.temperature = temperature;
         this.timestamp = timestamp;
-    }
+    }*/
 
     public TemperatureReading() {
 

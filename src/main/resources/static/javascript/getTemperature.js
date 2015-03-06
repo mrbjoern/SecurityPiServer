@@ -3,7 +3,7 @@
  */
 $(document).ready(function() {
     $.ajax({
-        url: "http://localhost:8080/api/report/temperature"
+        url: "http://192.168.0.109:8080/api/report/temperature"
     }).then(function(data) {
         $('.tempDate').replaceWith(data.timestamp);
         $('.tempDegrees').replaceWith(data.temperature);

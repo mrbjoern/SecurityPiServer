@@ -15,6 +15,8 @@ public class Application {
 
     public static void main(String args[]) {
 
+        System.out.println("System started.");
+
         Readings readings = new Readings();
 
         SpringApplication.run(Application.class, args);

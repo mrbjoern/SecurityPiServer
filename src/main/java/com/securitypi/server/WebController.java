@@ -13,8 +13,8 @@ public class WebController {
 
     @RequestMapping("/")
     public String index(Model model) {
-        model.addAttribute("tempReading", Readings.getLastReading());
-        model.addAttribute("tempAvg", Readings.getAverageTemperature(0));
+        model.addAttribute("tempReading", TemperatureReadingsHandler.getLastReading());
+        model.addAttribute("tempAvg", TemperatureReadingsHandler.getAverageTemperatureLastHours(0));
         return "index";
     }
 }

@@ -1,17 +1,18 @@
 package com.securitypi.server;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
 /**
- * Store temperature readings. As for prototyping, a static linked list should be sufficient,
+ * Store temperature readings. As for prototyping, a static list should be sufficient,
  * but in production a database should preferable be used.
  */
-public class Readings {
+public class TemperatureReadingsHandler {
 
     private static ArrayList<TemperatureReading> readings;
 
-    public Readings() {
+    public TemperatureReadingsHandler() {
         readings = new ArrayList<>();
     }
 
@@ -23,10 +24,6 @@ public class Readings {
         readings.add(tr);
     }
 
-    /**
-     * Get the last reading.
-     * @return last reading
-     */
     public static TemperatureReading getLastReading() {
         if(readings.size() == 0) {
             // Return an empty object to avoid many exceptions
@@ -62,18 +59,18 @@ public class Readings {
      * @param hours Number of hours. 0 indicate all data.
      * @return The average temperature.
      */
-    public static double getAverageTemperature(int hours) {
-
-        if(readings.size() == 0) {
-            return 0.0;
-        }
+    public static double getAverageTemperatureLastHours(int hours) {
 
         double totalTemp = 0;
+        DecimalFormat formatter = new DecimalFormat("#.00");
 
         for(int i = 0; i < readings.size(); i++) {
             totalTemp += readings.get(i).getTemperature();
         }
 
-        return totalTemp / readings.size();
+        totalTemp = totalTemp / readings.size();
+        formatter.format(totalTemp);
+
+        return totalTemp;
     }
 }

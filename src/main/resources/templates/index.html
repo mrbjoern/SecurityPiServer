@@ -39,7 +39,6 @@
     </div>
 </nav>
 
-<!-- Main jumbotron for a primary marketing message or call to action -->
 <div class="jumbotron">
     <div class="container">
         <h1>Welcome</h1>
@@ -48,9 +47,8 @@
 </div>
 
 <div class="container">
-    <!-- Example row of columns -->
     <div class="row">
-        <div class="col-md-4">
+        <div class="col-md-4" id="temperature">
             <h2>Temperature</h2>
             <div class="panel panel-default">
                 <div class="panel-heading">
@@ -66,32 +64,15 @@
                 <div class="panel-body">
                     <span th:text="${tempAvg}">0.00</span> degrees celsius.
                 </div>
-                <!--
-                <div class="panel-heading">
-                    <h3 class="panel-title">Last reading</h3>
-                </div>
-                <div class="panel-body">
-                    <span class="tempDegrees">0.00</span> degrees celsius.
-                </div>
-                <div class="panel-body">
-                    Last reading was done <span class="tempDate">N/A</span>.
-                </div>
-                <div class="panel-heading">
-                    <h3 class="panel-title">Average last 24 hours</h3>
-                </div>
-                <div class="panel-body">
-                    <span class="tempDegreesAverage">22.43</span> degrees celsius.
-                </div>
-                -->
             </div>
             <p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>
         </div>
-        <div class="col-md-4">
+        <div class="col-md-4" id="motiondetection">
             <h2>Motion detection</h2>
             <p>Motion detection is currently <span class="label label-danger">OFF</span>.</p>
             <p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>
         </div>
-        <div class="col-md-4">
+        <div class="col-md-4" id="events">
             <h2>Other events</h2>
             <div class="list-group">
                 <a href="#" class="list-group-item list-group-item-success">

@@ -14,10 +14,7 @@ import org.springframework.context.annotation.Configuration;
 public class Application {
 
     public static void main(String args[]) {
-
-        System.out.println("System started.");
-
-        Readings readings = new Readings();
+        new TemperatureReadingsHandler();
 
         SpringApplication.run(Application.class, args);
     }

@@ -19,12 +19,13 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 				.antMatchers("/", "/static/**", "/webjars/**").permitAll()
 				.anyRequest()
 				.authenticated();
-		http.formLogin().failureUrl("/login?error")
-				.defaultSuccessUrl("/")
+		http.formLogin()
+				.failureUrl("/login?error")
+				.defaultSuccessUrl("/", true)
 				.loginPage("/login")
 				.permitAll()
 				.and()
-				.logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout")).logoutSuccessUrl("/login")
+				.logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout")).logoutSuccessUrl("/login?logout")
 				.permitAll();
 	}
 

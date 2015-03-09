@@ -5,31 +5,54 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <link href="../static/css/core.css"
           th:href="@{/css/core.css}"
-          rel="stylesheet" media="screen" />
-    <link href="http://cdn.jsdelivr.net/webjars/bootstrap/3.2.0/css/bootstrap.min.css"
-          th:href="@{/webjars/bootstrap/3.2.0/css/bootstrap.min.css}"
+          rel="stylesheet" media="screen"/>
+    <link href="https://bootswatch.com/slate/bootstrap.min.css"
+          th:href="@{/webjars/bootswatch-slate/3.3.1+2/css/bootstrap.min.css}"
           rel="stylesheet" media="screen" />
     <script src="http://cdn.jsdelivr.net/webjars/jquery/2.1.1/jquery.min.js"
             th:src="@{/webjars/jquery/2.1.1/jquery.min.js}"></script>
 </head>
 <body>
+    <div class="jumbotron">
+        <div class="container">
+            <h1>Welcome</h1>
 
-<div th:if="${param.error}">
-    Invalid username and password.
-</div>
-<div th:if="${param.logout}">
-    You have been logged out.
-</div>
-
-<form th:action="@{/login}" method="post" class="navbar-form navbar-right">
-    <div class="form-group">
-        <input type="text" placeholder="Username" name="username" class="form-control" />
+            <p>SecurityPi is a platform for monitoring events at home.</p>
+        </div>
     </div>
-    <div class="form-group">
-        <input type="password" placeholder="Password" name="password" class="form-control" />
-    </div>
-    <button type="submit" class="btn btn-success">Sign in</button>
-</form>
 
+    <div class="container">
+
+        <div class="row">
+            <div class="col-md-6">
+                <div sec:authorize="isAnonymous()">
+                    <form th:action="@{/login}" method="post">
+                        <div class="form-group">
+                            <input type="text" placeholder="Username" name="username" class="form-control"/>
+                        </div>
+                        <div class="form-group">
+                            <input type="password" placeholder="Password" name="password" class="form-control"/>
+                        </div>
+                        <button type="submit" class="btn btn-success">Sign in</button>
+                    </form>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div th:if="${param.error}">
+                    <p sec:autorize="isAnonymous()">Invalid username and password.</p>
+                </div>
+                <div th:if="${param.logout}">
+                    <p sec:autorize="isAnonymous()">You have been logged out.</p>
+                </div>
+            </div>
+
+        </div>
+
+        <hr/>
+
+        <footer>
+            <p>&copy; Halvor Bjørn 2015</p>
+        </footer>
+    </div>
 </body>
 </html>

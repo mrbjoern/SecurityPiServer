@@ -6,15 +6,15 @@
     <link href="../static/css/core.css"
           th:href="@{/css/core.css}"
           rel="stylesheet" media="screen" />
-    <link href="http://cdn.jsdelivr.net/webjars/bootstrap/3.2.0/css/bootstrap.min.css"
-          th:href="@{/webjars/bootstrap/3.2.0/css/bootstrap.min.css}"
+    <link href="https://bootswatch.com/slate/bootstrap.min.css"
+          th:href="@{/webjars/bootswatch-slate/3.3.1+2/css/bootstrap.min.css}"
           rel="stylesheet" media="screen" />
     <script src="http://cdn.jsdelivr.net/webjars/jquery/2.1.1/jquery.min.js"
           th:src="@{/webjars/jquery/2.1.1/jquery.min.js}"></script>
 </head>
 <body>
 
-<nav class="navbar navbar-inverse navbar-fixed-top">
+<nav class="navbar navbar-default navbar-fixed-top">
     <div class="container">
         <div class="navbar-header">
             <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
@@ -23,19 +23,28 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="#">SecurityPi Server</a>
+            <a class="navbar-brand" href="/">SecurityPi Server</a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
-            <form th:action="@{/login}" method="post" class="navbar-form navbar-right">
-                <div class="form-group">
-                    <input type="text" placeholder="Username" name="username" class="form-control" />
-                </div>
-                <div class="form-group">
-                    <input type="password" placeholder="Password" name="password" class="form-control" />
-                </div>
-                <button type="submit" class="btn btn-success">Sign in</button>
-            </form>
-        </div><!--/.navbar-collapse -->
+            <div sec:authorize="isAnonymous()">
+                <!-- Only show if user is not signed in. -->
+                <form th:action="@{/login}" method="post" class="navbar-form navbar-right">
+                    <div class="form-group">
+                        <input type="text" placeholder="Username" name="username" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <input type="password" placeholder="Password" name="password" class="form-control" />
+                    </div>
+                    <button type="submit" class="btn btn-success">Sign in</button>
+                </form>
+            </div>
+
+            <div sec:authorize="hasRole('ROLE_USER')">
+                <form th:action="@{/logout}" method="post" class="navbar-form navbar-right">
+                    <button type="submit" class="btn btn-success">Sign out</button>
+                </form>
+            </div>
+        </div>
     </div>
 </nav>
 
@@ -48,7 +57,7 @@
 
 <div class="container">
 
-    <div class="row">
+    <div sec:authorize="hasRole('ROLE_USER')" class="row">
         <div class="col-md-4" id="temperature">
             <h2>Temperature</h2>
             <div class="panel panel-default">

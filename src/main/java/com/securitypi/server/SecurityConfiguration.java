@@ -31,6 +31,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
 	@Override
 	public void configure(AuthenticationManagerBuilder auth) throws Exception {
+		// TODO: Set up database connection here.
+
 		auth.inMemoryAuthentication().withUser("user").password("password").roles("USER");
 	}
 

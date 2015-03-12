@@ -37,8 +37,11 @@ public class Application extends WebMvcConfigurerAdapter {
 	public static PropertySourcesPlaceholderConfigurer properties(){
 		PropertySourcesPlaceholderConfigurer pspc = new PropertySourcesPlaceholderConfigurer();
 		Properties server = new Properties();
+
 		server.setProperty("server.tomcat.remote_ip_header", "x-forwarded-for");
+
 		pspc.setProperties(server);
+
 		return pspc;
 	}
 }

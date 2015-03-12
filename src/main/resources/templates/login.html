@@ -24,7 +24,13 @@
     <div class="container">
 
         <div class="row">
-            <div class="col-md-6">
+            <div class="col-md-4">
+                <div sec:authorize="isAnonymous()">
+                    <p>Please sign in with your username and password. If you don't have a user and believe you
+                    should have one, please contact your administrator.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
                 <div sec:authorize="isAnonymous()">
                     <form th:action="@{/login}" method="post">
                         <div class="form-group">
@@ -37,15 +43,14 @@
                     </form>
                 </div>
             </div>
-            <div class="col-md-6">
+            <div class="col-md-4">
                 <div th:if="${param.error}">
-                    <p sec:autorize="isAnonymous()">Invalid username and password.</p>
+                    <p>Invalid username and password.</p>
                 </div>
                 <div th:if="${param.logout}">
-                    <p sec:autorize="isAnonymous()">You have been logged out.</p>
+                    <p>You have been logged out.</p>
                 </div>
             </div>
-
         </div>
 
         <hr/>

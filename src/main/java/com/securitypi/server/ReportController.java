@@ -20,7 +20,15 @@ public class ReportController {
 	 */
 	@RequestMapping(value = "/", method = {RequestMethod.POST}, produces = {"application/json"})
 	public ResponseEntity<SecurityPi> connectSecurityPi(@RequestBody SecurityPi connectedSecurityPi) {
+		SecurityPiHandler.connectSecurityPi(connectedSecurityPi);
 		return new ResponseEntity<SecurityPi>(connectedSecurityPi, HttpStatus.OK);
+	}
+
+	@RequestMapping(value = "/", method = {RequestMethod.GET}, produces ={"application/json"})
+	public ResponseEntity<SecurityPi> connectSecurityPi() {
+		SecurityPi spi = new SecurityPi();
+		SecurityPiHandler.connectSecurityPi(spi);
+		return new ResponseEntity<SecurityPi>(spi, HttpStatus.OK);
 	}
 
     @RequestMapping(value = "/temperature", method = {RequestMethod.POST}, produces = {"application/json"})

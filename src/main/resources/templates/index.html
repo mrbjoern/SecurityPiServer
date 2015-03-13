@@ -95,6 +95,12 @@
             <h2>Other events</h2>
             <div class="list-group">
                 <a href="#" class="list-group-item">
+                    <h4 class="list-group-item-heading" th:text="${event.heading}">Heading</h4>
+                    <p class="list-grup-item-text"><span th:text="${event.timestamp}"></span> -
+                        <span th:text="${event.message}"></span></p>
+
+                </a>
+                <a href="#" class="list-group-item">
                     <h4 class="list-group-item-heading"><span class="text-success">Connected to SecurityPi</span></h4>
                     <p class="list-group-item-text">15.10.2020 01:23 - Connection to SecurityPi is established.</p>
                 </a>

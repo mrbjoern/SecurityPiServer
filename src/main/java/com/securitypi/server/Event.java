@@ -9,12 +9,15 @@ public class Event {
     private String timestamp;
     private String severity;
 
-    public Event(String heading, String message, String timestamp, String severity) {
-        this.heading = heading;
-        this.message = message;
-        this.timestamp = timestamp;
-        this.severity = severity;
-    }
+	private String[] validSeverities = {"info", "success", "danger", "warning"};
+
+	public Event() {
+
+	}
+
+	public void setHeading(String heading) {
+		this.heading = heading;
+	}
 
     public String getHeading() {
         if (heading == null) {
@@ -25,6 +28,10 @@ public class Event {
         }
     }
 
+	public void setMessage(String message) {
+		this.message = message;
+	}
+
     public String getMessage() {
         if(message == null) {
             return "N/A";
@@ -33,6 +40,10 @@ public class Event {
             return message;
         }
     }
+
+	public void setTimestamp(String timestamp) {
+		this.timestamp = timestamp;
+	}
 
     public String getTimestamp() {
         if(timestamp == null) {
@@ -43,6 +54,15 @@ public class Event {
         }
     }
 
+	public void setSeverity(String severity) {
+		if(validSeverity(severity)) {
+			this.severity = severity;
+		}
+		else {
+			this.severity = "";
+		}
+	}
+
     public String getSeverity() {
         if(severity == null) {
             // Default value.
@@ -52,4 +72,13 @@ public class Event {
             return severity;
         }
     }
+
+	private boolean validSeverity(String severity) {
+		for(int i = 0; i < validSeverities.length; i++) {
+			if(severity.compareTo(validSeverities[i]) == 0) {
+				return true;
+			}
+		}
+		return false;
+	}
 }

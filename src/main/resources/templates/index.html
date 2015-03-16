@@ -30,12 +30,12 @@
                 <!-- Only show if user is not signed in. -->
                 <form th:action="@{/login}" method="post" class="navbar-form navbar-right">
                     <div class="form-group">
-                        <input type="text" placeholder="Username" name="username" class="form-control" />
+                        <input tabindex="1" type="text" placeholder="Username" name="username" class="form-control" />
                     </div>
                     <div class="form-group">
-                        <input type="password" placeholder="Password" name="password" class="form-control" />
+                        <input tabindex="2" type="password" placeholder="Password" name="password" class="form-control" />
                     </div>
-                    <button type="submit" class="btn btn-success">Sign in</button>
+                    <button tabindex="3" type="submit" class="btn btn-success">Sign in</button>
                 </form>
             </div>
 

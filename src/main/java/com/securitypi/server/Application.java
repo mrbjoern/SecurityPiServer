@@ -1,5 +1,8 @@
 package com.securitypi.server;
 
+import com.securitypi.server.events.Event;
+import com.securitypi.server.events.EventHandler;
+import com.securitypi.server.events.SystemStartedEvent;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.annotation.Bean;
@@ -9,6 +12,7 @@ import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
+import java.util.Date;
 import java.util.Properties;
 
 /**
@@ -23,6 +27,8 @@ public class Application extends WebMvcConfigurerAdapter {
         new TemperatureReadingsHandler();
 		new EventHandler();
 		new SecurityPiHandler();
+
+		EventHandler.addEvent(new SystemStartedEvent());
 
         SpringApplication.run(Application.class, args);
     }

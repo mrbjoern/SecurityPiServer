@@ -1,5 +1,7 @@
 package com.securitypi.server;
 
+import com.securitypi.server.events.Event;
+import com.securitypi.server.events.EventHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;

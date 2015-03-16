@@ -1,5 +1,9 @@
 package com.securitypi.server;
 
+import com.securitypi.server.events.ConnectedEvent;
+import com.securitypi.server.events.Event;
+import com.securitypi.server.events.EventHandler;
+
 import java.util.Date;
 
 /**
@@ -17,22 +21,10 @@ public class SecurityPiHandler {
 		securityPi = pi;
 		connected = true;
 
-		addConnectedEvent();
+		EventHandler.addEvent(new ConnectedEvent());
 	}
 
 	public static boolean isConnected() {
 		return connected;
 	}
-
-	private static void addConnectedEvent() {
-		String currentTimestamp = new TimestampWrapper(new Date()).getFormatedTimestamp();
-		Event connectedEvent = new Event();
-
-		connectedEvent.setHeading("Connected to SecurityPi");
-		connectedEvent.setMessage("Connection to SecurityPi was established.");
-		connectedEvent.setTimestamp(currentTimestamp);
-
-		EventHandler.addEvent(connectedEvent);
-	}
-
 }

@@ -1,4 +1,4 @@
-package com.securitypi.server;
+package com.securitypi.server.events;
 
 /**
  * Stores an event containing a heading, message, timestamp and severity.

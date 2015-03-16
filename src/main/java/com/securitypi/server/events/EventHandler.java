@@ -1,4 +1,4 @@
-package com.securitypi.server;
+package com.securitypi.server.events;
 
 import org.springframework.web.bind.annotation.ModelAttribute;
 

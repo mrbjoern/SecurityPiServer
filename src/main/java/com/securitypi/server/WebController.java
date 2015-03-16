@@ -3,6 +3,10 @@ package com.securitypi.server;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.ModelAndView;
+
+import java.util.Collection;
 
 /**
  * Root of the SecurityPiServer. Collects information from the system and presents it to the user interface.
@@ -12,10 +16,18 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class WebController {
 
     @RequestMapping("/")
-    public String index(Model model) {
+    public String index(Model model, ModelAndView mav) {
         model.addAttribute("tempReading", TemperatureReadingsHandler.getLastReading());
         model.addAttribute("tempAvg", TemperatureReadingsHandler.getAverageTemperatureLastHours(0));
-		model.addAttribute("event", EventHandler.getLastEvent());
+		model.addAttribute("events", EventHandler.getNumberOfEvents(5));
         return "index";
     }
+
+	@RequestMapping(value = "/events", method = RequestMethod.GET)
+	public String getAllEvents(Model model) {
+		Collection<Event> events = EventHandler.getEvents();
+		model.addAttribute("events", events);
+		return "all_events";
+	}
+
 }

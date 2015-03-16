@@ -30,8 +30,18 @@ public class EventHandler {
 		}
 	}
 
+	@ModelAttribute("events")
 	public static List<Event> getNumberOfEvents(int number) {
-		number--;
-		return events.subList(0, number);
+		if(events.size() < number) {
+			return events;
+		}
+		else {
+			return events.subList(0, number);
+		}
+	}
+
+	@ModelAttribute("events")
+	public static List<Event> getEvents() {
+		return events;
 	}
 }

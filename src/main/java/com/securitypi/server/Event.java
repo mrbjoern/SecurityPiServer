@@ -3,13 +3,11 @@ package com.securitypi.server;
 /**
  * Stores an event containing a heading, message, timestamp and severity.
  */
+
 public class Event {
     private String heading;
     private String message;
     private String timestamp;
-    private String severity;
-
-	private String[] validSeverities = {"info", "success", "danger", "warning"};
 
 	public Event() {
 
@@ -53,32 +51,4 @@ public class Event {
             return timestamp;
         }
     }
-
-	public void setSeverity(String severity) {
-		if(validSeverity(severity)) {
-			this.severity = severity;
-		}
-		else {
-			this.severity = "";
-		}
-	}
-
-    public String getSeverity() {
-        if(severity == null) {
-            // Default value.
-            return "info";
-        }
-        else {
-            return severity;
-        }
-    }
-
-	private boolean validSeverity(String severity) {
-		for(int i = 0; i < validSeverities.length; i++) {
-			if(severity.compareTo(validSeverities[i]) == 0) {
-				return true;
-			}
-		}
-		return false;
-	}
 }

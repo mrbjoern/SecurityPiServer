@@ -30,7 +30,6 @@ public class SecurityPiHandler {
 
 		connectedEvent.setHeading("Connected to SecurityPi");
 		connectedEvent.setMessage("Connection to SecurityPi was established.");
-		connectedEvent.setSeverity("success");
 		connectedEvent.setTimestamp(currentTimestamp);
 
 		EventHandler.addEvent(connectedEvent);

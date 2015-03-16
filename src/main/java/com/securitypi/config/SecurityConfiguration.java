@@ -13,10 +13,12 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
+	// TODO: Access to /api is currently unrestricted. Should be fixed with either IP restrictions or API key.
+
 	@Override
 	public void configure(HttpSecurity http) throws Exception {
 		http.authorizeRequests()
-				.antMatchers("/", "/static/**", "/webjars/**").permitAll()
+				.antMatchers("/", "/static/**", "/webjars/**", "/api/**").permitAll()
 				.anyRequest()
 				.authenticated();
 		http.formLogin()
@@ -31,6 +33,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
 	@Override
 	public void configure(AuthenticationManagerBuilder auth) throws Exception {
+
 		// TODO: Set up database connection here.
 
 		auth.inMemoryAuthentication().withUser("user").password("password").roles("USER");

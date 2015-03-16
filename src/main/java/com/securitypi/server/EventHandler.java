@@ -9,6 +9,7 @@ import java.util.List;
  * Handles events, writing those to the database and retrieving events to be displayed.
  */
 public class EventHandler {
+	// Goes to database later
 	private static LinkedList<Event> events;
 
 	public EventHandler() {

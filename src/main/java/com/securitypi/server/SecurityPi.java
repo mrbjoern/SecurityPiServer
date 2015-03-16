@@ -12,19 +12,19 @@ public class SecurityPi {
 
 	}
 
-	public int getReportingIntervalInSeconds() {
-		return reportingIntervalInSeconds;
-	}
-
 	public void setReportingIntervalInSeconds(int intervalInSeconds) {
 		reportingIntervalInSeconds = intervalInSeconds;
 	}
 
-	public String getIpAddressToPi() {
-		return ipAddressToPi;
+	public int getReportingIntervalInSeconds() {
+		return reportingIntervalInSeconds;
 	}
 
 	public void setIpAddressToPi(String addressToPi) {
 		ipAddressToPi = addressToPi;
+	}
+
+	public String getIpAddressToPi() {
+		return ipAddressToPi;
 	}
 }

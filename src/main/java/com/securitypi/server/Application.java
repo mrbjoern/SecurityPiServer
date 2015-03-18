@@ -45,6 +45,7 @@ public class Application extends WebMvcConfigurerAdapter {
 		Properties server = new Properties();
 
 		server.setProperty("server.tomcat.remote_ip_header", "x-forwarded-for");
+		server.setProperty("spring.thymeleaf.cache", "false");
 
 		propertySourcesPlaceholderConfigurer.setProperties(server);
 

@@ -14,53 +14,7 @@
 </head>
 <body>
 
-<nav class="navbar navbar-default navbar-fixed-top">
-    <div class="container">
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            <a class="navbar-brand" href="/">SecurityPi Server</a>
-        </div>
-        <div id="navbar" class="navbar-collapse collapse">
-            <div sec:authorize="isAnonymous()">
-                <!-- Only show if user is not signed in. -->
-                <form th:action="@{/login}" method="post" class="navbar-form navbar-right">
-                    <div class="form-group">
-                        <input tabindex="1" type="text" placeholder="Username" name="username" class="form-control" />
-                    </div>
-                    <div class="form-group">
-                        <input tabindex="2" type="password" placeholder="Password" name="password" class="form-control" />
-                    </div>
-                    <button tabindex="3" type="submit" class="btn btn-success">Sign in</button>
-                </form>
-            </div>
-
-            <div sec:authorize="hasRole('ROLE_USER')">
-                <ul class="nav navbar-nav navbar-right">
-                    <li><p class="navbar-text">Hello, <span sec:authentication="name"></span>!</p></li>
-                    <li>
-                        <form th:action="@{/logout}" method="post" class="navbar-form">
-                            <button type="submit" class="btn btn-success">Sign out</button>
-                        </form>
-                    </li>
-                </ul>
-
-
-            </div>
-        </div>
-    </div>
-</nav>
-
-<div class="jumbotron">
-    <div class="container">
-        <h1>Welcome</h1>
-        <p>SecurityPi is a platform for monitoring events at home.</p>
-    </div>
-</div>
+<div th:replace="fragments/header :: header"></div>
 
 <div class="container">
 
@@ -111,11 +65,7 @@
         </div>
     </div>
 
-    <hr />
-
-    <footer>
-        <p>&copy; Halvor Bjørn 2015</p>
-    </footer>
+    <div th:replace="fragments/footer :: footer"></div>
 </div> <!-- /container -->
 
 

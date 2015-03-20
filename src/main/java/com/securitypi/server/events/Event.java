@@ -8,7 +8,7 @@ import java.util.Date;
  * Stores an event containing a heading, message, timestamp and severity.
  */
 
-public class Event {
+public abstract class Event {
     private String heading;
     private String message;
     private String timestamp;
@@ -22,12 +22,7 @@ public class Event {
 	}
 
     public String getHeading() {
-        if (heading == null) {
-            return "N/A";
-        }
-        else {
-            return heading;
-        }
+		return heading;
     }
 
 	public void setMessage(String message) {
@@ -35,20 +30,10 @@ public class Event {
 	}
 
     public String getMessage() {
-        if(message == null) {
-            return "N/A";
-        }
-        else {
-            return message;
-        }
+		return message;
     }
 
     public String getTimestamp() {
-        if(timestamp == null) {
-            return "N/A";
-        }
-        else {
-            return timestamp;
-        }
+		return timestamp;
     }
 }

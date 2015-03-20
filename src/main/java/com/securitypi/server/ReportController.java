@@ -1,5 +1,7 @@
 package com.securitypi.server;
 
+import com.securitypi.server.events.EventHandler;
+import com.securitypi.server.events.SecurityPiEvent;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -30,4 +32,16 @@ public class ReportController {
     public TemperatureReading getReading() {
          return TemperatureReadingsHandler.getLastReading();
     }
+
+	@RequestMapping(value = "/event", method = RequestMethod.POST, produces = {"application/json"})
+	public ResponseEntity<SecurityPiEvent> reportEvent(@RequestBody SecurityPiEvent securityPiEvent) {
+
+		if(securityPiEvent.getHeading() == null || securityPiEvent.getMessage() == null) {
+			return new ResponseEntity<>(securityPiEvent, HttpStatus.BAD_REQUEST);
+		}
+
+		EventHandler.addEvent(securityPiEvent);
+
+		return new ResponseEntity<>(securityPiEvent, HttpStatus.OK);
+	}
 }

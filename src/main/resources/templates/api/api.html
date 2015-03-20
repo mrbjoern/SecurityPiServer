@@ -10,8 +10,26 @@
     <p>The API currently supports those features:</p>
     <ul>
         <li>Reporting temperatures</li>
+        <li>Reporting custom events</li>
     </ul>
     <p>Message format is JSON. All requests will return JSON for verification purposes.</p>
+
+    <h2>Reporting</h2>
+
+    <h3>Temperatures</h3>
+    <code>/api/report/temperature</code>
+    <p>Reporting of temperatures uses the following format</p>
+    <code>{"temperature":TEMP,"timestamp":"yyyy-MM-dd HH:mm"}</code>
+    <p>Timestamp is optional and should be handled by the server. Setting a custom timestamp should only be used if
+    the server have been unavailable and readings have been buffered on the client.</p>
+
+    <h3>Custom events</h3>
+    <code>/api/report/event</code>
+    <p>Reporting of custom events uses the following format</p>
+    <code>{"heading":"HEADING","message":"MESSAGE"}</code>
+    <p>Both values are required. If either is missing, the API will return 400 Bad request. Timestamps are handled by
+    the server.</p>
+
 
 </body>
 </html>

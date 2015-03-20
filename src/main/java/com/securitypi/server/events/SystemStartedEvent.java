@@ -10,10 +10,7 @@ import java.util.Date;
 public class SystemStartedEvent extends Event {
 
 	public SystemStartedEvent() {
-		String currentTimestamp = new TimestampWrapper(new Date()).getFormatedTimestamp();
-
 		super.setHeading("System started");
 		super.setMessage("The system started successfully.");
-		super.setTimestamp(currentTimestamp);
 	}
 }

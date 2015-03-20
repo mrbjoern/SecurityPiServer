@@ -1,5 +1,9 @@
 package com.securitypi.server;
 
+import com.securitypi.server.events.EventHandler;
+import com.securitypi.server.events.TemperatureBackToNormalEvent;
+import com.securitypi.server.events.TemperatureOutsideOfThresholdEvent;
+
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -12,16 +16,25 @@ public class TemperatureReadingsHandler {
 
     private static ArrayList<TemperatureReading> readings;
 
+	private static final double MINTEMP = 15.0;
+	private static final double MAXTEMP = 30.0;
+
+	private static boolean temperatureWarningIssued;
+	private static boolean temperatureBackToNormalIssued;
+
     public TemperatureReadingsHandler() {
         readings = new ArrayList<>();
+		temperatureWarningIssued = false;
+		temperatureBackToNormalIssued = true;
     }
 
     /**
      * Add a temperature reading to be stored.
-     * @param tr TemperatureReading object to be stored
+     * @param temperatureReading TemperatureReading object to be stored
      */
-    public static void addReading(TemperatureReading tr) {
-        readings.add(tr);
+    public static void addReading(TemperatureReading temperatureReading) {
+		checkTemperature(temperatureReading);
+        readings.add(temperatureReading);
     }
 
     public static TemperatureReading getLastReading() {
@@ -73,4 +86,31 @@ public class TemperatureReadingsHandler {
 
         return totalTemp;
     }
+
+	private static void checkTemperature(TemperatureReading temperatureReading) {
+		if(temperatureReading.getTemperature() < MINTEMP || temperatureReading.getTemperature() > MAXTEMP) {
+			setWarningEvent(temperatureReading);
+			temperatureBackToNormalIssued = false;
+		}
+		else {
+			// If the temperature is within the given threshold, knowledge of previous warning events should be cleared.
+			setBackToNormalEvent();
+			temperatureWarningIssued = false;
+		}
+	}
+
+	private static void setWarningEvent(TemperatureReading temperatureReading) {
+		if(!temperatureWarningIssued) {
+			EventHandler.addEvent(new TemperatureOutsideOfThresholdEvent(temperatureReading));
+			temperatureWarningIssued = true;
+		}
+	}
+
+	private static void setBackToNormalEvent() {
+		if(!temperatureBackToNormalIssued) {
+			EventHandler.addEvent(new TemperatureBackToNormalEvent());
+			temperatureBackToNormalIssued = true;
+		}
+
+	}
 }

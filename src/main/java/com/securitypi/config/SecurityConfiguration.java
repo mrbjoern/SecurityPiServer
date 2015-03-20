@@ -17,6 +17,10 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
 	@Override
 	public void configure(HttpSecurity http) throws Exception {
+		// Currently just disable csrf, as this protection is not needed atm.
+		// TODO: Find better alternative.
+		http.csrf().disable();
+
 		http.authorizeRequests()
 				.antMatchers("/", "/static/**", "/webjars/**", "/api/**").permitAll()
 				.anyRequest()

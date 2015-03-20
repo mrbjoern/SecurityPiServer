@@ -10,10 +10,7 @@ import java.util.Date;
 public class ConnectedEvent extends Event {
 
 	public ConnectedEvent() {
-		String currentTimestamp = new TimestampWrapper(new Date()).getFormatedTimestamp();
-
 		super.setHeading("Connected to SecurityPi");
 		super.setMessage("Connection to SecurityPi was established.");
-		super.setTimestamp(currentTimestamp);
 	}
 }

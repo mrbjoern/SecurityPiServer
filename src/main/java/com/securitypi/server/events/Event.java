@@ -1,5 +1,9 @@
 package com.securitypi.server.events;
 
+import com.securitypi.server.TimestampWrapper;
+
+import java.util.Date;
+
 /**
  * Stores an event containing a heading, message, timestamp and severity.
  */
@@ -10,7 +14,7 @@ public class Event {
     private String timestamp;
 
 	public Event() {
-
+		timestamp = new TimestampWrapper(new Date()).getFormatedTimestamp();
 	}
 
 	public void setHeading(String heading) {
@@ -38,10 +42,6 @@ public class Event {
             return message;
         }
     }
-
-	public void setTimestamp(String timestamp) {
-		this.timestamp = timestamp;
-	}
 
     public String getTimestamp() {
         if(timestamp == null) {

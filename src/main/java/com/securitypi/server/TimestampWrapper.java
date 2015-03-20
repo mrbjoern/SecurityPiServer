@@ -6,6 +6,11 @@ import java.util.Date;
 public class TimestampWrapper {
 	private Date timestamp;
 
+	public TimestampWrapper() {
+		this.timestamp = new Date();
+	}
+
+	// Should only be used if another time than current time is to be set.
 	public TimestampWrapper(Date timestamp) {
 		this.timestamp = timestamp;
 	}

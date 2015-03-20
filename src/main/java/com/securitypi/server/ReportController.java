@@ -11,8 +11,15 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 public class ReportController {
 
+	// Currently, an empty JSON body is supported, resulting in TemperatureReading objects with default temperature 0.0
+	// TODO: Implement handling for empty temperature reading objects.
     @RequestMapping(value = "/temperature", method = {RequestMethod.POST}, produces = {"application/json"})
     public ResponseEntity<TemperatureReading> addReading(@RequestBody TemperatureReading currentReading) {
+
+		// As default, timestamp should not be set by sender, but handled by server.
+		if(currentReading.getTimestamp() == null) {
+			currentReading.setTimestamp(new TimestampWrapper().getFormatedTimestamp());
+		}
 
         TemperatureReadingsHandler.addReading(currentReading);
 

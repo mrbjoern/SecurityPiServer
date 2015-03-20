@@ -18,7 +18,7 @@ import java.util.Collection;
 public class WebController {
 
     @RequestMapping("/")
-    public String index(Model model, ModelAndView mav) {
+    public String index(Model model) {
         model.addAttribute("tempReading", TemperatureReadingsHandler.getLastReading());
         model.addAttribute("tempAvg", TemperatureReadingsHandler.getAverageTemperatureLastHours(0));
 		model.addAttribute("events", EventHandler.getNumberOfEvents(5));

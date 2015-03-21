@@ -1,7 +1,9 @@
 package com.securitypi.server;
 
+import com.securitypi.server.api.ApiToken;
 import com.securitypi.server.events.Event;
 import com.securitypi.server.events.EventHandler;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,7 +19,7 @@ import java.util.Collection;
 @Controller
 public class WebController {
 
-    @RequestMapping("/")
+    @RequestMapping(value = "/", method = RequestMethod.GET)
     public String index(Model model) {
         model.addAttribute("tempReading", TemperatureReadingsHandler.getLastReading());
         model.addAttribute("tempAvg", TemperatureReadingsHandler.getAverageTemperatureLastHours(0));
@@ -30,6 +32,12 @@ public class WebController {
 		Collection<Event> events = EventHandler.getEvents();
 		model.addAttribute("events", events);
 		return "all_events";
+	}
+
+	// TODO: Implement roles later
+	@RequestMapping(value = "/admin", method = RequestMethod.GET)
+	public String adminIndex(Model model) {
+		return "admin_index";
 	}
 
 }

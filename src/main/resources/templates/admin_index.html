@@ -23,6 +23,15 @@
             <h2>API keys</h2>
             <p>Below is a list of current API keys in use, with last associated IP and last time of use.</p>
 
+            <div th:if="${apitokens == null}">
+                <p>No tokens</p>
+            </div>
+            <div th:each="apitoken : ${apitokens}">
+                <a href="#" class="list-group-item">
+                    <p class="list-group-item-text"><span th:text="${apitoken.token}"></span></p>
+                </a>
+            </div>
+
         </div>
         <div class="col-md-4">
 

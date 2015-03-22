@@ -1,5 +1,6 @@
 package com.securitypi.server;
 
+import com.securitypi.server.api.ApiTokenHandler;
 import com.securitypi.server.events.Event;
 import com.securitypi.server.events.EventHandler;
 import com.securitypi.server.events.SystemStartedEvent;
@@ -40,6 +41,7 @@ public class Application extends WebMvcConfigurerAdapter {
         new TemperatureReadingsHandler();
 		new EventHandler();
 		new SecurityPiHandler();
+		new ApiTokenHandler();
 
 		EventHandler.addEvent(new SystemStartedEvent());
 

@@ -1,6 +1,7 @@
 package com.securitypi.server;
 
 import com.securitypi.server.api.ApiToken;
+import com.securitypi.server.api.ApiTokenHandler;
 import com.securitypi.server.events.Event;
 import com.securitypi.server.events.EventHandler;
 import org.springframework.security.access.annotation.Secured;
@@ -37,6 +38,8 @@ public class WebController {
 	// TODO: Implement roles later
 	@RequestMapping(value = "/admin", method = RequestMethod.GET)
 	public String adminIndex(Model model) {
+		Collection<ApiToken> apitokens = ApiTokenHandler.getAllApiTokens();
+		model.addAttribute("apitokens", apitokens);
 		return "admin_index";
 	}
 

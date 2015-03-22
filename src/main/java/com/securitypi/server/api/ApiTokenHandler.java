@@ -1,31 +1,41 @@
 package com.securitypi.server.api;
 
+import org.springframework.web.bind.annotation.ModelAttribute;
+
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Random;
 
 public class ApiTokenHandler {
 
 	private static LinkedList<ApiToken> tokens;
 
-	private int tokenLength;
+	private static int tokenLength;
 
 	public ApiTokenHandler() {
 		tokens = new LinkedList<>();
 		tokenLength = 32;
 	}
 
-	public String createNewApiToken() {
+	public static ApiToken createNewApiToken() {
 		String token = generateToken();
 
 		ApiToken apiToken = new ApiToken();
 		apiToken.setToken(token);
 
+		// Dummy code so connections won't be empty
+		ApiConnection connection = new ApiConnection();
+		connection.setSourceIPAddress("localhost");
+		connection.setUserAgent("SecurityPi Server");
+
+		apiToken.addApiConnection(connection);
+
 		addApiToken(apiToken);
 
-		return token;
+		return apiToken;
 	}
 
-	public ApiToken getApiToken(String token) {
+	public static ApiToken getApiToken(String token) {
 		for(ApiToken apiToken : tokens) {
 			if(apiToken.getToken().equals(token)) {
 				return apiToken;
@@ -34,8 +44,14 @@ public class ApiTokenHandler {
 		return new ApiToken();
 	}
 
-	private String generateToken() {
+	@ModelAttribute("apitokens")
+	public static List<ApiToken> getAllApiTokens() {
+		return tokens;
+	}
+
+	private static String generateToken() {
 		char[] validChars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-+_!@#$%&[]()?".toCharArray();
+
 
 		Random random = new Random();
 		StringBuilder stringBuilder = new StringBuilder();
@@ -48,7 +64,7 @@ public class ApiTokenHandler {
 		return stringBuilder.toString();
 	}
 
-	private void addApiToken(ApiToken token) {
+	private static void addApiToken(ApiToken token) {
 		tokens.addFirst(token);
 	}
 }

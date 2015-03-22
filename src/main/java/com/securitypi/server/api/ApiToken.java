@@ -1,5 +1,7 @@
 package com.securitypi.server.api;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.util.LinkedList;
 import java.util.List;
 

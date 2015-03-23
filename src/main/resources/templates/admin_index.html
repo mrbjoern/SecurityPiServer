@@ -18,17 +18,27 @@
 
 <div class="container">
 
-    <div class="row">
+    <div sec:authorize="hasRole('ROLE_ADMIN')" class="row">
         <div class="col-md-4">
             <h2>API keys</h2>
+            <form th:action="@{./api/admin/generate/token}" method="get">
+                <button type="submit" class="btn btn-success">Generate new token</button>
+            </form>
             <p>Below is a list of current API keys in use, with last associated IP and last time of use.</p>
 
-            <div th:if="${apitokens == null}">
+            <div th:if="${apitokens.isEmpty()}">
                 <p>No tokens</p>
             </div>
             <div th:each="apitoken : ${apitokens}">
                 <a href="#" class="list-group-item">
-                    <p class="list-group-item-text"><span th:text="${apitoken.token}"></span></p>
+                    <h4>Friendly name</h4>
+                    <p class="list-group-item-text">Token: <strong><span th:text="${apitoken.token}"></span></strong></p>
+                    <p>Last connection</p>
+                    <ul>
+                        <li>Time - <span th:text="${apitoken.getLastConnection().getTimestamp()}"></span></li>
+                        <li>IP Address - <span th:text="${apitoken.getLastConnection().getSourceIPAddress()}"></span></li>
+                        <li>User Agent - <span th:text="${apitoken.getLastConnection().getUserAgent()}"></span></li>
+                    </ul>
                 </a>
             </div>
 

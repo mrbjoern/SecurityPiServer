@@ -41,6 +41,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 		// TODO: Set up database connection here.
 
 		auth.inMemoryAuthentication().withUser("user").password("password").roles("USER");
+		auth.inMemoryAuthentication().withUser("admin").password("admin").roles("USER", "ADMIN");
 	}
 
 }

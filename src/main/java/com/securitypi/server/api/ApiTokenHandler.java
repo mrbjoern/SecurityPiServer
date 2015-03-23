@@ -44,6 +44,11 @@ public class ApiTokenHandler {
 		return new ApiToken();
 	}
 
+	public static void revokeApiToken(String token) {
+		ApiToken apiToken = getApiToken(token);
+		tokens.remove(apiToken);
+	}
+
 	@ModelAttribute("apitokens")
 	public static List<ApiToken> getAllApiTokens() {
 		return tokens;

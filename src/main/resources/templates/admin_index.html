@@ -30,16 +30,14 @@
                 <p>No tokens</p>
             </div>
             <div th:each="apitoken : ${apitokens}">
-                <a href="#" class="list-group-item">
-                    <h4>Friendly name</h4>
-                    <p class="list-group-item-text">Token: <strong><span th:text="${apitoken.token}"></span></strong></p>
-                    <p>Last connection</p>
-                    <ul>
-                        <li>Time - <span th:text="${apitoken.getLastConnection().getTimestamp()}"></span></li>
-                        <li>IP Address - <span th:text="${apitoken.getLastConnection().getSourceIPAddress()}"></span></li>
-                        <li>User Agent - <span th:text="${apitoken.getLastConnection().getUserAgent()}"></span></li>
-                    </ul>
-                </a>
+                <h4>Friendly name</h4>
+                <p class="list-group-item-text">Token: <strong><span th:text="${apitoken.token}"></span></strong></p>
+                <p>Last connection</p>
+                <ul>
+                    <li>Time - <span th:text="${apitoken.getLastConnection().getTimestamp()}"></span></li>
+                    <li>IP Address - <span th:text="${apitoken.getLastConnection().getSourceIPAddress()}"></span></li>
+                    <li>User Agent - <span th:text="${apitoken.getLastConnection().getUserAgent()}"></span></li>
+                </ul>
             </div>
 
         </div>

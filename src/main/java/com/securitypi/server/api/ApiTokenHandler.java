@@ -8,6 +8,8 @@ import java.util.Random;
 
 public class ApiTokenHandler {
 
+	// TODO: Implement database. Add tokens to database and cache. Only read from database when token is not in cache.
+	// Cache should probably be something threadsafe like concurrentHashMap.
 	private static LinkedList<ApiToken> tokens;
 
 	private static int tokenLength;
@@ -26,7 +28,7 @@ public class ApiTokenHandler {
 		// Dummy code so connections won't be empty
 		ApiConnection connection = new ApiConnection();
 		connection.setSourceIPAddress("localhost");
-		connection.setUserAgent("SecurityPi Server");
+		connection.setUserAgent("SecurityPi Server Admin");
 
 		apiToken.addApiConnection(connection);
 

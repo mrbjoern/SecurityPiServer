@@ -5,16 +5,13 @@ import com.securitypi.server.api.ApiTokenHandler;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 @RequestMapping("/api/admin")
 @Controller
 class AdminController {
 
-	@RequestMapping(value = "generate/token", method = {RequestMethod.POST})
+	@RequestMapping(value = "token/generate", method = {RequestMethod.POST})
 	public String generateToken(@RequestParam("name") String name) {
 		ApiToken newToken = ApiTokenHandler.createNewApiToken();
 
@@ -25,6 +22,15 @@ class AdminController {
 		return "redirect:/admin";
 	}
 
+	@RequestMapping(value = "token/revoke/{token}", method = {RequestMethod.POST})
+	public String revokeToken(@PathVariable String token) {
+
+		ApiTokenHandler.revokeApiToken(token);
+
+		return "redirect:/admin";
+	}
+
+	// Probably deprecated, since handling of tokens should be done through admin pages.
 	@RequestMapping(value = "generate/token", method = {RequestMethod.POST}, produces = {"application/json"})
 	public ResponseEntity<ApiToken> generateJSONToken(@RequestBody ApiToken customToken) {
 		ApiToken newToken = ApiTokenHandler.createNewApiToken();

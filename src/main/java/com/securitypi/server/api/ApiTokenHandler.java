@@ -46,6 +46,7 @@ public class ApiTokenHandler {
 
 	public static void revokeApiToken(String token) {
 		ApiToken apiToken = getApiToken(token);
+
 		tokens.remove(apiToken);
 	}
 
@@ -55,8 +56,7 @@ public class ApiTokenHandler {
 	}
 
 	private static String generateToken() {
-		char[] validChars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-+_!@#$%&[]()?".toCharArray();
-
+		char[] validChars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789$-_+!*'()".toCharArray();
 
 		Random random = new Random();
 		StringBuilder stringBuilder = new StringBuilder();

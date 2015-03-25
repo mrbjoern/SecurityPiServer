@@ -31,7 +31,7 @@
                 </div>
 
                 <div class="panel-body">
-                    <form th:action="@{./api/admin/generate/token}" method="post">
+                    <form th:action="@{./api/admin/token/generate}" method="post">
                         <div class="form-group">
                             <label for="friendly_name">Friendly name</label>
                             <input type="text" class="form-control" name="name" id="friendly_name" placeholder="SecurityPi"/>
@@ -61,6 +61,10 @@
                             <li>IP Address - <span th:text="${apitoken.getLastConnection().getSourceIPAddress()}"></span></li>
                             <li>User Agent - <span th:text="${apitoken.getLastConnection().getUserAgent()}"></span></li>
                         </ul>
+
+                        <form th:action="@{./api/admin/token/revoke/__${apitoken.token}__}" method="post">
+                            <button type="submit" class="btn btn-warning">Revoke</button>
+                        </form>
                     </li>
 
                 </ul>

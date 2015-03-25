@@ -44,6 +44,16 @@ public class ApiTokenHandler {
 		return new ApiToken();
 	}
 
+	public static boolean tokenExist(String token) {
+		for(ApiToken apiToken : tokens) {
+			if(apiToken.getToken().equals(token)) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+
 	public static void revokeApiToken(String token) {
 		ApiToken apiToken = getApiToken(token);
 

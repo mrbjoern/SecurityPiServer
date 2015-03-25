@@ -53,7 +53,7 @@
                 <ul class="list-group">
                     <li class="list-group-item" th:if="${apitokens.isEmpty()}">No tokens</li>
                     <li class="list-group-item" th:each="apitoken : ${apitokens}">
-                        <h4 class="list-group-item-heading" th:text="${apitoken.friendlyName}"></h4>
+                        <h4 class="list-group-item-heading" th:text="${apitoken.friendlyName}">Name</h4>
                         <p class="list-group-item-text">Token: <strong th:text="${apitoken.token}"></strong></p>
                         <p class="list-group-item-text">Last connection</p>
                         <ul>
@@ -61,9 +61,9 @@
                             <li>IP Address - <span th:text="${apitoken.getLastConnection().getSourceIPAddress()}"></span></li>
                             <li>User Agent - <span th:text="${apitoken.getLastConnection().getUserAgent()}"></span></li>
                         </ul>
-
+                        <hr/>
                         <form th:action="@{./api/admin/token/revoke/__${apitoken.token}__}" method="post">
-                            <button type="submit" class="btn btn-warning">Revoke</button>
+                            <button type="submit" class="btn btn-danger">Revoke</button>
                         </form>
                     </li>
 

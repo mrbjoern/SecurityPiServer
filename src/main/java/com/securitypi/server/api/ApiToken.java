@@ -12,6 +12,7 @@ import java.util.List;
 public class ApiToken {
 
 	private String token;
+	private String friendlyName;
 
 	private LinkedList<ApiConnection> connections;
 
@@ -25,6 +26,17 @@ public class ApiToken {
 
 	public String getToken() {
 		return token;
+	}
+
+	public void setFriendlyName(String friendlyName) {
+		this.friendlyName = friendlyName;
+	}
+
+	public String getFriendlyName() {
+		if(friendlyName == null) {
+			setFriendlyName("Unknown");
+		}
+		return friendlyName;
 	}
 
 	public void addApiConnection(ApiConnection currentConnection) {

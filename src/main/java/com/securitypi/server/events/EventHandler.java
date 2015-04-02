@@ -20,24 +20,11 @@ public class EventHandler {
 	@PersistenceContext
 	private EntityManager entityManager;
 
-	// Goes to database later
-	private static LinkedList<Event> events;
-
 	public EventHandler() {
-		events = new LinkedList<>();
 	}
 
 	public void addEvent(Event event) {
 		entityManager.persist(event);
-	}
-
-	public static Event getLastEvent() {
-		if(events.isEmpty()) {
-			return new Event();
-		}
-		else {
-			return events.getFirst();
-		}
 	}
 
 	@ModelAttribute("events")

@@ -1,6 +1,7 @@
 package com.securitypi.server.filter;
 
 import com.securitypi.server.api.ApiTokenHandler;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
@@ -8,6 +9,9 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 public class RequestAPIKeyFilter implements Filter {
+
+	@Autowired
+	private ApiTokenHandler apiTokenHandler;
 
 	private static final String API_KEY = "X-Api-Key";
 
@@ -36,7 +40,7 @@ public class RequestAPIKeyFilter implements Filter {
 			httpServletResponse.setStatus(400);
 			httpServletResponse.getWriter().println(errorJson);
 		}
-		else if(!ApiTokenHandler.tokenExist(httpServletRequest.getHeader(API_KEY))) {
+		else if(!apiTokenHandler.tokenExist(httpServletRequest.getHeader(API_KEY))) {
 			httpServletResponse.setStatus(401);
 			httpServletResponse.getWriter().println(errorJson);
 		}

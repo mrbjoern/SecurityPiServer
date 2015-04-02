@@ -1,52 +1,60 @@
 package com.securitypi.server.api;
 
+import org.springframework.stereotype.Repository;
 import org.springframework.web.bind.annotation.ModelAttribute;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.transaction.Transactional;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
 
+@Repository
+@Transactional
 public class ApiTokenHandler {
+
+	@PersistenceContext
+	private EntityManager entityManager;
 
 	// TODO: Implement database. Add tokens to database and cache. Only read from database when token is not in cache.
 	// Cache should probably be something threadsafe like concurrentHashMap.
-	private static LinkedList<ApiToken> tokens;
+	private LinkedList<ApiToken> tokens;
 
-	private static int tokenLength;
+	private final int tokenLength = 32;
 
 	public ApiTokenHandler() {
 		tokens = new LinkedList<>();
-		tokenLength = 32;
 	}
 
-	public static ApiToken createNewApiToken() {
+	public ApiToken createNewApiToken(String friendlyName) {
 		String token = generateToken();
 
 		ApiToken apiToken = new ApiToken();
 		apiToken.setToken(token);
 
-		// Dummy code so connections won't be empty
-		ApiConnection connection = new ApiConnection();
-		connection.setSourceIPAddress("localhost");
-		connection.setUserAgent("SecurityPi Server Admin");
-
-		apiToken.addApiConnection(connection);
+		if(!friendlyName.isEmpty()) {
+			apiToken.setFriendlyName(friendlyName);
+		}
 
 		addApiToken(apiToken);
 
 		return apiToken;
 	}
 
-	public static ApiToken getApiToken(String token) {
-		for(ApiToken apiToken : tokens) {
-			if(apiToken.getToken().equals(token)) {
-				return apiToken;
-			}
+	public ApiToken getApiToken(String token) {
+
+		ApiToken apitoken = entityManager.find(ApiToken.class, token);
+
+		if(apitoken == null) {
+			return new ApiToken();
 		}
-		return new ApiToken();
+		else {
+			return apitoken;
+		}
 	}
 
-	public static boolean tokenExist(String token) {
+	public boolean tokenExist(String token) {
 		for(ApiToken apiToken : tokens) {
 			if(apiToken.getToken().equals(token)) {
 				return true;
@@ -56,18 +64,18 @@ public class ApiTokenHandler {
 		return false;
 	}
 
-	public static void revokeApiToken(String token) {
+	public void revokeApiToken(String token) {
 		ApiToken apiToken = getApiToken(token);
 
-		tokens.remove(apiToken);
+		entityManager.remove(apiToken);
 	}
 
 	@ModelAttribute("apitokens")
-	public static List<ApiToken> getAllApiTokens() {
-		return tokens;
+	public List<ApiToken> getAllApiTokens() {
+		return entityManager.createQuery("from ApiToken order by created desc").getResultList();
 	}
 
-	private static String generateToken() {
+	private String generateToken() {
 		char[] validChars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789$-_+!*'()".toCharArray();
 
 		Random random = new Random();
@@ -81,7 +89,7 @@ public class ApiTokenHandler {
 		return stringBuilder.toString();
 	}
 
-	private static void addApiToken(ApiToken token) {
-		tokens.addFirst(token);
+	private void addApiToken(ApiToken token) {
+		entityManager.persist(token);
 	}
 }

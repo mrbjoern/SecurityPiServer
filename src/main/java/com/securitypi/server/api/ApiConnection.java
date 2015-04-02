@@ -4,6 +4,7 @@ import com.securitypi.server.TimestampWrapper;
 
 public class ApiConnection {
 
+
 	private String sourceIPAddress;
 	private String timestamp;
 	private String userAgent;

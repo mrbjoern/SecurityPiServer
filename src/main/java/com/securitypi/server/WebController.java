@@ -4,6 +4,7 @@ import com.securitypi.server.api.ApiToken;
 import com.securitypi.server.api.ApiTokenHandler;
 import com.securitypi.server.events.Event;
 import com.securitypi.server.events.EventHandler;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,6 +20,9 @@ import java.util.Collection;
 @RequestMapping("/**")
 @Controller
 public class WebController {
+
+	@Autowired
+	private ApiTokenHandler apiTokenHandler;
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String index(Model model) {
@@ -38,7 +42,7 @@ public class WebController {
 	// TODO: Implement roles later
 	@RequestMapping(value = "/admin", method = RequestMethod.GET)
 	public String adminIndex(Model model) {
-		Collection<ApiToken> apitokens = ApiTokenHandler.getAllApiTokens();
+		Collection<ApiToken> apitokens = apiTokenHandler.getAllApiTokens();
 		model.addAttribute("apitokens", apitokens);
 		return "admin_index";
 	}

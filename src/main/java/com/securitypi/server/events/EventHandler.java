@@ -1,14 +1,24 @@
 package com.securitypi.server.events;
 
+import org.springframework.stereotype.Repository;
 import org.springframework.web.bind.annotation.ModelAttribute;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.transaction.Transactional;
 import java.util.LinkedList;
 import java.util.List;
 
 /**
  * Handles events, writing those to the database and retrieving events to be displayed.
  */
+@Repository
+@Transactional
 public class EventHandler {
+
+	@PersistenceContext
+	private EntityManager entityManager;
+
 	// Goes to database later
 	private static LinkedList<Event> events;
 
@@ -19,6 +29,11 @@ public class EventHandler {
 
 	public static void addEvent(Event event) {
 		events.addFirst(event);
+	}
+
+	public void addDatabaseEvent(Event event) {
+		System.out.println(event.getHeading());
+		entityManager.persist(event);
 	}
 
 	public static Event getLastEvent() {

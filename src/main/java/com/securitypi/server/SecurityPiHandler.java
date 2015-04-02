@@ -17,8 +17,6 @@ public class SecurityPiHandler {
 	public static void connectSecurityPi(SecurityPi pi) {
 		securityPi = pi;
 		connected = true;
-
-		EventHandler.addEvent(new ConnectedEvent());
 	}
 
 	public static boolean isConnected() {

@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import javax.transaction.Transactional;
 import java.util.LinkedList;
 import java.util.List;
@@ -24,15 +25,10 @@ public class EventHandler {
 
 	public EventHandler() {
 		events = new LinkedList<>();
-
 	}
 
-	public static void addEvent(Event event) {
-		events.addFirst(event);
-	}
-
-	public void addDatabaseEvent(Event event) {
-		System.out.println(event.getHeading());
+	public void addEvent(Event event) {
+		System.out.println("In the add event method.");
 		entityManager.persist(event);
 	}
 
@@ -46,17 +42,38 @@ public class EventHandler {
 	}
 
 	@ModelAttribute("events")
-	public static List<Event> getNumberOfEvents(int number) {
-		if(events.size() < number) {
-			return events;
+	public List<Event> getNumberOfEvents(int number) {
+		List<Event> lastEvents = new LinkedList<>();
+
+		try {
+			String hql = "FROM Event ORDER BY timestamp desc";
+			Query query = entityManager.createQuery(hql);
+			query.setFirstResult(0);
+			query.setMaxResults(number);
+
+			lastEvents = query.getResultList();
+
+			return lastEvents;
 		}
-		else {
-			return events.subList(0, number);
+		catch (Exception e) {
+			return lastEvents;
 		}
 	}
 
 	@ModelAttribute("events")
-	public static List<Event> getEvents() {
-		return events;
+	public List<Event> getEvents() {
+		List<Event> allEvents = new LinkedList<>();
+
+		try {
+			String hql = "FROM Event ORDER BY timestamp desc";
+			Query query = entityManager.createQuery(hql);
+
+			allEvents = query.getResultList();
+
+			return allEvents;
+		}
+		catch (Exception e) {
+			return allEvents;
+		}
 	}
 }

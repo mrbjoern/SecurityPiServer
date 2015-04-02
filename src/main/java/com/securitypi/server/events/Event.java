@@ -1,17 +1,15 @@
 package com.securitypi.server.events;
 
-import com.securitypi.server.TimestampWrapper;
-
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.util.Date;
+import java.sql.Timestamp;
 
 /**
  * Stores an event containing a heading, message, timestamp and severity.
  */
 @Entity
 @Table(name = "events")
-public abstract class Event {
+public class Event {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -24,10 +22,16 @@ public abstract class Event {
     private String message;
 
 	@NotNull
-    private String timestamp;
+    private Timestamp timestamp;
 
 	public Event() {
-		timestamp = new TimestampWrapper(new Date()).getFormatedTimestamp();
+		timestamp = new Timestamp(System.currentTimeMillis());
+	}
+
+	public Event(String heading, String message) {
+		timestamp = new Timestamp(System.currentTimeMillis());
+		this.heading = heading;
+		this.message = message;
 	}
 
 	public void setHeading(String heading) {
@@ -46,7 +50,7 @@ public abstract class Event {
 		return message;
     }
 
-    public String getTimestamp() {
+    public Timestamp getTimestamp() {
 		return timestamp;
     }
 }

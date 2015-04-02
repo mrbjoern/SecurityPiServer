@@ -1,19 +1,13 @@
 package com.securitypi.server;
 
 import com.securitypi.server.api.ApiTokenHandler;
-import com.securitypi.server.events.Event;
 import com.securitypi.server.events.EventHandler;
-import com.securitypi.server.events.SystemStartedEvent;
-import com.securitypi.server.users.User;
-import com.securitypi.server.users.UserDao;
 import org.apache.catalina.connector.Connector;
 import org.apache.coyote.http11.Http11NioProtocol;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.context.embedded.ConfigurableEmbeddedServletContainer;
-import org.springframework.boot.context.embedded.EmbeddedServletContainer;
 import org.springframework.boot.context.embedded.EmbeddedServletContainerCustomizer;
 import org.springframework.boot.context.embedded.tomcat.TomcatConnectorCustomizer;
 import org.springframework.boot.context.embedded.tomcat.TomcatEmbeddedServletContainerFactory;
@@ -21,15 +15,12 @@ import org.springframework.boot.orm.jpa.EntityScan;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.util.ResourceUtils;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
 import java.io.FileNotFoundException;
-import java.util.Date;
-import java.util.Properties;
 
 /**
  * Main application class for the Spring project.
@@ -41,19 +32,19 @@ import java.util.Properties;
 @EntityScan
 public class Application extends WebMvcConfigurerAdapter {
 
-	@Value("${keystore.file}") private String keystoreFile;
-	@Value("${keystore.pass}") private String keystorePass;
+	@Value("${keystore.file}")
+	private String keystoreFile;
+	@Value("${keystore.pass}")
+	private String keystorePass;
 
-    public static void main(String args[]) throws Throwable {
-        new TemperatureReadingsHandler();
+	public static void main(String args[]) throws Throwable {
+		new TemperatureReadingsHandler();
 		new EventHandler();
 		new SecurityPiHandler();
 		new ApiTokenHandler();
 
-		EventHandler.addEvent(new SystemStartedEvent());
-
-        SpringApplication.run(Application.class, args);
-    }
+		SpringApplication.run(Application.class, args);
+	}
 
 	@Override
 	public void addViewControllers(ViewControllerRegistry registry) {
@@ -68,7 +59,7 @@ public class Application extends WebMvcConfigurerAdapter {
 		return new EmbeddedServletContainerCustomizer() {
 			@Override
 			public void customize(ConfigurableEmbeddedServletContainer factory) {
-				if(factory instanceof TomcatEmbeddedServletContainerFactory) {
+				if (factory instanceof TomcatEmbeddedServletContainerFactory) {
 					TomcatEmbeddedServletContainerFactory containerFactory = (TomcatEmbeddedServletContainerFactory) factory;
 					containerFactory.addConnectorCustomizers(new TomcatConnectorCustomizer() {
 						@Override

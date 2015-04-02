@@ -25,19 +25,22 @@ public class WebController {
 	private ApiTokenHandler apiTokenHandler;
 
 	@Autowired
+	private EventHandler eventHandler;
+
+	@Autowired
 	private TemperatureReadingsHandler temperatureReadingsHandler;
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String index(Model model) {
         model.addAttribute("tempReading", temperatureReadingsHandler.getLastReading());
         model.addAttribute("tempAvg", temperatureReadingsHandler.getAverageTemperatureLastHours(24));
-		model.addAttribute("events", EventHandler.getNumberOfEvents(5));
+		model.addAttribute("events", eventHandler.getNumberOfEvents(5));
         return "index";
     }
 
 	@RequestMapping(value = "/events", method = RequestMethod.GET)
 	public String getAllEvents(Model model) {
-		Collection<Event> events = EventHandler.getEvents();
+		Collection<Event> events = eventHandler.getEvents();
 		model.addAttribute("events", events);
 		return "all_events";
 	}

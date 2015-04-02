@@ -1,16 +1,16 @@
 package com.securitypi.server.api;
 
-import com.securitypi.server.TimestampWrapper;
+import java.sql.Timestamp;
 
 public class ApiConnection {
 
 
 	private String sourceIPAddress;
-	private String timestamp;
+	private Timestamp timestamp;
 	private String userAgent;
 
 	public ApiConnection() {
-		timestamp = new TimestampWrapper().getFormatedTimestamp();
+		timestamp = new Timestamp(System.currentTimeMillis());
 	}
 
 	public void setSourceIPAddress(String IPAddress) {
@@ -21,7 +21,7 @@ public class ApiConnection {
 		return sourceIPAddress;
 	}
 
-	public String getTimestamp() {
+	public Timestamp getTimestamp() {
 		return timestamp;
 	}
 

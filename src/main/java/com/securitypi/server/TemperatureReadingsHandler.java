@@ -1,8 +1,8 @@
 package com.securitypi.server;
 
+import com.securitypi.server.events.Event;
 import com.securitypi.server.events.EventHandler;
-import com.securitypi.server.events.TemperatureBackToNormalEvent;
-import com.securitypi.server.events.TemperatureOutsideOfThresholdEvent;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.*;
@@ -23,6 +23,9 @@ public class TemperatureReadingsHandler {
 
 	@PersistenceContext
 	private EntityManager entityManager;
+
+	@Autowired
+	private EventHandler eventHandler;
 
 	private static final double MINTEMP = 15.0;
 	private static final double MAXTEMP = 30.0;
@@ -45,11 +48,6 @@ public class TemperatureReadingsHandler {
 		entityManager.persist(temperatureReading);
 	}
 
-	/**
-	 * The most recent reading will always be kept in memory. Not ideal if the server must be restarted.
-	 *
-	 * @return
-	 */
 	public TemperatureReading getLastReading() {
 		try {
 			String hql = "FROM TemperatureReading ORDER BY timestamp desc";
@@ -82,7 +80,7 @@ public class TemperatureReadingsHandler {
 	/**
 	 * Get the average temperature in a given amount of hours.
 	 *
-	 * @param hours Number of hours. 0 indicate all data.
+	 * @param hours Number of hours. 0 currently indicates 0 hours, IE no results.
 	 * @return The average temperature.
 	 */
 	@SuppressWarnings("JpaQueryApiInspection")
@@ -126,14 +124,17 @@ public class TemperatureReadingsHandler {
 
 	private void setWarningEvent(TemperatureReading temperatureReading) {
 		if (!temperatureWarningIssued) {
-			EventHandler.addEvent(new TemperatureOutsideOfThresholdEvent(temperatureReading));
+			eventHandler.addEvent(new Event("Temperature outside given threshold", "The temperature measured " +
+					"was outside the given threshold boundaries. Measured temperature was " +
+					temperatureReading.getTemperature() + " degrees."));
 			temperatureWarningIssued = true;
 		}
 	}
 
 	private void setBackToNormalEvent() {
 		if (!temperatureBackToNormalIssued) {
-			EventHandler.addEvent(new TemperatureBackToNormalEvent());
+			eventHandler.addEvent(new Event("Temperature back to normal", "The measured temperature are within the " +
+					"given threshold boundaries."));
 			temperatureBackToNormalIssued = true;
 		}
 

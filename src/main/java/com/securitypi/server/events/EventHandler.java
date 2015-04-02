@@ -28,7 +28,6 @@ public class EventHandler {
 	}
 
 	public void addEvent(Event event) {
-		System.out.println("In the add event method.");
 		entityManager.persist(event);
 	}
 

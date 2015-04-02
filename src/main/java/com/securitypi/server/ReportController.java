@@ -46,7 +46,7 @@ public class ReportController {
 	public ResponseEntity<Event> reportEvent(@RequestBody Event event) {
 
 		if(event.getHeading() == null || event.getMessage() == null) {
-			return new ResponseEntity<>(new Event(), HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<>(new Event("Heading required", "Message required"), HttpStatus.BAD_REQUEST);
 		}
 
 		eventHandler.addEvent(event);

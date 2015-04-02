@@ -17,8 +17,6 @@ public class ApiTokenHandler {
 	@PersistenceContext
 	private EntityManager entityManager;
 
-	// TODO: Implement database. Add tokens to database and cache. Only read from database when token is not in cache.
-	// Cache should probably be something threadsafe like concurrentHashMap.
 	private LinkedList<ApiToken> tokens;
 
 	private final int tokenLength = 32;
@@ -55,10 +53,15 @@ public class ApiTokenHandler {
 	}
 
 	public boolean tokenExist(String token) {
-		for(ApiToken apiToken : tokens) {
-			if(apiToken.getToken().equals(token)) {
-				return true;
-			}
+		ApiToken apiToken = getApiToken(token);
+
+		System.out.println(apiToken.toString());
+
+		if(apiToken.getToken() == null) {
+			return false;
+		}
+		else if(apiToken.getToken().equals(token)) {
+			return true;
 		}
 
 		return false;

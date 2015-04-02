@@ -2,6 +2,8 @@ package com.securitypi.server.filter;
 
 import com.securitypi.server.api.ApiTokenHandler;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.context.WebApplicationContext;
+import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
@@ -10,7 +12,6 @@ import java.io.IOException;
 
 public class RequestAPIKeyFilter implements Filter {
 
-	@Autowired
 	private ApiTokenHandler apiTokenHandler;
 
 	private static final String API_KEY = "X-Api-Key";
@@ -27,7 +28,9 @@ public class RequestAPIKeyFilter implements Filter {
 
 	@Override
 	public void init(FilterConfig filterConfig) throws ServletException {
-
+		WebApplicationContext applicationContext = WebApplicationContextUtils.getRequiredWebApplicationContext(
+				filterConfig.getServletContext());
+		this.apiTokenHandler = applicationContext.getBean(ApiTokenHandler.class);
 	}
 
 	@Override

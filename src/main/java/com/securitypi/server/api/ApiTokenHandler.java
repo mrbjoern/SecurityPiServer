@@ -23,6 +23,9 @@ public class ApiTokenHandler {
 
 	public ApiTokenHandler() {
 		tokens = new LinkedList<>();
+
+		ApiToken debugToken = new ApiToken();
+		debugToken.setToken("debug");
 	}
 
 	public ApiToken createNewApiToken(String friendlyName) {

@@ -24,10 +24,13 @@ public class WebController {
 	@Autowired
 	private ApiTokenHandler apiTokenHandler;
 
+	@Autowired
+	private TemperatureReadingsHandler temperatureReadingsHandler;
+
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String index(Model model) {
-        model.addAttribute("tempReading", TemperatureReadingsHandler.getLastReading());
-        model.addAttribute("tempAvg", TemperatureReadingsHandler.getAverageTemperatureLastHours(0));
+        model.addAttribute("tempReading", temperatureReadingsHandler.getLastReading());
+        model.addAttribute("tempAvg", temperatureReadingsHandler.getAverageTemperatureLastHours(24));
 		model.addAttribute("events", EventHandler.getNumberOfEvents(5));
         return "index";
     }

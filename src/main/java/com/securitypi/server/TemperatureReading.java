@@ -1,12 +1,26 @@
 package com.securitypi.server;
 
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import java.sql.Timestamp;
+
 /**
  * Stores reading of temperatures with timestamp to be stored in database or other format.
  */
+@Entity
+@Table(name = "temperature_reading")
 public class TemperatureReading {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private long id;
+
+    @NotNull
     private double temperature;
-    private String timestamp;
+
+    @NotNull
+    private Timestamp timestamp;
+
 
     public TemperatureReading() {
 
@@ -16,7 +30,7 @@ public class TemperatureReading {
         this.temperature = temperature;
     }
 
-    public void setTimestamp(String timestamp) {
+    public void setTimestamp(Timestamp timestamp) {
         this.timestamp = timestamp;
     }
 
@@ -24,7 +38,7 @@ public class TemperatureReading {
         return temperature;
     }
 
-    public String getTimestamp() {
+    public Timestamp getTimestamp() {
         return timestamp;
     }
 

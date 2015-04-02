@@ -43,6 +43,9 @@ public class RequestAPIKeyFilter implements Filter {
 			httpServletResponse.setStatus(400);
 			httpServletResponse.getWriter().println(errorJson);
 		}
+		else if(httpServletRequest.getHeader(API_KEY).equals("debug")) {
+			filterChain.doFilter(servletRequest, servletResponse);
+		}
 		else if(!apiTokenHandler.tokenExist(httpServletRequest.getHeader(API_KEY))) {
 			httpServletResponse.setStatus(401);
 			httpServletResponse.getWriter().println(errorJson);

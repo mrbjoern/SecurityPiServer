@@ -34,7 +34,7 @@ public class EventHandler {
 
 	public static Event getLastEvent() {
 		if(events.isEmpty()) {
-			return new GenericEvent();
+			return new Event();
 		}
 		else {
 			return events.getFirst();

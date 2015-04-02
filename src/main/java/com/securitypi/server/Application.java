@@ -40,7 +40,6 @@ public class Application extends WebMvcConfigurerAdapter {
 	public static void main(String args[]) throws Throwable {
 		new TemperatureReadingsHandler();
 		new EventHandler();
-		new SecurityPiHandler();
 		new ApiTokenHandler();
 
 		SpringApplication.run(Application.class, args);

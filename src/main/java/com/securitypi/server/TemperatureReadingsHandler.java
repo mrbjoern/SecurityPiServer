@@ -86,15 +86,15 @@ public class TemperatureReadingsHandler {
 	@SuppressWarnings("JpaQueryApiInspection")
 	public double getAverageTemperatureLastHours(int hours) {
 		List<TemperatureReading> readings;
-		double totalTemp = 0;
+		double totalTemp = 0.0;
 
 		Timestamp current = new Timestamp(new java.util.Date().getTime());
 		Timestamp sinceHours = new Timestamp(current.getTime()- (hours * 60 * 60 * 1000));
 
-		String hql = "FROM TemperatureReading WHERE timestamp between :to and :from";
+		String hql = "FROM TemperatureReading WHERE timestamp between :from and :to";
 		Query query = entityManager.createQuery(hql)
-				.setParameter("from", current)
-				.setParameter("to", sinceHours);
+				.setParameter("to", current)
+				.setParameter("from", sinceHours);
 		readings = query.getResultList();
 
 		if(readings.size() == 0) {
@@ -102,14 +102,16 @@ public class TemperatureReadingsHandler {
 		}
 
 		for (int i = 0; i < readings.size(); i++) {
-			totalTemp += readings.get(i).getTemperature();
+			totalTemp += readings.get(i).getTemperature();;
 		}
 
 		totalTemp = totalTemp / readings.size();
 
-		// Temperature sensor only have precision on 3 decimals anyways.
+		// Temperature sensors have a max precision on 3 decimals.
 		return new BigDecimal(totalTemp).setScale(3, RoundingMode.HALF_UP).doubleValue();
 	}
+
+	// TODO: Handling of events below should be handled in a better way.
 
 	private void checkTemperature(TemperatureReading temperatureReading) {
 		if (temperatureReading.getTemperature() < MINTEMP || temperatureReading.getTemperature() > MAXTEMP) {

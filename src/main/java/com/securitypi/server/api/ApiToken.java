@@ -22,11 +22,8 @@ public class ApiToken {
 
 	private String friendlyName;
 
-	//private LinkedList<ApiConnection> connections;
-
 	public ApiToken() {
-		//connections = new LinkedList<>();
-		created = new Timestamp(new java.util.Date().getTime());
+		created = new Timestamp(System.currentTimeMillis());
 	}
 
 	public void setToken(String token) {

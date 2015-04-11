@@ -67,7 +67,7 @@
                 </div>
                 <div class="panel-body">
                     <p>Token: <strong th:text="${apitoken.token}">bwazipr'Pokw*tRhO)un7r$qAAMZOjsU</strong><br/>
-                    Created: <strong th:text="${apitoken.created}">yyyy-MM-dd HH:mm:ss</strong></p>
+                    Created: <strong th:text="${#dates.format(apitoken.created, 'yyyy-MM-dd HH:mm')}">yyyy-MM-dd HH:mm:ss</strong></p>
                     <table class="table">
                         <tr>
                             <td>
@@ -103,12 +103,7 @@
                             <input type="text" class="form-control" name="name" id="password" placeholder="Secure password"/>
                         </div>
                         <div class="form-group">
-                            <label for="access_control">Access control</label>
-                            <p>You can limit users from accessing some functionality by assigning a user role. Roles
-                             are hierarchical, meaning greater roles inherits the features of lesser roles.</p>
-                            <p><strong>User</strong>'s can view the front page, read event messages and other information
-                            provided on the frontpage.</p>
-                            <p><strong>Admin</strong>'s have access to all system features.</p>
+                            <label for="access_control">Access level</label>
                             <select class="form-control" id="access_control">
                                 <option>User</option>
                                 <option>Admin</option>
@@ -128,7 +123,7 @@
                     <tr>
                         <th>Username</th>
                         <th>Role</th>
-                        <th>Last active</th>
+                        <th>Last login</th>
                     </tr>
                     <tr>
                         <td>Admin</td>

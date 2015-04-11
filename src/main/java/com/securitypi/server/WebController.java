@@ -34,7 +34,7 @@ public class WebController {
     public String index(Model model) {
         model.addAttribute("tempReading", temperatureReadingsHandler.getLastReading());
         model.addAttribute("tempAvg", temperatureReadingsHandler.getAverageTemperatureLastHours(24));
-		model.addAttribute("events", eventHandler.getNumberOfEvents(5));
+		model.addAttribute("events", eventHandler.getNumberOfEvents(4));
         return "index";
     }
 

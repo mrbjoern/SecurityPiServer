@@ -27,7 +27,7 @@
                 </div>
                 <div class="panel-body">
                     <span th:text="${tempReading.temperature}">0.00</span> degrees celsius.<br/>
-                    Last reading was done <span th:text="${tempReading.timestamp}">N/A</span>.
+                    Last reading was done <span th:text="${tempReading.timestamp} ? ${#dates.format(tempReading.timestamp, 'yyyy-MM-dd HH:mm')}">N/A</span>
                 </div>
                 <div class="panel-heading">
                     <h3 class="panel-title">Average last 24 hours</h3>
@@ -47,20 +47,27 @@
         </div>
         <div class="col-md-4" id="events">
             <h2>Other events</h2>
-            <div class="list-group">
-                <!--<a href="#" class="list-group-item">
-                    <h4 class="list-group-item-heading" th:text="${event.heading}">Heading</h4>
-                    <p class="list-group-item-text"><span th:text="${event.timestamp}"></span> -
-                        <span th:text="${event.message}"></span></p>
-                </a>-->
-                <div th:each="event : ${events}">
-                    <a href="#" class="list-group-item">
-                        <h4 class="list-group-item-heading" th:text="${event.heading}">Heading</h4>
-                        <p class="list-group-item-text"><span th:text="${event.timestamp}"></span> -
-                            <span th:text="${event.message}"></span></p>
-                    </a>
+
+            <div class="panel panel-default" th:if="${events.isEmpty()}">
+                <div class="panel-heading">
+                    <h3 class="panel-title">No events</h3>
+                </div>
+                <div class="panel-body">
+                    <p>No events reported.</p>
                 </div>
             </div>
+
+            <div class="panel panel-default" th:each="event : ${events}">
+                <div class="panel-heading">
+                    <button type="button" class="close pull-right" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h3 class="panel-title" th:text="${event.heading}">Heading</h3>
+                </div>
+                <div class="panel-body">
+                    <p class="list-group-item-text"><span th:text="${#dates.format(event.timestamp, 'yyyy-MM-dd HH:mm')}"></span> -
+                        <span th:text="${event.message}"></span></p>
+                </div>
+            </div>
+
             <p><a class="btn btn-default" href="/events" role="button">View more &raquo;</a></p>
         </div>
     </div>

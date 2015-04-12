@@ -2,6 +2,7 @@ package com.securitypi.config;
 
 import com.securitypi.server.filter.RequestAPIKeyFilter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.context.embedded.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -11,6 +12,8 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.annotation.web.servlet.configuration.EnableWebMvcSecurity;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import java.util.LinkedList;
@@ -21,7 +24,15 @@ import java.util.List;
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
-	// TODO: Access to /api is currently unrestricted. Should be fixed with either IP restrictions or API key.
+	@Autowired
+	@Qualifier("userDetailsService")
+	UserDetailsService userDetailsService;
+
+	@Autowired
+	public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
+		auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
+
+	}
 
 	@Override
 	public void configure(HttpSecurity http) throws Exception {
@@ -30,7 +41,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 		http.csrf().disable();
 
 		http.authorizeRequests()
-				.antMatchers("/", "/static/**", "/webjars/**", "/api/report/**").permitAll()
+				.antMatchers("/", "/static/**", "/webjars/**", "/api/report/**", "/user/**").permitAll()
 				.anyRequest()
 				.authenticated();
 		http.formLogin()
@@ -43,7 +54,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 				.permitAll();
 	}
 
-	@Override
+	/*@Override
 	public void configure(AuthenticationManagerBuilder auth) throws Exception {
 
 		// TODO: Set up database connection here.
@@ -51,7 +62,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
 		auth.inMemoryAuthentication().withUser("user").password("password").roles("USER");
 		auth.inMemoryAuthentication().withUser("admin").password("admin").roles("USER", "ADMIN");
-	}
+	}*/
 
 	@Bean
 	public FilterRegistrationBean apiKeyFilter() {
@@ -62,6 +73,12 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 		filterRegistrationBean.setUrlPatterns(patterns);
 
 		return filterRegistrationBean;
+	}
+
+	@Bean
+	public PasswordEncoder passwordEncoder() {
+		PasswordEncoder encoder = new BCryptPasswordEncoder();
+		return encoder;
 	}
 }
 

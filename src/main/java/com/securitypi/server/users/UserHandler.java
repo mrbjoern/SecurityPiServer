@@ -1,11 +1,13 @@
 package com.securitypi.server.users;
 
 import org.springframework.stereotype.Repository;
+import org.springframework.web.bind.annotation.ModelAttribute;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 @Repository
@@ -37,5 +39,14 @@ public class UserHandler {
 		else {
 			return null;
 		}
+	}
+
+	@ModelAttribute("users")
+	public List<User> getAllUsers() {
+		List<User> users;
+
+		users = entityManager.createQuery("from User").getResultList();
+
+		return users;
 	}
 }

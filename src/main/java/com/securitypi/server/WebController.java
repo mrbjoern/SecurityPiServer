@@ -4,6 +4,9 @@ import com.securitypi.server.api.ApiToken;
 import com.securitypi.server.api.ApiTokenHandler;
 import com.securitypi.server.events.Event;
 import com.securitypi.server.events.EventHandler;
+import com.securitypi.server.users.User;
+import com.securitypi.server.users.UserController;
+import com.securitypi.server.users.UserHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
@@ -30,6 +33,9 @@ public class WebController {
 	@Autowired
 	private TemperatureReadingsHandler temperatureReadingsHandler;
 
+	@Autowired
+	private UserHandler userHandler;
+
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String index(Model model) {
         model.addAttribute("tempReading", temperatureReadingsHandler.getLastReading());
@@ -50,6 +56,8 @@ public class WebController {
 	public String adminIndex(Model model) {
 		Collection<ApiToken> apitokens = apiTokenHandler.getAllApiTokens();
 		model.addAttribute("apitokens", apitokens);
+		Collection<User> users = userHandler.getAllUsers();
+		model.addAttribute("users", users);
 		return "admin_index";
 	}
 

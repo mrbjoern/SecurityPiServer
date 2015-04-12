@@ -69,7 +69,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 		FilterRegistrationBean filterRegistrationBean = new FilterRegistrationBean();
 		filterRegistrationBean.setFilter(new RequestAPIKeyFilter());
 		List<String> patterns = new LinkedList<>();
-		patterns.add("/api/report/**");
+		patterns.add("/api/report/*");
 		filterRegistrationBean.setUrlPatterns(patterns);
 
 		return filterRegistrationBean;

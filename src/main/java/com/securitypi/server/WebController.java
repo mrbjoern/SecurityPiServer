@@ -58,6 +58,7 @@ public class WebController {
 		model.addAttribute("apitokens", apitokens);
 		Collection<User> users = userHandler.getAllUsers();
 		model.addAttribute("users", users);
+		model.addAttribute("create_user", new User());
 		return "admin_index";
 	}
 

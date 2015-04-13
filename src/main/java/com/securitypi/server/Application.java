@@ -4,6 +4,7 @@ import com.securitypi.server.api.ApiTokenHandler;
 import com.securitypi.server.events.EventHandler;
 import org.apache.catalina.connector.Connector;
 import org.apache.coyote.http11.Http11NioProtocol;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
@@ -36,6 +37,9 @@ public class Application extends WebMvcConfigurerAdapter {
 	private String keystoreFile;
 	@Value("${keystore.pass}")
 	private String keystorePass;
+
+	@Autowired
+	private EventHandler eventHandler;
 
 	public static void main(String args[]) throws Throwable {
 		new TemperatureReadingsHandler();

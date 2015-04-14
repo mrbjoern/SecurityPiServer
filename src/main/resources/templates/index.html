@@ -68,7 +68,7 @@
 
                 <div class="panel panel-default" th:each="event : ${events}">
                     <div class="panel-heading accordion-toggle collapsed" data-toggle="collapse" data-target="#event-collapsed" th:attr="data-target='#event-collapse-'+${event.id}">
-                        <h3 class="panel-title" th:text="${event.heading}">Heading</h3>
+                        <h3 class="panel-title" th:text="${event.heading}" th:attrappend="class=${' text-' + event.severity}">Heading</h3>
                     </div>
                     <div id="event-collapsed" class="panel-collapse collapse" th:attr="id='event-collapse-'+${event.id}">
                         <div class="panel-body">

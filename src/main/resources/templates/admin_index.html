@@ -172,8 +172,11 @@
 
                                                     <hr />
 
-                                                    <form>
+                                                    <form th:if="${user.enabled == true}">
                                                         <button type="submit" class="btn btn-danger">Disable user</button>
+                                                    </form>
+                                                    <form th:if="${user.enabled == false}">
+                                                        <button type="submit" class="btn btn-success">Enable user</button>
                                                     </form>
                                                 </div>
                                             </div>

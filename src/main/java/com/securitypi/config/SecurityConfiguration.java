@@ -54,16 +54,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 				.permitAll();
 	}
 
-	/*@Override
-	public void configure(AuthenticationManagerBuilder auth) throws Exception {
-
-		// TODO: Set up database connection here.
-
-
-		auth.inMemoryAuthentication().withUser("user").password("password").roles("USER");
-		auth.inMemoryAuthentication().withUser("admin").password("admin").roles("USER", "ADMIN");
-	}*/
-
 	@Bean
 	public FilterRegistrationBean apiKeyFilter() {
 		FilterRegistrationBean filterRegistrationBean = new FilterRegistrationBean();
@@ -77,8 +67,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
 	@Bean
 	public PasswordEncoder passwordEncoder() {
-		PasswordEncoder encoder = new BCryptPasswordEncoder();
-		return encoder;
+		return new BCryptPasswordEncoder();
 	}
 }
 

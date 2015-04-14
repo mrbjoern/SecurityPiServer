@@ -54,22 +54,28 @@
         <div class="col-md-4" id="events">
             <h2>Other events</h2>
 
-            <div class="panel panel-default" th:if="${events.isEmpty()}">
-                <div class="panel-heading">
-                    <h3 class="panel-title">No events</h3>
+            <div class="panel-group" id="accordion-events">
+                <div class="panel panel-default" th:if="${events.isEmpty()}">
+                    <div class="panel-heading accordion-toggle collapsed" data-toggle="collapse" data-target="#noevents-collapsed">
+                        <h3 class="panel-title">No events</h3>
+                    </div>
+                    <div id="noevents-collapsed" class="panel-collapse collapse">
+                        <div class="panel-body">
+                            <p>No events reported.</p>
+                        </div>
+                    </div>
                 </div>
-                <div class="panel-body">
-                    <p>No events reported.</p>
-                </div>
-            </div>
 
-            <div class="panel panel-default" th:each="event : ${events}">
-                <div class="panel-heading">
-                    <h3 class="panel-title" th:text="${event.heading}">Heading</h3>
-                </div>
-                <div class="panel-body">
-                    <p class="list-group-item-text"><span th:text="${#dates.format(event.timestamp, 'yyyy-MM-dd HH:mm')}"></span> -
-                        <span th:text="${event.message}"></span></p>
+                <div class="panel panel-default" th:each="event : ${events}">
+                    <div class="panel-heading accordion-toggle collapsed" data-toggle="collapse" data-target="#event-collapsed" th:attr="data-target='#event-collapse-'+${event.id}">
+                        <h3 class="panel-title" th:text="${event.heading}">Heading</h3>
+                    </div>
+                    <div id="event-collapsed" class="panel-collapse collapse" th:attr="id='event-collapse-'+${event.id}">
+                        <div class="panel-body">
+                            <p class="list-group-item-text"><span th:text="${#dates.format(event.timestamp, 'yyyy-MM-dd HH:mm')}"></span> -
+                                <span th:text="${event.message}"></span></p>
+                        </div>
+                    </div>
                 </div>
             </div>
 

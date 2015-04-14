@@ -1,8 +1,6 @@
 package com.securitypi.server.api;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.sql.Timestamp;
 
@@ -14,13 +12,17 @@ import java.sql.Timestamp;
 @Table(name = "api_token")
 public class ApiToken {
 
-	@Id
+	@NotNull
 	private String token;
 
 	@NotNull
 	private Timestamp created;
 
 	private String friendlyName;
+
+	@Id
+	@GeneratedValue(strategy = GenerationType.SEQUENCE)
+	private int id;
 
 	public ApiToken() {
 		created = new Timestamp(System.currentTimeMillis());
@@ -47,5 +49,9 @@ public class ApiToken {
 
 	public Timestamp getCreated() {
 		return created;
+	}
+
+	public int getId() {
+		return id;
 	}
 }

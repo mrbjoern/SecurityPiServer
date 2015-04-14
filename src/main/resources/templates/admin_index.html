@@ -27,59 +27,66 @@
         <div class="col-md-4" id="apitokens">
             <h2>API keys</h2>
 
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h3 class="panel-title">Create new token</h3>
-                </div>
+            <div class="panel-group" id="accordion-tokens">
 
-                <div class="panel-body">
-                    <form th:action="@{./api/admin/token/generate}" method="post">
-                        <div class="form-group">
-                            <label for="friendly_name">Friendly name</label>
-                            <input type="text" class="form-control" name="name" id="friendly_name" placeholder="SecurityPi"/>
+                <div class="panel panel-default">
+                    <div class="panel-heading accordion-toggle collapsed" data-toggle="collapse" data-target="#create-token-collapse">
+                        <h3 class="panel-title">Create new token</h3>
+                    </div>
+                    <div id="create-token-collapse" class="panel-collapse collapse">
+                        <div class="panel-body">
+                            <form th:action="@{./api/admin/token/generate}" method="post">
+                                <div class="form-group">
+                                    <label for="friendly_name">Friendly name</label>
+                                    <input type="text" class="form-control" name="name" id="friendly_name" placeholder="SecurityPi"/>
+                                </div>
+                                <button type="submit" class="btn btn-default">Generate new token</button>
+                            </form>
                         </div>
-                        <button type="submit" class="btn btn-default">Generate new token</button>
-                    </form>
-                </div>
-             </div>
+                    </div>
 
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h3 class="panel-title">Tokens</h3>
                 </div>
 
-                <div class="panel-body">
-                    <p>Below is a list of current API keys in use, with last associated IP and last time of use.</p>
+                <div class="panel panel-default">
+                    <div class="panel-heading accordion-toggle collapsed" data-toggle="collapse" data-target="#about-tokens-collapse">
+                        <h3 class="panel-title">About tokens</h3>
+                    </div>
+                    <div id="about-tokens-collapse" class="panel-collapse collapse">
+                        <div class="panel-body">
+                            <p>Below is a list of current API tokens in use. Tokens are used to uniquely identify an
+                            application when communicating with the server API. To get access to the server API, a custom
+                            http header parameter must be set up in the application using the token as the header value.</p>
+                            <code>X-Api-Key : token</code>
+                        </div>
+                    </div>
                 </div>
-            </div>
 
-            <div class="panel panel-default" th:if="${apitokens.isEmpty()}">
-                <div class="panel-heading" >
-                    <h3 class="panel-title">No tokens</h3>
+                <div class="panel panel-default" th:if="${apitokens.isEmpty()}">
+                    <div class="panel-heading accordion-toggle collapsed" data-toggle="collapse" data-target="#notokens-collapse">
+                        <h3 class="panel-title">No tokens</h3>
+                    </div>
+                    <div id="notokens-collapse" class="panel-collapse collapse in">
+                        <div class="panel-body">
+                            <p>No tokens created.</p>
+                        </div>
+                    </div>
                 </div>
-                <div class="panel-body">
-                    <p>No tokens created.</p>
-                </div>
-            </div>
 
-            <div class="panel panel-default" th:each="apitoken : ${apitokens}">
-                <div class="panel-heading">
-                    <h3 class="panel-title" th:text="${apitoken.friendlyName}">Friendly name</h3>
-                </div>
-                <div class="panel-body">
-                    <p>Token: <strong th:text="${apitoken.token}">bwazipr'Pokw*tRhO)un7r$qAAMZOjsU</strong><br/>
-                    Created: <strong th:text="${#dates.format(apitoken.created, 'yyyy-MM-dd HH:mm')}">yyyy-MM-dd HH:mm:ss</strong></p>
-                    <table class="table">
-                        <tr>
-                            <td>
-                                <form th:action="@{./api/admin/token/revoke/__${apitoken.token}__}" method="post">
-                                    <button type="submit" class="btn btn-danger">Revoke</button>
-                                </form>
-                            </td>
-                        </tr>
-                    </table>
-
-
+                <div class="panel panel-default" th:each="apitoken : ${apitokens}">
+                    <div class="panel-heading accordion-toggle collapsed" data-toggle="collapse" data-target="#apitoken-collapse" th:attr="data-target='#apitoken-collapse-'+${apitoken.id}">
+                        <h3 class="panel-title" th:text="${apitoken.friendlyName}">Friendly name</h3>
+                    </div>
+                    <div id="apitoken-collapse" class="panel-collapse collapse in" th:attr="id='apitoken-collapse-'+${apitoken.id}">
+                        <div class="panel-body">
+                            <p>Token: <strong th:text="${apitoken.token}">bwazipr'Pokw*tRhO)un7r$qAAMZOjsU</strong><br/>
+                                Created: <strong th:text="${#dates.format(apitoken.created, 'yyyy-MM-dd HH:mm')}">yyyy-MM-dd HH:mm:ss</strong></p>
+                        </div>
+                        <div class="panel-footer">
+                            <form th:action="@{./api/admin/token/revoke/__${apitoken.token}__}" method="post">
+                                <button type="submit" class="btn btn-danger">Revoke</button>
+                            </form>
+                        </div>
+                    </div>
                 </div>
             </div>
 
@@ -88,148 +95,150 @@
         <div class="col-md-4" id="users">
             <h2>Users</h2>
 
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h3 class="panel-title">Create new user</h3>
-                </div>
+            <div class="panel-group" id="accordion-users">
+                <div class="panel panel-default">
+                    <div class="panel-heading accordion-toggle collapsed" data-toggle="collapse" data-target="#create-user-collapse">
+                        <h3 class="panel-title">Create new user</h3>
+                    </div>
+                    <div id="create-user-collapse" class="panel-collapse collapse">
+                        <div class="panel-body">
+                            <form th:action="@{./api/admin/user/create}" th:object="${create_user}" method="post">
+                                <span class="text-success" th:if="${param.success}">User created successfully</span>
+                                <div class="form-group">
+                                    <label for="username">Username</label>
+                                    <input type="text" class="form-control" name="name" id="username" th:field="*{username}" placeholder="Awesomeuser"/>
+                                </div>
+                                <div class="form-group">
+                                    <label for="password">Password</label>
+                                    <input type="password" class="form-control" name="name" id="password" th:field="*{password}" placeholder="Secure password"/>
+                                </div>
 
-                <div class="panel-body">
-                    <form th:action="@{./api/admin/user/create}" th:object="${create_user}" method="post">
-                        <span class="text-success" th:if="${param.success}">User created successfully</span>
-                        <div class="form-group">
-                            <label for="username">Username</label>
-                            <input type="text" class="form-control" name="name" id="username" th:field="*{username}" placeholder="Awesomeuser"/>
+                                <button type="submit" class="btn btn-default">Create new user</button>
+                            </form>
                         </div>
-                        <div class="form-group">
-                            <label for="password">Password</label>
-                            <input type="password" class="form-control" name="name" id="password" th:field="*{password}" placeholder="Secure password"/>
-                        </div>
-
-                        <button type="submit" class="btn btn-default">Create new user</button>
-                    </form>
+                    </div>
                 </div>
-            </div>
 
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h3 class="panel-title">Current users</h3>
-                </div>
-                <table class="table">
-                    <tr>
-                        <th>Username</th>
-                        <th>Role</th>
-                        <th>Enabled</th>
-                        <th></th>
-                    </tr>
-                    <div th:each="user : ${users}">
-                        <tr>
-                            <td th:text="${user.username}">Admin</td>
-                            <td><span th:each="role : ${user.userRoles}"><span th:text="${role.role}"></span> </span></td>
-                            <td th:if="${user.isEnabled() == true}"><span class="text-success">True</span></td>
-                            <td th:if="${user.isEnabled() == false}"><span class="text-danger">False</span></td>
-                            <td>
-                                <a href="#" data-toggle="modal" data-target="#modal-banner">edit</a>
+                <div class="panel panel-default">
+                    <div class="panel-heading accordion-toggle collapsed" data-toggle="collapse" data-target="#current-users-collapsed">
+                        <h3 class="panel-title">Current users</h3>
+                    </div>
+                    <div id="current-users-collapsed" class="panel-collapse collapse in">
+                        <table class="table">
+                            <tr>
+                                <th>Username</th>
+                                <th>Role</th>
+                                <th>Enabled</th>
+                                <th></th>
+                            </tr>
+                            <tr th:each="user : ${users}">
+                                <td th:text="${user.username}">Admin</td>
+                                <td><span th:each="role : ${user.userRoles}"><span th:text="${role.role}"></span> </span></td>
+                                <td th:if="${user.isEnabled() == true}"><span class="text-success">True</span></td>
+                                <td th:if="${user.isEnabled() == false}"><span class="text-danger">False</span></td>
+                                <td>
+                                    <a href="#" data-toggle="modal" data-target="#modal-banner">edit</a>
 
-                                <div class="modal fade bannderformodal" tabindex="-1" role="dialog" id="modal-banner">
-                                    <div class="modal-dialog modal-sm">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                                                <h4 class="modal-title">Edit user</h4>
-                                            </div>
-                                            <div class="modal-body">
-                                                <form>
-                                                    <label>Change password</label>
-                                                    <div class="form-group">
-                                                        <input type="password" class="form-control" id="new-password" placeholder="New password"/>
-                                                    </div>
-                                                    <button type="submit" class="btn btn-default">Change password</button>
-                                                </form>
+                                    <div class="modal fade bannderformodal" tabindex="-1" role="dialog" id="modal-banner">
+                                        <div class="modal-dialog modal-sm">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                                    <h4 class="modal-title">Edit user</h4>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <form>
+                                                        <label>Change password</label>
+                                                        <div class="form-group">
+                                                            <input type="password" class="form-control" id="new-password" placeholder="New password"/>
+                                                        </div>
+                                                        <button type="submit" class="btn btn-default">Change password</button>
+                                                    </form>
 
-                                                <hr />
+                                                    <hr />
 
-                                                <form>
-                                                    <label>User roles</label>
-                                                    <div class="form-group">
-                                                        <label class="checkbox-inline">
-                                                            <input type="checkbox" id="role-user" value="role-user" /> User
-                                                        </label>
-                                                        <label class="checkbox-inline">
-                                                            <input type="checkbox" id="role-admin" value="role-admin" /> Admin
-                                                        </label>
-                                                    </div>
-                                                    <button type="submit" class="btn btn-default">Update roles</button>
-                                                </form>
+                                                    <form>
+                                                        <label>User roles</label>
+                                                        <div class="form-group">
+                                                            <label class="checkbox-inline">
+                                                                <input type="checkbox" id="role-user" value="role-user" /> User
+                                                            </label>
+                                                            <label class="checkbox-inline">
+                                                                <input type="checkbox" id="role-admin" value="role-admin" /> Admin
+                                                            </label>
+                                                        </div>
+                                                        <button type="submit" class="btn btn-default">Update roles</button>
+                                                    </form>
 
-                                                <hr />
+                                                    <hr />
 
-                                                <form>
-                                                    <button type="submit" class="btn btn-danger">Disable user</button>
-                                                </form>
+                                                    <form>
+                                                        <button type="submit" class="btn btn-danger">Disable user</button>
+                                                    </form>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                            </td>
-                        </tr>
+                                </td>
+                            </tr>
+                        </table>
                     </div>
-                </table>
-            </div>
-        </div>
-
-        <div class="col-md-4" id="database">
-            <h2>Database</h2>
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h3 class="panel-title">Database info</h3>
                 </div>
-
-                <table class="table">
-                    <tr>
-                        <th>Address</th>
-                        <td>localhost</td>
-                    </tr>
-                    <tr>
-                        <th>Port</th>
-                        <td>2020</td>
-
-                    </tr>
-                    <tr>
-                        <th>Connected</th>
-                        <td><span class="text-success">True</span></td>
-                    </tr>
-
-                    <tr>
-                        <th>Database</th>
-                        <td>securitypi</td>
-                    </tr>
-                    <tr>
-                        <th>User</th>
-                        <td>secpi</td>
-                    </tr>
-                </table>
-
             </div>
         </div>
 
         <div class="col-md-4" id="other">
             <h2>Other</h2>
+            <div class="panel-group" id="accordion-other">
+                <div class="panel panel-default">
+                    <div class="panel-heading accordion-toggle collapsed" data-toggle="collapse" data-target="#database-collapsed">
+                        <h3 class="panel-title">Database info</h3>
+                    </div>
+                    <div id="database-collapsed" class="panel-collapse collapse in">
+                        <table class="table">
+                            <tr>
+                                <th>Address</th>
+                                <td>localhost</td>
+                            </tr>
+                            <tr>
+                                <th>Port</th>
+                                <td>2020</td>
 
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h3 class="panel-title">System information</h3>
+                            </tr>
+                            <tr>
+                                <th>Connected</th>
+                                <td><span class="text-success">True</span></td>
+                            </tr>
+
+                            <tr>
+                                <th>Database</th>
+                                <td>securitypi</td>
+                            </tr>
+                            <tr>
+                                <th>User</th>
+                                <td>secpi</td>
+                            </tr>
+                        </table>
+                    </div>
                 </div>
 
-                <table class="table">
-                    <tr>
-                        <th>Uptime</th>
-                        <td>2h 4min 23sec</td>
-                    </tr>
-                    <tr>
-                        <th>Free memory</th>
-                        <td>8.6GB</td>
-                    </tr>
-                </table>
+                <div class="panel panel-default">
+                    <div class="panel-heading accordion-toggle collapsed" data-toggle="collapse" data-target="#other-collapsed">
+                        <h3 class="panel-title">System information</h3>
+                    </div>
+                    <div id="other-collapsed" class="panel-collapse collapse in">
+                        <table class="table">
+                            <tr>
+                                <th>Uptime</th>
+                                <td>2h 4min 23sec</td>
+                            </tr>
+                            <tr>
+                                <th>Free memory</th>
+                                <td>8.6GB</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
             </div>
 
         </div>

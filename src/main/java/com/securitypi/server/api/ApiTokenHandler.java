@@ -17,15 +17,9 @@ public class ApiTokenHandler {
 	@PersistenceContext
 	private EntityManager entityManager;
 
-	private LinkedList<ApiToken> tokens;
-
 	private final int tokenLength = 32;
 
 	public ApiTokenHandler() {
-		tokens = new LinkedList<>();
-
-		ApiToken debugToken = new ApiToken();
-		debugToken.setToken("debug");
 	}
 
 	public ApiToken createNewApiToken(String friendlyName) {
@@ -45,13 +39,15 @@ public class ApiTokenHandler {
 
 	public ApiToken getApiToken(String token) {
 
-		ApiToken apitoken = entityManager.find(ApiToken.class, token);
+		ApiToken apiToken = (ApiToken) entityManager.createQuery("from ApiToken where token = :token")
+				.setParameter("token", token)
+				.getSingleResult();
 
-		if(apitoken == null) {
+		if(apiToken == null) {
 			return new ApiToken();
 		}
 		else {
-			return apitoken;
+			return apiToken;
 		}
 	}
 
@@ -70,7 +66,8 @@ public class ApiTokenHandler {
 		return false;
 	}
 
-	public void revokeApiToken(String token) {
+	public void revokeApiTokenByToken(String token) {
+
 		ApiToken apiToken = getApiToken(token);
 
 		entityManager.remove(apiToken);

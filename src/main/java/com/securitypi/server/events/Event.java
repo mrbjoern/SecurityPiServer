@@ -38,6 +38,10 @@ public class Event {
 		this.message = message;
 	}
 
+	public long getId() {
+		return id;
+	}
+
 	public void setHeading(String heading) {
 		this.heading = heading;
 	}

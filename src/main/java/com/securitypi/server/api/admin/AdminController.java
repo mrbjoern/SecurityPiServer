@@ -2,13 +2,10 @@ package com.securitypi.server.api.admin;
 
 import com.securitypi.server.api.ApiToken;
 import com.securitypi.server.api.ApiTokenHandler;
-import com.securitypi.server.events.EventHandler;
 import com.securitypi.server.users.User;
 import com.securitypi.server.users.UserHandler;
 import com.securitypi.server.users.UserRole;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -37,7 +34,7 @@ class AdminController {
 	@RequestMapping(value = "token/revoke/{token}", method = {RequestMethod.POST})
 	public String revokeToken(@PathVariable String token) {
 
-		apiTokenHandler.revokeApiToken(token);
+		apiTokenHandler.revokeApiTokenByToken(token);
 
 		return "redirect:/admin";
 	}

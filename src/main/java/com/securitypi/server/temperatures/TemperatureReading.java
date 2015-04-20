@@ -1,4 +1,4 @@
-package com.securitypi.server;
+package com.securitypi.server.temperatures;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;

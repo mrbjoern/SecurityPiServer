@@ -2,6 +2,7 @@ package com.securitypi.server;
 
 import com.securitypi.server.api.ApiTokenHandler;
 import com.securitypi.server.events.EventHandler;
+import com.securitypi.server.temperatures.TemperatureReadingsHandler;
 import org.apache.catalina.connector.Connector;
 import org.apache.coyote.http11.Http11NioProtocol;
 import org.springframework.beans.factory.annotation.Autowired;

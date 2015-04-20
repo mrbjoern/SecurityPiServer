@@ -2,6 +2,8 @@ package com.securitypi.server;
 
 import com.securitypi.server.events.Event;
 import com.securitypi.server.events.EventHandler;
+import com.securitypi.server.temperatures.TemperatureReading;
+import com.securitypi.server.temperatures.TemperatureReadingsHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

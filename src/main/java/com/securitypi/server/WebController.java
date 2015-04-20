@@ -4,16 +4,14 @@ import com.securitypi.server.api.ApiToken;
 import com.securitypi.server.api.ApiTokenHandler;
 import com.securitypi.server.events.Event;
 import com.securitypi.server.events.EventHandler;
+import com.securitypi.server.temperatures.TemperatureReadingsHandler;
 import com.securitypi.server.users.User;
-import com.securitypi.server.users.UserController;
 import com.securitypi.server.users.UserHandler;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.servlet.ModelAndView;
 
 import java.util.Collection;
 

@@ -1,7 +1,8 @@
-package com.securitypi.server;
+package com.securitypi.server.temperatures;
 
 import com.securitypi.server.events.Event;
 import com.securitypi.server.events.EventHandler;
+import com.securitypi.server.temperatures.TemperatureReading;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 

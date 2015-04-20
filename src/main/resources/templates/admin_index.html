@@ -137,14 +137,14 @@
                                 <td th:if="${user.isEnabled() == true}"><span class="text-success">True</span></td>
                                 <td th:if="${user.isEnabled() == false}"><span class="text-danger">False</span></td>
                                 <td>
-                                    <a href="#" data-toggle="modal" data-target="#modal-banner">edit</a>
+                                    <a href="#" data-toggle="modal" data-target="#modal-banner" th:attr="data-target='#modal-banner-'+${user.id}">edit</a>
 
-                                    <div class="modal fade bannderformodal" tabindex="-1" role="dialog" id="modal-banner">
+                                    <div class="modal fade bannderformodal" tabindex="-1" role="dialog" id="modal-banner" th:attr="id='modal-banner-'+${user.id}">
                                         <div class="modal-dialog modal-sm">
                                             <div class="modal-content">
                                                 <div class="modal-header">
                                                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                                                    <h4 class="modal-title">Edit user</h4>
+                                                    <h4 class="modal-title">Edit <span th:text="${user.username}"></span></h4>
                                                 </div>
                                                 <div class="modal-body">
                                                     <form>
@@ -172,10 +172,10 @@
 
                                                     <hr />
 
-                                                    <form th:if="${user.enabled == true}">
+                                                    <form th:action="@{./api/admin/user/disable/__${user.id}__}" method="post" th:if="${user.enabled == true}">
                                                         <button type="submit" class="btn btn-danger">Disable user</button>
                                                     </form>
-                                                    <form th:if="${user.enabled == false}">
+                                                    <form th:action="@{./api/admin/user/enable/__${user.id}__}" method="post" th:if="${user.enabled == false}">
                                                         <button type="submit" class="btn btn-success">Enable user</button>
                                                     </form>
                                                 </div>

@@ -48,6 +48,7 @@ class AdminController {
 			user.setEnabled(true);
 
 			Set<UserRole> roles = new HashSet<>();
+			// Users are only granted the role USER by default.
 			UserRole userRole = new UserRole(user, "ROLE_USER");
 			roles.add(userRole);
 
@@ -60,6 +61,18 @@ class AdminController {
 		}
 
 		return "redirect:/admin?error";
+	}
+
+	@RequestMapping(value = "user/disable/{userID}", method = {RequestMethod.POST})
+	public String disableUser(@PathVariable long userID) {
+		userHandler.disableUserByID(userID);
+		return "redirect:/admin";
+	}
+
+	@RequestMapping(value = "user/enable/{userID}", method = {RequestMethod.POST})
+	public String enableUser(@PathVariable long userID) {
+		userHandler.enableUserByID(userID);
+		return "redirect:/admin";
 	}
 
 }

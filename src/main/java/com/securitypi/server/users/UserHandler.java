@@ -27,9 +27,7 @@ public class UserHandler {
 
 	public User findByUsername(String username) {
 
-		List<User> users = new ArrayList<>();
-
-		users = entityManager.createQuery("from User where username = :user")
+		List<User> users = entityManager.createQuery("from User where username = :user")
 				.setParameter("user", username)
 				.getResultList();
 
@@ -48,5 +46,17 @@ public class UserHandler {
 		users = entityManager.createQuery("from User").getResultList();
 
 		return users;
+	}
+
+	public void disableUserByID(long id) {
+		User user = entityManager.find(User.class, id);
+
+		user.setEnabled(false);
+	}
+
+	public void enableUserByID(long id) {
+		User user = entityManager.find(User.class, id);
+
+		user.setEnabled(true);
 	}
 }

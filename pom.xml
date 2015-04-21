@@ -13,6 +13,29 @@
     <groupId>com.securitypi.server</groupId>
     <artifactId>security-pi-server</artifactId>
     <version>1.0-SNAPSHOT</version>
+    <name>SecurityPi Server</name>
+    <description>Server component providing reporting through a RESTful API and a web interface</description>
+    <url>https://github.com/mrbjoern/SecurityPiServer</url>
+
+    <issueManagement>
+        <url>http://mrbjoern.myjetbrains.com/youtrack/issues/SecPi</url>
+        <system>YouTrack</system>
+    </issueManagement>
+
+    <scm>
+        <url>https://github.com/mrbjoern/SecurityPiServer</url>
+        <connection>scm:git:git://github.com/mrbjoern/SecurityPiServer.git</connection>
+        <developerConnection>scm:git:git@github.com:mrbjoern/SecurityPiServer.git</developerConnection>
+    </scm>
+
+    <developers>
+        <developer>
+            <email>mrbjoern92@gmail.com</email>
+            <name>Halvor Bjørn</name>
+            <url>https://github.com/mrbjoern</url>
+            <id>mrbjoern</id>
+        </developer>
+    </developers>
 
     <properties>
         <java.version>1.8</java.version>

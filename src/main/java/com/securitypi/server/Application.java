@@ -43,9 +43,6 @@ public class Application extends WebMvcConfigurerAdapter {
 	private EventHandler eventHandler;
 
 	public static void main(String args[]) throws Throwable {
-		new TemperatureReadingsHandler();
-		new EventHandler();
-		new ApiTokenHandler();
 
 		SpringApplication.run(Application.class, args);
 	}
@@ -70,6 +67,10 @@ public class Application extends WebMvcConfigurerAdapter {
 						public void customize(Connector connector) {
 							connector.setSecure(true);
 							connector.setScheme("https");
+
+							// For production only.
+							connector.setProxyName("secpi.mrbjoern.com");
+							connector.setProxyPort(443);
 
 							Http11NioProtocol proto = (Http11NioProtocol) connector.getProtocolHandler();
 							proto.setSSLEnabled(true);

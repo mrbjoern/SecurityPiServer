@@ -102,7 +102,7 @@
                     </div>
                     <div id="create-user-collapse" class="panel-collapse collapse">
                         <div class="panel-body">
-                            <form th:action="@{./api/admin/user/create}" th:object="${fake_user}" method="post">
+                            <form th:action="@{./api/user/create}" th:object="${fake_user}" method="post">
                                 <span class="text-success" th:if="${param.success}">User created successfully</span>
                                 <div class="form-group">
                                     <label for="username">Username</label>
@@ -147,7 +147,7 @@
                                                     <h4 class="modal-title">Edit <span th:text="${user.username}"></span></h4>
                                                 </div>
                                                 <div class="modal-body">
-                                                    <form th:action="@{./api/user/__${user.id}__/password/change}" method="post" th:object="${fake_user}">
+                                                    <form th:action="@{./api/user/__${user.id}__/change/password}" method="post" th:object="${fake_user}">
                                                         <label>Change password</label>
                                                         <div class="form-group">
                                                             <input type="password" class="form-control" id="new-password" placeholder="New password" th:field="*{password}"/>
@@ -172,10 +172,10 @@
 
                                                     <hr />
 
-                                                    <form th:action="@{./api/admin/user/disable/__${user.id}__}" method="post" th:if="${user.enabled == true}">
+                                                    <form th:action="@{./api/user/__${user.id}__/disable}" method="post" th:if="${user.enabled == true}">
                                                         <button type="submit" class="btn btn-danger">Disable user</button>
                                                     </form>
-                                                    <form th:action="@{./api/admin/user/enable/__${user.id}__}" method="post" th:if="${user.enabled == false}">
+                                                    <form th:action="@{./api/user/__${user.id}__/enable}" method="post" th:if="${user.enabled == false}">
                                                         <button type="submit" class="btn btn-success">Enable user</button>
                                                     </form>
                                                 </div>

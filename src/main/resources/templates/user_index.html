@@ -33,7 +33,7 @@
                     </div>
                     <div id="change-password-collapsed" class="panel-collapse collapse">
                         <div class="panel-body">
-                            <form th:action="@{./api/user/__${user.id}__/password/change}" method="post" th:object="${fake_user}">
+                            <form th:action="@{./api/user/__${user.id}__/change/password}" method="post" th:object="${fake_user}">
                                 <label>Change password</label>
                                 <div class="form-group">
                                     <input type="password" class="form-control" id="new-password" placeholder="New password" th:field="*{password}"/>

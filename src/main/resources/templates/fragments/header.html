@@ -42,7 +42,7 @@
 
                 <div sec:authorize="hasRole('ROLE_USER')">
                     <ul class="nav navbar-nav navbar-right">
-                        <li><p class="navbar-text">Hello, <span sec:authentication="name"></span>!</p></li>
+                        <li><p class="navbar-text">Hello, <a href="/user" sec:authentication="name"></a>!</p></li>
                         <li sec:authorize="hasRole('ROLE_ADMIN')"><a href="/admin">Admin settings</a></li>
                         <li>
                             <form th:action="@{/logout}" method="post" class="navbar-form">

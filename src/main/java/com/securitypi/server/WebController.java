@@ -13,6 +13,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import java.security.Principal;
 import java.util.Collection;
 
 /**
@@ -42,6 +43,13 @@ public class WebController {
         return "index";
     }
 
+	@RequestMapping(value = "/user", method = RequestMethod.GET)
+	public String getUserPage(Model model, Principal principal) {
+		model.addAttribute("fake_user", new User());
+		model.addAttribute("user", userHandler.findByUsername(principal.getName()));
+		return "user_index";
+	}
+
 	@RequestMapping(value = "/events", method = RequestMethod.GET)
 	public String getAllEvents(Model model) {
 		Collection<Event> events = eventHandler.getEvents();
@@ -56,7 +64,7 @@ public class WebController {
 		model.addAttribute("apitokens", apitokens);
 		Collection<User> users = userHandler.getAllUsers();
 		model.addAttribute("users", users);
-		model.addAttribute("create_user", new User());
+		model.addAttribute("fake_user", new User());
 		return "admin_index";
 	}
 

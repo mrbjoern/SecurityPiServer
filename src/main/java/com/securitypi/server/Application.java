@@ -69,8 +69,8 @@ public class Application extends WebMvcConfigurerAdapter {
 							connector.setScheme("https");
 
 							// For production only.
-							connector.setProxyName("secpi.mrbjoern.com");
-							connector.setProxyPort(443);
+							//connector.setProxyName("secpi.mrbjoern.com");
+							//connector.setProxyPort(443);
 
 							Http11NioProtocol proto = (Http11NioProtocol) connector.getProtocolHandler();
 							proto.setSSLEnabled(true);

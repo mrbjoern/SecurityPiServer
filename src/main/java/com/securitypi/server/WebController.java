@@ -4,6 +4,7 @@ import com.securitypi.server.api.ApiToken;
 import com.securitypi.server.api.ApiTokenHandler;
 import com.securitypi.server.events.Event;
 import com.securitypi.server.events.EventHandler;
+import com.securitypi.server.securitypi.SecurityPiHandler;
 import com.securitypi.server.temperatures.TemperatureReadingsHandler;
 import com.securitypi.server.users.User;
 import com.securitypi.server.users.UserHandler;
@@ -35,6 +36,9 @@ public class WebController {
 	@Autowired
 	private UserHandler userHandler;
 
+	@Autowired
+	private SecurityPiHandler securityPiHandler;
+
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String index(Model model) {
         model.addAttribute("tempReading", temperatureReadingsHandler.getLastReading());
@@ -65,6 +69,8 @@ public class WebController {
 		Collection<User> users = userHandler.getAllUsers();
 		model.addAttribute("users", users);
 		model.addAttribute("fake_user", new User());
+		model.addAttribute("security_pies", securityPiHandler.getAllSecurityPies());
+		model.addAttribute("security_pi_handler", securityPiHandler);
 		return "admin_index";
 	}
 

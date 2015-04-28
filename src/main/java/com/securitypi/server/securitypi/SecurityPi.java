@@ -4,8 +4,8 @@ package com.securitypi.server.securitypi;
 import com.securitypi.server.api.ApiToken;
 
 import javax.persistence.*;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.LinkedList;
+import java.util.List;
 
 @Entity
 @Table(name = "security_pies")
@@ -19,7 +19,7 @@ public class SecurityPi {
 	private ApiToken token;
 
 	@OneToMany(fetch = FetchType.LAZY)
-	private Set<Connection> connections = new HashSet<>(0);
+	private List<Connection> connections = new LinkedList<>();
 
 	private int reportInterval;
 
@@ -34,4 +34,9 @@ public class SecurityPi {
 	public long getId() {
 		return id;
 	}
+
+	public List<Connection> getConnections() {
+		return connections;
+	}
+
 }

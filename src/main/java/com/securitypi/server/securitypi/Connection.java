@@ -30,4 +30,12 @@ public class Connection {
 		this.ipAddress = ipAddress;
 		this.securityPi = securityPi;
 	}
+
+	public Timestamp getTimestamp() {
+		return timestamp;
+	}
+
+	public String getIpAddress() {
+		return ipAddress;
+	}
 }

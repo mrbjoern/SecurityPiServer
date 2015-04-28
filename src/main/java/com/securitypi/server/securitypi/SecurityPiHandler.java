@@ -58,4 +58,16 @@ public class SecurityPiHandler {
 		List<SecurityPi> allPies = entityManager.createQuery("from SecurityPi").getResultList();
 		return allPies;
 	}
+
+	public Connection getLastConnectionBySecurityPiID(long id) {
+		List<Connection> connections = entityManager.createQuery("from Connection where security_pi_id = :id")
+				.setParameter("id", id)
+				.getResultList();
+		if(connections.size() > 0) {
+			return connections.get(connections.size()-1);
+		}
+		else {
+			return new Connection(null, "0");
+		}
+	}
 }

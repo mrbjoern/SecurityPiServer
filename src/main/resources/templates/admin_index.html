@@ -242,6 +242,27 @@
                         </table>
                     </div>
                 </div>
+
+                <div class="panel panel-default" th:each="security_pi : ${security_pies}">
+                    <div class="panel-heading accordion-toggle collapsed" data-toggle="collapse" data-target="#secpi-collapsed">
+                        <h3 class="panel-title" th:text="'SecurityPi - ' + ${security_pi.id}">SecurityPi</h3>
+                    </div>
+                    <div id="secpi-collapsed" class="panel-collapse collapse in">
+                        <table class="table">
+                            <tr>
+                                <th colspan="2">Last connection</th>
+                            </tr>
+                            <tr>
+                                <th>Timestamp</th>
+                                <td th:text="${#dates.format(security_pi_handler.getLastConnectionBySecurityPiID(security_pi.id).timestamp, 'yyyy-MM-dd HH:mm')}">24.04.2001</td>
+                            </tr>
+                            <tr>
+                                <th>Address</th>
+                                <td th:text="${security_pi_handler.getLastConnectionBySecurityPiID(security_pi.id).ipAddress}">127.0.0.1</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
             </div>
 
         </div>

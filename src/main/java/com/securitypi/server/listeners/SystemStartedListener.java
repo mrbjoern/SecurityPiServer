@@ -1,7 +1,12 @@
 package com.securitypi.server.listeners;
 
+import com.securitypi.server.api.ApiToken;
+import com.securitypi.server.api.ApiTokenHandler;
 import com.securitypi.server.events.Event;
 import com.securitypi.server.events.EventHandler;
+import com.securitypi.server.securitypi.Connection;
+import com.securitypi.server.securitypi.SecurityPi;
+import com.securitypi.server.securitypi.SecurityPiHandler;
 import com.securitypi.server.users.User;
 import com.securitypi.server.users.UserHandler;
 import com.securitypi.server.users.UserRole;
@@ -26,6 +31,12 @@ public class SystemStartedListener implements ApplicationListener<ContextRefresh
 
 	@Autowired
 	private UserHandler userHandler;
+
+	@Autowired
+	private ApiTokenHandler apiTokenHandler;
+
+	@Autowired
+	private SecurityPiHandler securityPiHandler;
 
 	private boolean systemStarted = false;
 
@@ -56,6 +67,17 @@ public class SystemStartedListener implements ApplicationListener<ContextRefresh
 			userHandler.create(user);
 			userHandler.grantUserRole(userRole);
 			userHandler.grantUserRole(adminRole);
+
+			// Create a token and add it to securitypi.
+			ApiToken token = apiTokenHandler.createNewApiToken("Debug token");
+			SecurityPi securityPi = new SecurityPi();
+			securityPi.setToken(token);
+
+			securityPiHandler.addNewSecurityPiComponent(securityPi);
+
+			Connection connection = new Connection(securityPi, "127.0.0.1");
+			securityPiHandler.addConnection(connection);
+
 		}
 
 	}

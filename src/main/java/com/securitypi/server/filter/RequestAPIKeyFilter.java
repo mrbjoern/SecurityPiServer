@@ -1,6 +1,9 @@
 package com.securitypi.server.filter;
 
 import com.securitypi.server.api.ApiTokenHandler;
+import com.securitypi.server.securitypi.Connection;
+import com.securitypi.server.securitypi.SecurityPi;
+import com.securitypi.server.securitypi.SecurityPiHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
@@ -13,6 +16,7 @@ import java.io.IOException;
 public class RequestAPIKeyFilter implements Filter {
 
 	private ApiTokenHandler apiTokenHandler;
+	private SecurityPiHandler securityPiHandler;
 
 	private static final String API_KEY = "X-Api-Key";
 
@@ -31,6 +35,7 @@ public class RequestAPIKeyFilter implements Filter {
 		WebApplicationContext applicationContext = WebApplicationContextUtils.getRequiredWebApplicationContext(
 				filterConfig.getServletContext());
 		this.apiTokenHandler = applicationContext.getBean(ApiTokenHandler.class);
+		this.securityPiHandler = applicationContext.getBean(SecurityPiHandler.class);
 	}
 
 	@Override
@@ -51,6 +56,16 @@ public class RequestAPIKeyFilter implements Filter {
 			httpServletResponse.getWriter().println(errorJson);
 		}
 		else {
+			SecurityPi securityPi = securityPiHandler.findSecurityPiByToken(httpServletRequest.getHeader(API_KEY));
+			if(securityPi != null) {
+				String ip = httpServletRequest.getHeader("X-Forwarded-By");
+				if(ip == null || ip.length() == 0) {
+					ip = httpServletRequest.getRemoteAddr();
+				}
+				Connection connection = new Connection(securityPi, ip);
+
+				securityPiHandler.addConnection(connection);
+			}
 			filterChain.doFilter(servletRequest, servletResponse);
 		}
 	}

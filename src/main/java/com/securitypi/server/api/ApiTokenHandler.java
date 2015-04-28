@@ -54,8 +54,6 @@ public class ApiTokenHandler {
 	public boolean tokenExist(String token) {
 		ApiToken apiToken = getApiToken(token);
 
-		System.out.println(apiToken.toString());
-
 		if(apiToken.getToken() == null) {
 			return false;
 		}

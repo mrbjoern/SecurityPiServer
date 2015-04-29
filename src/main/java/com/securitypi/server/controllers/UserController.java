@@ -1,5 +1,6 @@
 package com.securitypi.server.controllers;
 
+import com.securitypi.server.users.RoleBean;
 import com.securitypi.server.users.User;
 import com.securitypi.server.users.UserHandler;
 import com.securitypi.server.users.UserRole;
@@ -15,6 +16,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -95,6 +98,37 @@ public class UserController {
 		}
 
 		return "redirect:" + request.getHeader("Referer") + "?error";
+	}
+
+	@RequestMapping(value = "{id}/edit/roles")
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	public String grantUserRole(@PathVariable long id, @ModelAttribute RoleBean roles, HttpServletRequest request) {
+
+		User user = userHandler.findUserByID(id);
+		Set<UserRole> userRoles = user.getUserRoles();
+		Map<String, Boolean> roleBeanRoles = roles.getRoles();
+
+		for(Map.Entry<String, Boolean> entry : roleBeanRoles.entrySet()) {
+			String key = entry.getKey();
+			boolean state = entry.getValue();
+			boolean hasRole = false;
+
+			for(UserRole role : userRoles) {
+				if(role.getRole().equals(key)) {
+					hasRole = true;
+				}
+			}
+			if(!hasRole && state) {
+				UserRole newRole = new UserRole(user, key);
+				userHandler.grantUserRole(newRole);
+			}
+
+			if(hasRole && !state) {
+				// remove role
+			}
+		}
+
+		return "redirect:" + request.getHeader("Referer");
 	}
 
 }

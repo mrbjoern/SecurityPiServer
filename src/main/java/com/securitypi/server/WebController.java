@@ -6,6 +6,7 @@ import com.securitypi.server.events.Event;
 import com.securitypi.server.events.EventHandler;
 import com.securitypi.server.securitypi.SecurityPiHandler;
 import com.securitypi.server.temperatures.TemperatureReadingsHandler;
+import com.securitypi.server.users.RoleBean;
 import com.securitypi.server.users.User;
 import com.securitypi.server.users.UserHandler;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -71,6 +72,7 @@ public class WebController {
 		model.addAttribute("fake_user", new User());
 		model.addAttribute("security_pies", securityPiHandler.getAllSecurityPies());
 		model.addAttribute("security_pi_handler", securityPiHandler);
+		model.addAttribute("role_bean", new RoleBean());
 		return "admin_index";
 	}
 

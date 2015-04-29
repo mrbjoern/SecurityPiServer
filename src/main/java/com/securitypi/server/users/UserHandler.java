@@ -29,6 +29,10 @@ public class UserHandler {
 		entityManager.persist(role);
 	}
 
+	public void removeUserRole(UserRole role) {
+		entityManager.remove(role);
+	}
+
 	public User findByUsername(String username) {
 
 		List<User> users = entityManager.createQuery("from User where username = :user")

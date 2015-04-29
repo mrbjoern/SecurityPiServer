@@ -15,10 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Handles requests by authenticated users, making it possible to edit and update a users own profile.
@@ -106,27 +103,44 @@ public class UserController {
 
 		User user = userHandler.findUserByID(id);
 		Set<UserRole> userRoles = user.getUserRoles();
-		Map<String, Boolean> roleBeanRoles = roles.getRoles();
+		List<String> fakeRoles = roles.getUserRoles();
 
-		for(Map.Entry<String, Boolean> entry : roleBeanRoles.entrySet()) {
-			String key = entry.getKey();
-			boolean state = entry.getValue();
+		if(fakeRoles == null) {
+			fakeRoles = new LinkedList<>();
+		}
+
+		// Granting new roles
+		for(String newRole : fakeRoles) {
 			boolean hasRole = false;
 
 			for(UserRole role : userRoles) {
-				if(role.getRole().equals(key)) {
+				if(role.getRole().equals(newRole)) {
 					hasRole = true;
 				}
 			}
-			if(!hasRole && state) {
-				UserRole newRole = new UserRole(user, key);
-				userHandler.grantUserRole(newRole);
-			}
 
-			if(hasRole && !state) {
-				// remove role
+			if(!hasRole) {
+				UserRole newUserRole = new UserRole(user, newRole);
+				userHandler.grantUserRole(newUserRole);
 			}
 		}
+
+		// if user has role, but it does not exist in fake roles, remove.
+
+		// Remove roles
+		for(UserRole role : userRoles) {
+			boolean roleExistsInFakeRoles = false;
+			for(String fakeRole : fakeRoles) {
+				if(role.getRole().equals(fakeRole)) {
+					roleExistsInFakeRoles = true;
+				}
+			}
+
+			if(!roleExistsInFakeRoles) {
+				userHandler.removeUserRole(role);
+			}
+		}
+
 
 		return "redirect:" + request.getHeader("Referer");
 	}

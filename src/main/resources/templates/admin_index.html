@@ -157,15 +157,12 @@
 
                                                     <hr />
 
-                                                    <form>
+                                                    <form th:action="@{./api/user/__${user.id}__/edit/roles}" method="post" th:object="${role_bean}">
                                                         <label>User roles</label>
-                                                        <div class="form-group">
-                                                            <label class="checkbox-inline">
-                                                                <input type="checkbox" id="role-user" value="role-user" /> User
-                                                            </label>
-                                                            <label class="checkbox-inline">
-                                                                <input type="checkbox" id="role-admin" value="role-admin" /> Admin
-                                                            </label>
+                                                        <div class="form-group"  th:each="role : ${allRoles}">
+                                                            <input type="checkbox" th:field="*{userRoles}" th:value="${role}" />
+                                                            <label class="checkbox-inline" th:text="${role}">Role</label>
+
                                                         </div>
                                                         <button type="submit" class="btn btn-default">Update roles</button>
                                                     </form>

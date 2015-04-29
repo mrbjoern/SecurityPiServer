@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import java.security.Principal;
 import java.util.Collection;
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * Root of the SecurityPiServer. Collects information from the system and presents it to the user interface.
@@ -72,7 +74,16 @@ public class WebController {
 		model.addAttribute("fake_user", new User());
 		model.addAttribute("security_pies", securityPiHandler.getAllSecurityPies());
 		model.addAttribute("security_pi_handler", securityPiHandler);
-		model.addAttribute("role_bean", new RoleBean());
+
+		List<String> allRoles = new LinkedList<>();
+		allRoles.add("ROLE_USER");
+		allRoles.add("ROLE_ADMIN");
+		model.addAttribute("allRoles", allRoles);
+
+		RoleBean fakeRoles = new RoleBean();
+		List<String> userRoles = new LinkedList<>();
+		fakeRoles.setUserRoles(userRoles);
+		model.addAttribute("role_bean", fakeRoles);
 		return "admin_index";
 	}
 

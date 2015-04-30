@@ -1,6 +1,8 @@
 package com.securitypi.server.filter;
 
 import com.securitypi.server.api.ApiTokenHandler;
+import com.securitypi.server.logging.LogHandler;
+import com.securitypi.server.logging.RequestLog;
 import com.securitypi.server.securitypi.Connection;
 import com.securitypi.server.securitypi.SecurityPi;
 import com.securitypi.server.securitypi.SecurityPiHandler;
@@ -17,6 +19,7 @@ public class RequestAPIKeyFilter implements Filter {
 
 	private ApiTokenHandler apiTokenHandler;
 	private SecurityPiHandler securityPiHandler;
+	private LogHandler logHandler;
 
 	private static final String API_KEY = "X-Api-Key";
 
@@ -36,6 +39,7 @@ public class RequestAPIKeyFilter implements Filter {
 				filterConfig.getServletContext());
 		this.apiTokenHandler = applicationContext.getBean(ApiTokenHandler.class);
 		this.securityPiHandler = applicationContext.getBean(SecurityPiHandler.class);
+		this.logHandler = applicationContext.getBean(LogHandler.class);
 	}
 
 	@Override
@@ -43,6 +47,17 @@ public class RequestAPIKeyFilter implements Filter {
 
 		HttpServletRequest httpServletRequest = (HttpServletRequest) servletRequest;
 		HttpServletResponse httpServletResponse = (HttpServletResponse) servletResponse;
+
+		// Write to log, should go into own filter later.
+		RequestLog logEntry = new RequestLog();
+		logEntry.setRequestUrl(httpServletRequest.getRequestURI());
+		String requestAddress = httpServletRequest.getRemoteAddr();
+		if(requestAddress == null || requestAddress.length() == 0) {
+			requestAddress = httpServletRequest.getRemoteAddr();
+		}
+		logEntry.setRequestAddress(requestAddress);
+		logEntry.setToken(httpServletRequest.getHeader(API_KEY));
+		logHandler.addRequestLog(logEntry);
 
 		if(httpServletRequest.getHeader(API_KEY) == null) {
 			httpServletResponse.setStatus(400);

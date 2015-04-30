@@ -22,6 +22,8 @@ public class RequestLog {
 	@NotNull
 	private String requestUrl;
 
+	private String userAgent;
+
 	private String token;
 
 	private String username;
@@ -52,6 +54,14 @@ public class RequestLog {
 
 	public String getRequestUrl() {
 		return requestUrl;
+	}
+
+	public void setUserAgent(String userAgent) {
+		this.userAgent = userAgent;
+	}
+
+	public String getUserAgent() {
+		return userAgent;
 	}
 
 	public void setToken(String token) {

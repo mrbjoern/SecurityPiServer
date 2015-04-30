@@ -66,6 +66,8 @@ public class RequestLogFilter implements Filter {
 
 			logEntry.setRequestAddress(requestAddress);
 
+			logEntry.setUserAgent(httpServletRequest.getHeader("User-Agent"));
+
 			logEntry.setToken(httpServletRequest.getHeader("X-Api-Key"));
 
 			if (sci != null) {

@@ -4,6 +4,8 @@ import com.securitypi.server.api.ApiToken;
 import com.securitypi.server.api.ApiTokenHandler;
 import com.securitypi.server.events.Event;
 import com.securitypi.server.events.EventHandler;
+import com.securitypi.server.logging.LogHandler;
+import com.securitypi.server.logging.RequestLog;
 import com.securitypi.server.securitypi.SecurityPiHandler;
 import com.securitypi.server.temperatures.TemperatureReadingsHandler;
 import com.securitypi.server.users.RoleBean;
@@ -84,6 +86,7 @@ public class WebController {
 		List<String> userRoles = new LinkedList<>();
 		fakeRoles.setUserRoles(userRoles);
 		model.addAttribute("role_bean", fakeRoles);
+
 		return "admin_index";
 	}
 

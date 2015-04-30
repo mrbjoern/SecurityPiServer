@@ -39,7 +39,6 @@ public class RequestAPIKeyFilter implements Filter {
 				filterConfig.getServletContext());
 		this.apiTokenHandler = applicationContext.getBean(ApiTokenHandler.class);
 		this.securityPiHandler = applicationContext.getBean(SecurityPiHandler.class);
-		this.logHandler = applicationContext.getBean(LogHandler.class);
 	}
 
 	@Override
@@ -47,17 +46,6 @@ public class RequestAPIKeyFilter implements Filter {
 
 		HttpServletRequest httpServletRequest = (HttpServletRequest) servletRequest;
 		HttpServletResponse httpServletResponse = (HttpServletResponse) servletResponse;
-
-		// Write to log, should go into own filter later.
-		RequestLog logEntry = new RequestLog();
-		logEntry.setRequestUrl(httpServletRequest.getRequestURI());
-		String requestAddress = httpServletRequest.getRemoteAddr();
-		if(requestAddress == null || requestAddress.length() == 0) {
-			requestAddress = httpServletRequest.getRemoteAddr();
-		}
-		logEntry.setRequestAddress(requestAddress);
-		logEntry.setToken(httpServletRequest.getHeader(API_KEY));
-		logHandler.addRequestLog(logEntry);
 
 		if(httpServletRequest.getHeader(API_KEY) == null) {
 			httpServletResponse.setStatus(400);

@@ -1,6 +1,7 @@
 package com.securitypi.config;
 
 import com.securitypi.server.filter.RequestAPIKeyFilter;
+import com.securitypi.server.filter.RequestLogFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.context.embedded.FilterRegistrationBean;
@@ -60,6 +61,16 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 		filterRegistrationBean.setFilter(new RequestAPIKeyFilter());
 		List<String> patterns = new LinkedList<>();
 		patterns.add("/api/report/*");
+		filterRegistrationBean.setUrlPatterns(patterns);
+
+		return filterRegistrationBean;
+	}
+
+	@Bean FilterRegistrationBean requestLogFilter() {
+		FilterRegistrationBean filterRegistrationBean = new FilterRegistrationBean();
+		filterRegistrationBean.setFilter(new RequestLogFilter());
+		List<String> patterns = new LinkedList<>();
+		patterns.add("/*");
 		filterRegistrationBean.setUrlPatterns(patterns);
 
 		return filterRegistrationBean;

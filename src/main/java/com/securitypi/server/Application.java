@@ -18,6 +18,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.util.ResourceUtils;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
@@ -32,6 +33,7 @@ import java.io.FileNotFoundException;
 @ComponentScan({"com.securitypi"})
 @EnableJpaRepositories
 @EntityScan
+@EnableScheduling
 public class Application extends WebMvcConfigurerAdapter {
 
 	@Value("${keystore.file}")

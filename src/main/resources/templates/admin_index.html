@@ -197,44 +197,16 @@
                     <div id="database-collapsed" class="panel-collapse collapse in">
                         <table class="table">
                             <tr>
-                                <th>Address</th>
-                                <td>localhost</td>
-                            </tr>
-                            <tr>
-                                <th>Port</th>
-                                <td>2020</td>
-
-                            </tr>
-                            <tr>
-                                <th>Connected</th>
-                                <td><span class="text-success">True</span></td>
-                            </tr>
-
-                            <tr>
                                 <th>Database</th>
-                                <td>securitypi</td>
+                                <td th:text="${database.databaseName}">securitypi</td>
                             </tr>
                             <tr>
                                 <th>User</th>
-                                <td>secpi</td>
-                            </tr>
-                        </table>
-                    </div>
-                </div>
-
-                <div class="panel panel-default">
-                    <div class="panel-heading accordion-toggle collapsed" data-toggle="collapse" data-target="#other-collapsed">
-                        <h3 class="panel-title">System information</h3>
-                    </div>
-                    <div id="other-collapsed" class="panel-collapse collapse in">
-                        <table class="table">
-                            <tr>
-                                <th>Uptime</th>
-                                <td>2h 4min 23sec</td>
+                                <td th:text="${database.databaseUser}">secpi</td>
                             </tr>
                             <tr>
-                                <th>Free memory</th>
-                                <td>8.6GB</td>
+                                <th>Size</th>
+                                <td th:text="${database.databaseSize}"></td>
                             </tr>
                         </table>
                     </div>

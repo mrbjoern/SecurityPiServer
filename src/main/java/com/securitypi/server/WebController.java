@@ -2,6 +2,7 @@ package com.securitypi.server;
 
 import com.securitypi.server.api.ApiToken;
 import com.securitypi.server.api.ApiTokenHandler;
+import com.securitypi.server.entities.system.DatabaseInformation;
 import com.securitypi.server.events.Event;
 import com.securitypi.server.events.EventHandler;
 import com.securitypi.server.logging.LogHandler;
@@ -43,6 +44,9 @@ public class WebController {
 
 	@Autowired
 	private SecurityPiHandler securityPiHandler;
+
+	@Autowired
+	private DatabaseInformation databaseInformation;
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String index(Model model) {
@@ -86,6 +90,8 @@ public class WebController {
 		List<String> userRoles = new LinkedList<>();
 		fakeRoles.setUserRoles(userRoles);
 		model.addAttribute("role_bean", fakeRoles);
+
+		model.addAttribute("database", databaseInformation);
 
 		return "admin_index";
 	}

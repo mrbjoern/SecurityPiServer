@@ -2,8 +2,6 @@ package com.securitypi.server.filter;
 
 import com.securitypi.server.logging.LogHandler;
 import com.securitypi.server.logging.RequestLog;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.context.SecurityContextImpl;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.context.WebApplicationContext;
@@ -11,10 +9,8 @@ import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.security.Principal;
 import java.util.LinkedList;
 import java.util.List;
 

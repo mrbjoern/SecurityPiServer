@@ -2,11 +2,13 @@ package com.securitypi.server.temperatures;
 
 import com.securitypi.server.events.Event;
 import com.securitypi.server.events.EventHandler;
-import com.securitypi.server.temperatures.TemperatureReading;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import javax.persistence.*;
+import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
+import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import javax.transaction.Transactional;
 import java.math.BigDecimal;
 import java.math.RoundingMode;

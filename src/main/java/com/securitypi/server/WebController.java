@@ -5,8 +5,6 @@ import com.securitypi.server.api.ApiTokenHandler;
 import com.securitypi.server.entities.system.DatabaseInformation;
 import com.securitypi.server.events.Event;
 import com.securitypi.server.events.EventHandler;
-import com.securitypi.server.logging.LogHandler;
-import com.securitypi.server.logging.RequestLog;
 import com.securitypi.server.securitypi.SecurityPiHandler;
 import com.securitypi.server.temperatures.TemperatureReadingsHandler;
 import com.securitypi.server.users.RoleBean;

@@ -20,8 +20,6 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.util.ResourceUtils;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
-import org.thymeleaf.spring4.SpringTemplateEngine;
-import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
 
 import java.io.FileNotFoundException;
 

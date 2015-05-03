@@ -2,17 +2,13 @@ package com.securitypi.server.api.admin;
 
 import com.securitypi.server.api.ApiToken;
 import com.securitypi.server.api.ApiTokenHandler;
-import com.securitypi.server.users.User;
 import com.securitypi.server.users.UserHandler;
-import com.securitypi.server.users.UserRole;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.HashSet;
-import java.util.Set;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @RequestMapping("/api/admin")
 @Controller

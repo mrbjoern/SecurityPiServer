@@ -2,11 +2,9 @@ package com.securitypi.server.filter;
 
 import com.securitypi.server.api.ApiTokenHandler;
 import com.securitypi.server.logging.LogHandler;
-import com.securitypi.server.logging.RequestLog;
 import com.securitypi.server.securitypi.Connection;
 import com.securitypi.server.securitypi.SecurityPi;
 import com.securitypi.server.securitypi.SecurityPiHandler;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 

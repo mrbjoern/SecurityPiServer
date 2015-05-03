@@ -6,7 +6,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
 

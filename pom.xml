@@ -12,7 +12,7 @@
 
     <groupId>com.securitypi.server</groupId>
     <artifactId>security-pi-server</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>v0.2-alpha</version>
     <name>SecurityPi Server</name>
     <description>Server component providing reporting through a RESTful API and a web interface</description>
     <url>https://github.com/mrbjoern/SecurityPiServer</url>

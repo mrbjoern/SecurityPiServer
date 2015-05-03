@@ -1,16 +1,25 @@
 <!DOCTYPE html>
-<html>
+<html
+        xmlns:th="http://www.thymeleaf.org"
+        xmlns:ddl="http://www.thymeleaf.org/dandelion"
+        xmlns:dt="http://www.thymeleaf.org/dandelion/datatables">
 <head lang="en">
     <title>SecurityPi Server</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-    <link href="../static/css/core.css"
-          th:href="@{/css/core.css}"
-          rel="stylesheet" media="screen"/>
+    <link href="../css/jquery.dataTables.css" rel="stylesheet" media="screen" />
     <link href="https://bootswatch.com/slate/bootstrap.min.css"
           th:href="@{/webjars/bootswatch-slate/3.3.1+2/css/bootstrap.min.css}"
-          rel="stylesheet" media="screen"/>
+          rel="stylesheet" media="screen" />
+    <link href="../static/css/core.css"
+          th:href="@{/css/core.css}"
+          rel="stylesheet" media="screen" />
     <script src="http://cdn.jsdelivr.net/webjars/jquery/2.1.1/jquery.min.js"
-            th:src="@{/webjars/jquery/2.1.1/jquery.min.js}"></script>
+            th:src="@{/webjars/jquery/2.1.1/jquery.min.js}">
+    </script>
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"
+            th:src="@{/webjars/bootstrap/3.2.0/js/bootstrap.min.js}">
+    </script>
+    <script src="../js/jquery.dataTables.min.js"></script>
 </head>
 <body>
 
@@ -18,26 +27,31 @@
 
 <div class="container">
     <div class="row">
-        <div class="col-md-4">
-            <h2>About</h2>
-
-            <p>This is a list of all the recent events. Possibility to filter on severity and sort events will
-                be added in a future release.</p>
-        </div>
-        <div class="col-md-8">
+        <div class="col-md-12">
             <h2>All events</h2>
 
             <div th:if="${events == null}">
                 <p>No events</p>
             </div>
-            <div th:each="event : ${events}">
-                <a href="#" class="list-group-item">
-                    <h4 class="list-group-item-heading" th:text="${event.heading}">Heading</h4>
+            <table class="table" id="eventTable" dt:table="true">
+                <thead>
+                <tr>
+                    <th>Timestamp</th>
+                    <th>Heading</th>
+                    <th>Message</th>
+                    <th>Severity</th>
+                </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="event : ${events}">
+                        <td th:text="${event.timestamp}">yyyy-MM-dd HH:mm:ss</td>
+                        <td th:text="${event.heading}">Some heading</td>
+                        <td th:text="${event.message}">A longer description.</td>
+                        <td th:text="${event.severity}">Severity</td>
+                    </tr>
+                </tbody>
 
-                    <p class="list-group-item-text"><span th:text="${event.timestamp}"></span> -
-                        <span th:text="${event.message}"></span></p>
-                </a>
-            </div>
+            </table>
         </div>
     </div>
 
@@ -45,14 +59,11 @@
 </div>
 <!-- /container -->
 
-
-<!-- Bootstrap core JavaScript
-================================================== -->
-<!-- Placed at the end of the document so the pages load faster -->
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-<script src="../../dist/js/bootstrap.min.js"></script>
-<!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
-<script src="../../assets/js/ie10-viewport-bug-workaround.js"></script>
+<script>
+    $(document).ready(function() {
+        $('#eventTable').DataTable();
+    } );
+</script>
 
 </body>
 </html>

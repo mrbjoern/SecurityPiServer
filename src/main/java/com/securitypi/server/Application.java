@@ -1,8 +1,6 @@
 package com.securitypi.server;
 
-import com.securitypi.server.api.ApiTokenHandler;
 import com.securitypi.server.events.EventHandler;
-import com.securitypi.server.temperatures.TemperatureReadingsHandler;
 import org.apache.catalina.connector.Connector;
 import org.apache.coyote.http11.Http11NioProtocol;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +20,8 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.util.ResourceUtils;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
+import org.thymeleaf.spring4.SpringTemplateEngine;
+import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
 
 import java.io.FileNotFoundException;
 

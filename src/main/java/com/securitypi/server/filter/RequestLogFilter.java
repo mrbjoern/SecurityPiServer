@@ -54,11 +54,10 @@ public class RequestLogFilter implements Filter {
 
 			logEntry.setRequestUrl(httpServletRequest.getRequestURI());
 
-			String requestAddress = httpServletRequest.getHeader("X-Forwarded-By");
+			String requestAddress = httpServletRequest.getHeader("X-Forwarded-For");
 			if(requestAddress == null || requestAddress.length() == 0) {
 				requestAddress = httpServletRequest.getRemoteAddr();
 			}
-
 			logEntry.setRequestAddress(requestAddress);
 
 			logEntry.setUserAgent(httpServletRequest.getHeader("User-Agent"));

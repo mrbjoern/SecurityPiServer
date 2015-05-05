@@ -17,6 +17,5 @@ public class ScheduledLogRemoval {
 	@Scheduled(cron = "0 0 * * * *")
 	public void clearEntriesOlderThan30Days() {
 		logHandler.removeRequestEntriesOlderThan(30);
-		System.out.println("Clearing log for entries older than 30 days.");
 	}
 }

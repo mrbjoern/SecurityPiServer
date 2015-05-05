@@ -30,8 +30,6 @@ public class RequestLogFilter implements Filter {
 		excludePatterns.add("/webjars/");
 		excludePatterns.add("/css/");
 		excludePatterns.add("/favicon.ico");
-
-		//System.out.println("RequestLog filter initialized.");
 	}
 
 	@Override
@@ -46,11 +44,10 @@ public class RequestLogFilter implements Filter {
 			sci = (SecurityContextImpl) session.getAttribute("SPRING_SECURITY_CONTEXT");
 		}
 
-		if(matchExludePatterns(httpServletRequest.getRequestURI())) {
+		if(matchExcludePatterns(httpServletRequest.getRequestURI())) {
 			filterChain.doFilter(servletRequest, servletResponse);
 		}
 		else {
-			// Write to log, should go into own filter later.
 			RequestLog logEntry = new RequestLog();
 
 			logEntry.setRequestUrl(httpServletRequest.getRequestURI());
@@ -83,13 +80,27 @@ public class RequestLogFilter implements Filter {
 
 	}
 
-	private boolean matchExludePatterns(String requestUri) {
+	private boolean matchExcludePatterns(String requestUri) {
+
+		boolean patternMatch = false;
 
 		for(String pattern : excludePatterns) {
-			if(requestUri.contains(pattern)) {
-				return true;
+
+			if(pattern.length() <= requestUri.length()) {
+				for(int i = 0; i < pattern.length(); i++) {
+					patternMatch = true;
+					if(pattern.charAt(i) != requestUri.charAt(i)) {
+						patternMatch = false;
+						break;
+					}
+				}
+			}
+
+			if(patternMatch) {
+				break;
 			}
 		}
-		return false;
+
+		return patternMatch;
 	}
 }

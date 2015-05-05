@@ -30,6 +30,8 @@ public class RequestLogFilter implements Filter {
 		excludePatterns.add("/webjars/");
 		excludePatterns.add("/css/");
 		excludePatterns.add("/favicon.ico");
+		excludePatterns.add("/js");
+		excludePatterns.add("/images");
 	}
 
 	@Override

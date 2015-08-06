@@ -1,5 +1,7 @@
 package com.securitypi.server.temperatures;
 
+import org.hibernate.validator.constraints.NotBlank;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.sql.Timestamp;

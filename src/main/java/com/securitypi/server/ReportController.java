@@ -7,11 +7,14 @@ import com.securitypi.server.temperatures.TemperatureReadingsHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.MultiValueMap;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
 import java.sql.Timestamp;
 
 /**
@@ -27,10 +30,14 @@ public class ReportController {
 	@Autowired
 	private EventHandler eventHandler;
 
-	// Currently, an empty JSON body is supported, resulting in TemperatureReading objects with default temperature 0.0
-	// TODO: Implement handling for empty temperature reading objects.
     @RequestMapping(value = "/temperature", method = {RequestMethod.POST}, produces = {"application/json"})
-    public ResponseEntity<TemperatureReading> addReading(@RequestBody TemperatureReading currentReading) {
+    public ResponseEntity<TemperatureReading> addReading(@Valid @RequestBody TemperatureReading currentReading, Errors errors) {
+
+		if(errors.hasErrors()) {
+			if(currentReading.getTemperature() == 0.0) {
+				return new ResponseEntity<>(currentReading, HttpStatus.BAD_REQUEST);
+			}
+		}
 
 		// As default, timestamp should not be set by sender, but handled by server.
 		if(currentReading.getTimestamp() == null) {
@@ -58,4 +65,6 @@ public class ReportController {
 
 		return new ResponseEntity<>(event, HttpStatus.OK);
 	}
+
+
 }

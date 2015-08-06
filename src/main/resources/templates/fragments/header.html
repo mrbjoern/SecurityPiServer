@@ -57,7 +57,7 @@
         </div>
     </nav>
 
-    <div class="jumbotron">
+    <div sec:authorize="isAnonymous()" class="jumbotron">
         <div class="container">
             <h1>Welcome</h1>
             <p>SecurityPi is a platform for monitoring events at home.</p>

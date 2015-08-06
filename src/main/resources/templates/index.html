@@ -1,8 +1,6 @@
 <!DOCTYPE html>
 <html
-        xmlns:th="http://www.thymeleaf.org"
-        xmlns:ddl="http://www.thymeleaf.org/dandelion"
-        xmlns:dt="http://www.thymeleaf.org/dandelion/datatables">
+        xmlns:th="http://www.thymeleaf.org">
 <head lang="en">
     <title>SecurityPi Server</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
@@ -12,18 +10,132 @@
     <link href="../static/css/core.css"
           th:href="@{/css/core.css}"
           rel="stylesheet" media="screen" />
+    <!-- Custom styles for dashboard -->
+    <link href="../static/css/dashboard.css"
+          th:href="@{/css/dashboard.css}"
+          rel="stylesheet" />
     <script src="http://cdn.jsdelivr.net/webjars/jquery/2.1.1/jquery.min.js"
             th:src="@{/webjars/jquery/2.1.1/jquery.min.js}">
     </script>
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"
             th:src="@{/webjars/bootstrap/3.2.0/js/bootstrap.min.js}">
     </script>
+    <script src="https://cdn.rawgit.com/imsky/holder/master/holder.js"
+            th:src="@{/js/holder.js}">
+    </script>
 </head>
 <body>
 
 <div th:replace="fragments/header :: header"></div>
 
-<div class="container">
+<div class="container-fluid">
+    <div sec:authorize="hasRole('ROLE_USER')" class="row">
+        <div class="col-sm-3 col-md-2 sidebar">
+            <ul class="nav nav-sidebar">
+                <li class="active"><a href="/">Overview <span class="sr-only">(current)</span></a></li>
+                <li><a href="#temperature">Temperature</a></li>
+                <li><a href="#motiondetection">Motion detection</a></li>
+                <li><a href="#events">Events</a></li>
+            </ul>
+            <ul class="nav nav-sidebar">
+                <li><a href="#">Admin overview</a></li>
+                <li><a href="#">Tokens</a></li>
+                <li><a href="#">Users</a></li>
+                <li><a href="#">Database</a></li>
+            </ul>
+            <ul class="nav nav-sidebar">
+                <li><a href="#">User overview</a></li>
+                <li><a href="#">Change password</a></li>
+            </ul>
+        </div>
+        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+            <h1 class="page-header">Overview</h1>
+
+            <div class="row placeholders">
+                <div class="col-xs-6 col-sm-3 placeholder">
+                    <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
+                    <h4>Temperature</h4>
+                    <span class="text-muted">Room temperature is within range</span>
+                </div>
+                <div class="col-xs-6 col-sm-3 placeholder">
+                    <span class="glyphicon glyphicon-remove text-danger" aria-hidden="true"></span>
+                    <h4>Motion detection</h4>
+                    <span class="text-muted">Motion detection is turned off</span>
+                </div>
+            </div>
+
+            <div class="row">
+                <!-- Last temperature reading -->
+                <div class="col-xs-6 col-sm-3">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">Last reading</h3>
+                        </div>
+                        <div class="panel-body">
+                            <p>
+                                <span th:text="${tempReading.temperature}">0.00</span> degrees celsius.<br/>
+                                Last reading was done:
+                                <span th:if="${tempReading.timestamp == null}">N/A</span>
+                                <span th:text="${tempReading.timestamp} ? ${#dates.format(tempReading.timestamp, 'yyyy-MM-dd HH:mm')}">N/A</span>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Last event -->
+                <div class="col-xs-6 col-sm-3">
+                    <div class="panel panel-default" th:if="${lastEvent.isEmpty()}">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">No events</h3>
+                        </div>
+                        <div class="panel-body">
+                            <p>There are no events to display.</p>
+                        </div>
+                    </div>
+
+                    <div class="panel panel-default" th:each="event : ${lastEvent}">
+                        <div class="panel-heading">
+                            <h3 class="panel-title" th:attrappend="class=${' text-' + event.severity}">Last event</h3>
+                        </div>
+                        <div class="panel-body">
+                            <p>
+                                <span th:text="${event.heading}"></span><br />
+                                <span th:text="${#dates.format(event.timestamp, 'yyyy-MM-dd HH:mm')}"></span> -
+                                <span th:text="${event.message}"></span>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <h2 class="sub-header" id="temperature">Temperature</h2>
+
+            <label class="radio-inline">
+                <input type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1" /> 24 hours
+            </label>
+            <label class="radio-inline">
+                <input type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2" /> 7 days
+            </label>
+            <label class="radio-inline">
+                <input type="radio" name="inlineRadioOptions" id="inlineRadio3" value="option3" /> 30 days
+            </label>
+            <div class="temp-graph">
+                <span class="glyphicon glyphicon-picture" aria-hidden="true"></span>
+            </div>
+
+            <h2 class="sub-header" id="motiondetection">Motion detection</h2>
+
+            <h2 class="sub-header" id="events">Events</h2>
+
+        </div>
+    </div>
+
+    <div th:replace="fragments/footer :: footer"></div>
+</div>
+
+
+
+<!--<div class="container">
 
     <div sec:authorize="hasRole('ROLE_USER')" class="row">
         <div class="col-md-4" id="temperature">
@@ -87,7 +199,7 @@
     </div>
 
     <div th:replace="fragments/footer :: footer"></div>
-</div> <!-- /container -->
+</div>--> <!-- /container -->
 
 </body>
 </html>

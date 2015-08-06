@@ -18,7 +18,7 @@
     <url>https://github.com/mrbjoern/SecurityPiServer</url>
 
     <issueManagement>
-        <url>http://mrbjoern.myjetbrains.com/youtrack/issues/SecPi</url>
+        <url>https://bugs.mrbjoern.com/issues/SPS</url>
         <system>YouTrack</system>
     </issueManagement>
 

@@ -9,6 +9,10 @@
     <link href="../static/css/core.css"
           th:href="@{/css/core.css}"
           rel="stylesheet" media="screen" />
+    <!-- Custom styles for dashboard -->
+    <link href="../static/css/dashboard.css"
+          th:href="@{/css/dashboard.css}"
+          rel="stylesheet" />
     <script src="http://cdn.jsdelivr.net/webjars/jquery/2.1.1/jquery.min.js"
           th:src="@{/webjars/jquery/2.1.1/jquery.min.js}">
     </script>
@@ -20,220 +24,226 @@
 
 <div th:replace="fragments/header :: header"></div>
 
-<div class="container">
-
+<div class="container-fluid">
     <div sec:authorize="hasRole('ROLE_ADMIN')" class="row">
 
-        <div class="col-md-4" id="apitokens">
-            <h2>API keys</h2>
+        <div th:replace="fragments/sidebar :: sidebar"></div>
 
-            <div class="panel-group" id="accordion-tokens">
 
-                <div class="panel panel-default">
-                    <div class="panel-heading accordion-toggle collapsed" data-toggle="collapse" data-target="#create-token-collapse">
-                        <h3 class="panel-title">Create new token</h3>
-                    </div>
-                    <div id="create-token-collapse" class="panel-collapse collapse">
-                        <div class="panel-body">
-                            <form th:action="@{./api/admin/token/generate}" method="post">
-                                <div class="form-group">
-                                    <label for="friendly_name">Friendly name</label>
-                                    <input type="text" class="form-control" name="name" id="friendly_name" placeholder="SecurityPi"/>
-                                </div>
-                                <button type="submit" class="btn btn-default">Generate new token</button>
-                            </form>
-                        </div>
-                    </div>
 
+        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+            <h1 class="page-header">Admin overview</h1>
+
+            <!-- Placeholders -->
+            <div class="row placeholders">
+                <div class="col-xs-6 col-sm-3 placeholder">
+                    <span class="glyphicon glyphicon-remove text-danger" aria-hidden="true"></span>
+                    <h4>Connection issues</h4>
+                    <span class="text-muted">No devices are connected</span>
+                </div>
+                <div class="col-xs-6 col-sm-3 placeholder">
+                    <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
+                    <h4>Used memory</h4>
+                    <span class="text-muted">The server uses 32MB out of 128MB of allocated memory</span>
+                </div>
+                <div class="col-xs-6 col-sm-3 placeholder">
+                    <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
+                    <h4>Database size</h4>
+                    <span class="text-muted">The database <span th:text="${database.databaseName}">securitypi</span> currently uses <span th:text="${database.databaseSize}">7140 kB</span></span>
                 </div>
 
-                <div class="panel panel-default">
-                    <div class="panel-heading accordion-toggle collapsed" data-toggle="collapse" data-target="#about-tokens-collapse">
-                        <h3 class="panel-title">About tokens</h3>
-                    </div>
-                    <div id="about-tokens-collapse" class="panel-collapse collapse">
-                        <div class="panel-body">
-                            <p>Below is a list of current API tokens in use. Tokens are used to uniquely identify an
-                            application when communicating with the server API. To get access to the server API, a custom
-                            http header parameter must be set up in the application using the token as the header value.</p>
-                            <code>X-Api-Key : token</code>
-                        </div>
-                    </div>
-                </div>
+            </div>
 
-                <div class="panel panel-default" th:if="${apitokens.isEmpty()}">
-                    <div class="panel-heading accordion-toggle collapsed" data-toggle="collapse" data-target="#notokens-collapse">
-                        <h3 class="panel-title">No tokens</h3>
-                    </div>
-                    <div id="notokens-collapse" class="panel-collapse collapse in">
-                        <div class="panel-body">
-                            <p>No tokens created.</p>
-                        </div>
-                    </div>
-                </div>
+            <!-- Tokens -->
+            <div class="row">
+                <h2 class="sub-header" id="tokens">Tokens</h2>
 
-                <div class="panel panel-default" th:each="apitoken : ${apitokens}">
-                    <div class="panel-heading accordion-toggle collapsed" data-toggle="collapse" data-target="#apitoken-collapse" th:attr="data-target='#apitoken-collapse-'+${apitoken.id}">
-                        <h3 class="panel-title" th:text="${apitoken.friendlyName}">Friendly name</h3>
-                    </div>
-                    <div id="apitoken-collapse" class="panel-collapse collapse in" th:attr="id='apitoken-collapse-'+${apitoken.id}">
-                        <div class="panel-body">
-                            <p>Token: <strong th:text="${apitoken.token}">bwazipr'Pokw*tRhO)un7r$qAAMZOjsU</strong><br/>
-                                Created: <strong th:text="${#dates.format(apitoken.created, 'yyyy-MM-dd HH:mm')}">yyyy-MM-dd HH:mm:ss</strong></p>
+                <div class="panel-group" id="accordion-tokens">
+
+                    <div class="panel panel-default">
+                        <div class="panel-heading accordion-toggle collapsed" data-toggle="collapse" data-target="#create-token-collapse">
+                            <h3 class="panel-title">Create new token</h3>
                         </div>
-                        <div class="panel-footer">
-                            <form th:action="@{./api/admin/token/revoke/__${apitoken.token}__}" method="post">
-                                <button type="submit" class="btn btn-danger">Revoke</button>
-                            </form>
+                        <div id="create-token-collapse" class="panel-collapse collapse">
+                            <div class="panel-body">
+                                <form th:action="@{./api/admin/token/generate}" method="post">
+                                    <div class="form-group">
+                                        <label for="friendly_name">Friendly name</label>
+                                        <input type="text" class="form-control" name="name" id="friendly_name" placeholder="SecurityPi"/>
+                                    </div>
+                                    <button type="submit" class="btn btn-default">Generate new token</button>
+                                </form>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="panel panel-default">
+                        <div class="panel-heading accordion-toggle collapsed" data-toggle="collapse" data-target="#about-tokens-collapse">
+                            <h3 class="panel-title">About tokens</h3>
+                        </div>
+                        <div id="about-tokens-collapse" class="panel-collapse collapse">
+                            <div class="panel-body">
+                                <p>Below is a list of current API tokens in use. Tokens are used to uniquely identify an
+                                    application when communicating with the server API. To get access to the server API, a custom
+                                    http header parameter must be set up in the application using the token as the header value.</p>
+                                <code>X-Api-Key : token</code>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="panel panel-default" th:if="${apitokens.isEmpty()}">
+                        <div class="panel-heading accordion-toggle collapsed" data-toggle="collapse" data-target="#notokens-collapse">
+                            <h3 class="panel-title">No tokens</h3>
+                        </div>
+                        <div id="notokens-collapse" class="panel-collapse collapse in">
+                            <div class="panel-body">
+                                <p>No tokens created.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="panel panel-default" th:each="apitoken : ${apitokens}">
+                        <div class="panel-heading accordion-toggle collapsed" data-toggle="collapse" data-target="#apitoken-collapse" th:attr="data-target='#apitoken-collapse-'+${apitoken.id}">
+                            <h3 class="panel-title" th:text="${apitoken.friendlyName}">Friendly name</h3>
+                        </div>
+                        <div id="apitoken-collapse" class="panel-collapse collapse in" th:attr="id='apitoken-collapse-'+${apitoken.id}">
+                            <div class="panel-body">
+                                <p>Token: <strong th:text="${apitoken.token}">bwazipr'Pokw*tRhO)un7r$qAAMZOjsU</strong><br/>
+                                    Created: <strong th:text="${#dates.format(apitoken.created, 'yyyy-MM-dd HH:mm')}">yyyy-MM-dd HH:mm:ss</strong></p>
+                            </div>
+                            <div class="panel-footer">
+                                <form th:action="@{./api/admin/token/revoke/__${apitoken.token}__}" method="post">
+                                    <button type="submit" class="btn btn-danger">Revoke</button>
+                                </form>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
 
-        </div>
+            <!-- Users -->
+            <div class="row">
+                <h2 class="sub-header" id="users">Users</h2>
 
-        <div class="col-md-4" id="users">
-            <h2>Users</h2>
+                <div class="panel-group" id="accordion-users">
+                    <div class="panel panel-default">
+                        <div class="panel-heading accordion-toggle collapsed" data-toggle="collapse" data-target="#create-user-collapse">
+                            <h3 class="panel-title">Create new user</h3>
+                        </div>
+                        <div id="create-user-collapse" class="panel-collapse collapse">
+                            <div class="panel-body">
+                                <form th:action="@{./api/user/create}" th:object="${fake_user}" method="post">
+                                    <span class="text-success" th:if="${param.success}">User created successfully</span>
+                                    <div class="form-group">
+                                        <label for="username">Username</label>
+                                        <input type="text" class="form-control" name="name" id="username" th:field="*{username}" placeholder="Awesomeuser"/>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="password">Password</label>
+                                        <input type="password" class="form-control" name="name" id="password" th:field="*{password}" placeholder="Secure password"/>
+                                    </div>
 
-            <div class="panel-group" id="accordion-users">
-                <div class="panel panel-default">
-                    <div class="panel-heading accordion-toggle collapsed" data-toggle="collapse" data-target="#create-user-collapse">
-                        <h3 class="panel-title">Create new user</h3>
-                    </div>
-                    <div id="create-user-collapse" class="panel-collapse collapse">
-                        <div class="panel-body">
-                            <form th:action="@{./api/user/create}" th:object="${fake_user}" method="post">
-                                <span class="text-success" th:if="${param.success}">User created successfully</span>
-                                <div class="form-group">
-                                    <label for="username">Username</label>
-                                    <input type="text" class="form-control" name="name" id="username" th:field="*{username}" placeholder="Awesomeuser"/>
-                                </div>
-                                <div class="form-group">
-                                    <label for="password">Password</label>
-                                    <input type="password" class="form-control" name="name" id="password" th:field="*{password}" placeholder="Secure password"/>
-                                </div>
-
-                                <button type="submit" class="btn btn-default">Create new user</button>
-                            </form>
+                                    <button type="submit" class="btn btn-default">Create new user</button>
+                                </form>
+                            </div>
                         </div>
                     </div>
-                </div>
 
-                <div class="panel panel-default">
-                    <div class="panel-heading accordion-toggle collapsed" data-toggle="collapse" data-target="#current-users-collapsed">
-                        <h3 class="panel-title">Current users</h3>
-                    </div>
-                    <div id="current-users-collapsed" class="panel-collapse collapse in">
-                        <table class="table">
-                            <tr>
-                                <th>Username</th>
-                                <th>Role</th>
-                                <th>Enabled</th>
-                                <th></th>
-                            </tr>
-                            <tr th:each="user : ${users}">
-                                <td th:text="${user.username}">Admin</td>
-                                <td><span th:each="role : ${user.userRoles}"><span th:text="${role.role}"></span> </span></td>
-                                <td th:if="${user.isEnabled() == true}"><span class="text-success">True</span></td>
-                                <td th:if="${user.isEnabled() == false}"><span class="text-danger">False</span></td>
-                                <td>
-                                    <a href="#" data-toggle="modal" data-target="#modal-banner" th:attr="data-target='#modal-banner-'+${user.id}">edit</a>
+                    <div class="panel panel-default">
+                        <div class="panel-heading accordion-toggle collapsed" data-toggle="collapse" data-target="#current-users-collapsed">
+                            <h3 class="panel-title">Current users</h3>
+                        </div>
+                        <div id="current-users-collapsed" class="panel-collapse collapse in">
+                            <table class="table">
+                                <tr>
+                                    <th>Username</th>
+                                    <th>Role</th>
+                                    <th>Enabled</th>
+                                    <th></th>
+                                </tr>
+                                <tr th:each="user : ${users}">
+                                    <td th:text="${user.username}">Admin</td>
+                                    <td><span th:each="role : ${user.userRoles}"><span th:text="${role.role}"></span> </span></td>
+                                    <td th:if="${user.isEnabled() == true}"><span class="text-success">True</span></td>
+                                    <td th:if="${user.isEnabled() == false}"><span class="text-danger">False</span></td>
+                                    <td>
+                                        <a href="#" data-toggle="modal" data-target="#modal-banner" th:attr="data-target='#modal-banner-'+${user.id}">edit</a>
 
-                                    <div class="modal fade bannderformodal" tabindex="-1" role="dialog" id="modal-banner" th:attr="id='modal-banner-'+${user.id}">
-                                        <div class="modal-dialog modal-sm">
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                                                    <h4 class="modal-title">Edit <span th:text="${user.username}"></span></h4>
-                                                </div>
-                                                <div class="modal-body">
-                                                    <form th:action="@{./api/user/__${user.id}__/change/password}" method="post" th:object="${fake_user}">
-                                                        <label>Change password</label>
-                                                        <div class="form-group">
-                                                            <input type="password" class="form-control" id="new-password" placeholder="New password" th:field="*{password}"/>
-                                                        </div>
-                                                        <button type="submit" class="btn btn-default">Change password</button>
-                                                    </form>
+                                        <div class="modal fade bannderformodal" tabindex="-1" role="dialog" id="modal-banner" th:attr="id='modal-banner-'+${user.id}">
+                                            <div class="modal-dialog modal-sm">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                                        <h4 class="modal-title">Edit <span th:text="${user.username}"></span></h4>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <form th:action="@{./api/user/__${user.id}__/change/password}" method="post" th:object="${fake_user}">
+                                                            <label>Change password</label>
+                                                            <div class="form-group">
+                                                                <input type="password" class="form-control" id="new-password" placeholder="New password" th:field="*{password}"/>
+                                                            </div>
+                                                            <button type="submit" class="btn btn-default">Change password</button>
+                                                        </form>
 
-                                                    <hr />
+                                                        <hr />
 
-                                                    <form th:action="@{./api/user/__${user.id}__/edit/roles}" method="post" th:object="${role_bean}">
-                                                        <label>User roles</label>
-                                                        <div class="form-group"  th:each="role : ${allRoles}">
-                                                            <input type="checkbox" th:field="*{userRoles}" th:value="${role}" />
-                                                            <label class="checkbox-inline" th:text="${role}">Role</label>
+                                                        <form th:action="@{./api/user/__${user.id}__/edit/roles}" method="post" th:object="${role_bean}">
+                                                            <label>User roles</label>
+                                                            <div class="form-group"  th:each="role : ${allRoles}">
+                                                                <input type="checkbox" th:field="*{userRoles}" th:value="${role}" />
+                                                                <label class="checkbox-inline" th:text="${role}">Role</label>
 
-                                                        </div>
-                                                        <button type="submit" class="btn btn-default">Update roles</button>
-                                                    </form>
+                                                            </div>
+                                                            <button type="submit" class="btn btn-default">Update roles</button>
+                                                        </form>
 
-                                                    <hr />
+                                                        <hr />
 
-                                                    <form th:action="@{./api/user/__${user.id}__/disable}" method="post" th:if="${user.enabled == true}">
-                                                        <button type="submit" class="btn btn-danger">Disable user</button>
-                                                    </form>
-                                                    <form th:action="@{./api/user/__${user.id}__/enable}" method="post" th:if="${user.enabled == false}">
-                                                        <button type="submit" class="btn btn-success">Enable user</button>
-                                                    </form>
+                                                        <form th:action="@{./api/user/__${user.id}__/disable}" method="post" th:if="${user.enabled == true}">
+                                                            <button type="submit" class="btn btn-danger">Disable user</button>
+                                                        </form>
+                                                        <form th:action="@{./api/user/__${user.id}__/enable}" method="post" th:if="${user.enabled == false}">
+                                                            <button type="submit" class="btn btn-success">Enable user</button>
+                                                        </form>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-                                </td>
-                            </tr>
-                        </table>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-md-4" id="other">
-            <h2>Other</h2>
-            <div class="panel-group" id="accordion-other">
-                <div class="panel panel-default">
-                    <div class="panel-heading accordion-toggle collapsed" data-toggle="collapse" data-target="#database-collapsed">
-                        <h3 class="panel-title">Database info</h3>
-                    </div>
-                    <div id="database-collapsed" class="panel-collapse collapse in">
-                        <table class="table">
-                            <tr>
-                                <th>Database</th>
-                                <td th:text="${database.databaseName}">securitypi</td>
-                            </tr>
-                            <tr>
-                                <th>User</th>
-                                <td th:text="${database.databaseUser}">secpi</td>
-                            </tr>
-                            <tr>
-                                <th>Size</th>
-                                <td th:text="${database.databaseSize}"></td>
-                            </tr>
-                        </table>
-                    </div>
-                </div>
-
-                <div class="panel panel-default" th:each="security_pi : ${security_pies}">
-                    <div class="panel-heading accordion-toggle collapsed" data-toggle="collapse" data-target="#secpi-collapsed">
-                        <h3 class="panel-title" th:text="'SecurityPi - ' + ${security_pi.id}">SecurityPi</h3>
-                    </div>
-                    <div id="secpi-collapsed" class="panel-collapse collapse in">
-                        <table class="table">
-                            <tr>
-                                <th colspan="2">Last connection</th>
-                            </tr>
-                            <tr>
-                                <th>Timestamp</th>
-                                <td th:text="${#dates.format(security_pi_handler.getLastConnectionBySecurityPiID(security_pi.id).timestamp, 'yyyy-MM-dd HH:mm')}">24.04.2001</td>
-                            </tr>
-                            <tr>
-                                <th>Address</th>
-                                <td th:text="${security_pi_handler.getLastConnectionBySecurityPiID(security_pi.id).ipAddress}">127.0.0.1</td>
-                            </tr>
-                        </table>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>
 
+            <div class="row">
+                <h2 class="sub-header" id="database">Database</h2>
+                <div class="panel-group" id="accordion-other">
+                    <div class="panel panel-default">
+                        <div class="panel-heading accordion-toggle collapsed" data-toggle="collapse" data-target="#database-collapsed">
+                            <h3 class="panel-title">Database info</h3>
+                        </div>
+                        <div id="database-collapsed" class="panel-collapse collapse in">
+                            <table class="table">
+                                <tr>
+                                    <th>Database</th>
+                                    <td> </td>
+                                </tr>
+                                <tr>
+                                    <th>User</th>
+                                    <td th:text="${database.databaseUser}">secpi</td>
+                                </tr>
+                                <tr>
+                                    <th>Size</th>
+                                    <td></td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
 
     </div>

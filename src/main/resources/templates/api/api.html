@@ -7,8 +7,8 @@
 <body>
     <h1>SecurityPi API</h1>
     <p>This is the SecurityPi Server API. While in development, the API is open with full access.</p>
-    <p>Implementation of API tokens have begun, meaning you will need an token to be sent with the http header when
-    requesting a feature from the API.</p>
+    <p>Implementation of API tokens have begun, meaning you will need a token to be sent with the http header when
+        requesting a feature from the API.</p>
     <p>The API currently supports those features:</p>
     <ul>
         <li>Reporting temperatures</li>
@@ -16,21 +16,44 @@
     </ul>
     <p>Message format is JSON. All requests will return JSON for verification purposes.</p>
 
+    <h2>Tokens</h2>
+    <p>The API requires tokens to be used on all GET requests and POST requests. A token can be generated in the admin
+        view on the SecurityPi Server. Tokens must be sent with the HTTP Header message in a custom header parameter.</p>
+    <code>X-Api-Key : token</code>
+
     <h2>Reporting</h2>
 
     <h3>Temperatures</h3>
-    <code>/api/report/temperature</code>
+    <h4>Get</h4>
+    <code>GET /api/report/temperature</code>
+    <p>Will return the last reported temperature.</p>
+    <h4>Post</h4>
+    <code>POST /api/report/temperature</code>
     <p>Reporting of temperatures uses the following format</p>
     <code>{"temperature":TEMP,"timestamp":"yyyy-MM-dd HH:mm"}</code>
     <p>Timestamp is optional and should be handled by the server. Setting a custom timestamp should only be used if
-    the server have been unavailable and readings have been buffered on the client.</p>
+        the server have been unavailable and readings have been buffered on the client.</p>
 
-    <h3>Custom events</h3>
-    <code>/api/report/event</code>
-    <p>Reporting of custom events uses the following format</p>
+    <h3>Events</h3>
+    <h4>Post</h4>
+    <code>POST /api/report/event</code>
+    <p>Reporting of events uses the following format</p>
     <code>{"heading":"HEADING","message":"MESSAGE"}</code>
-    <p>Both values are required. If either is missing, the API will return 400 Bad request. Timestamps are handled by
-    the server.</p>
+    <p>Both values are required. If either is missing, the API will return 400 Bad request. The response body contains
+        the events id, header, message, severity and timestamp.</p>
+    <h4>Optional</h4>
+    <p>By default, no level of severity is set, resulting in "default" being returned by the server. To set your own
+        level use the following format.</p>
+    <code>{"heading":"HEADING","message":"MESSAGE","severity":"VALUE"}</code>
+    <p>Valid values</p>
+    <ul>
+        <li>default</li>
+        <li>success</li>
+        <li>info</li>
+        <li>warning</li>
+        <li>danger</li>
+    </ul>
+    <p>All other values will not be handled, and converted to default.</p>
 
 
 </body>

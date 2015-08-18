@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html
-        xmlns:th="http://www.thymeleaf.org">
+        xmlns:th="http://www.thymeleaf.org"
+        xmlns:dt="http://www.thymeleaf.org/dandelion/datatables">
 <head lang="en">
     <title>SecurityPi Server</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
@@ -9,6 +10,9 @@
           rel="stylesheet" media="screen" />
     <link href="../static/css/core.css"
           th:href="@{/css/core.css}"
+          rel="stylesheet" media="screen" />
+    <link href="../css/jquery.dataTables.css"
+          th:href="@{/css/jquery.dataTables.css}"
           rel="stylesheet" media="screen" />
     <!-- Custom styles for dashboard -->
     <link href="../static/css/dashboard.css"
@@ -20,9 +24,7 @@
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"
             th:src="@{/webjars/bootstrap/3.2.0/js/bootstrap.min.js}">
     </script>
-    <script src="https://cdn.rawgit.com/imsky/holder/master/holder.js"
-            th:src="@{/js/holder.js}">
-    </script>
+    <script src="../js/jquery.dataTables.min.js"></script>
 </head>
 <body>
 
@@ -30,24 +32,9 @@
 
 <div class="container-fluid">
     <div sec:authorize="hasRole('ROLE_USER')" class="row">
-        <div class="col-sm-3 col-md-2 sidebar">
-            <ul class="nav nav-sidebar">
-                <li class="active"><a href="/">Overview <span class="sr-only">(current)</span></a></li>
-                <li><a href="#temperature">Temperature</a></li>
-                <li><a href="#motiondetection">Motion detection</a></li>
-                <li><a href="#events">Events</a></li>
-            </ul>
-            <ul class="nav nav-sidebar">
-                <li><a href="#">Admin overview</a></li>
-                <li><a href="#">Tokens</a></li>
-                <li><a href="#">Users</a></li>
-                <li><a href="#">Database</a></li>
-            </ul>
-            <ul class="nav nav-sidebar">
-                <li><a href="#">User overview</a></li>
-                <li><a href="#">Change password</a></li>
-            </ul>
-        </div>
+
+        <div th:replace="fragments/sidebar :: sidebar"></div>
+
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
             <h1 class="page-header">Overview</h1>
 
@@ -137,7 +124,30 @@
 
             <h2 class="sub-header" id="motiondetection">Motion detection</h2>
 
+            <!-- Events -->
             <h2 class="sub-header" id="events">Events</h2>
+            <div th:if="${events == null}">
+                <p>No events</p>
+            </div>
+            <table class="table" id="eventTable" dt:table="true">
+                <thead>
+                <tr>
+                    <th>Timestamp</th>
+                    <th>Heading</th>
+                    <th>Message</th>
+                    <th>Severity</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="event : ${events}">
+                    <td th:text="${event.timestamp}">yyyy-MM-dd HH:mm:ss</td>
+                    <td th:text="${event.heading}">Some heading</td>
+                    <td th:text="${event.message}">A longer description.</td>
+                    <td th:text="${event.severity}">Severity</td>
+                </tr>
+                </tbody>
+
+            </table>
 
         </div>
     </div>
@@ -212,6 +222,12 @@
 
     <div th:replace="fragments/footer :: footer"></div>
 </div>--> <!-- /container -->
+
+<script>
+    $(document).ready(function() {
+        $('#eventTable').DataTable();
+    } );
+</script>
 
 </body>
 </html>

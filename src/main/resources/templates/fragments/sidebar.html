@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>SecurityPi Server</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link href="https://bootswatch.com/slate/bootstrap.min.css"
+          th:href="@{/webjars/bootswatch-slate/3.3.1+2/css/bootstrap.min.css}"
+          rel="stylesheet" media="screen" />
+    <link href="../../static/css/core.css"
+          th:href="@{/css/core.css}"
+          rel="stylesheet" media="screen" />
+    <!-- Custom styles for dashboard -->
+    <link href="../../static/css/dashboard.css"
+          th:href="@{/css/dashboard.css}"
+          rel="stylesheet" />
+    <script src="http://cdn.jsdelivr.net/webjars/jquery/2.1.1/jquery.min.js"
+            th:src="@{/webjars/jquery/2.1.1/jquery.min.js}">
+    </script>
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"
+            th:src="@{/webjars/bootstrap/3.2.0/js/bootstrap.min.js}">
+    </script>
+</head>
+<body>
+
+<div th:fragment="sidebar">
+    <div class="col-sm-3 col-md-2 sidebar">
+        <ul class="nav nav-sidebar">
+            <li class="active"><a href="/">Overview <span class="sr-only">(current)</span></a></li>
+            <li><a href="/#temperature">Temperature</a></li>
+            <li><a href="/#motiondetection">Motion detection</a></li>
+            <li><a href="/#events">Events</a></li>
+        </ul>
+        <ul class="nav nav-sidebar" sec:authorize="hasRole('ROLE_ADMIN')">
+            <li><a href="/admin">Admin overview</a></li>
+            <li><a href="/admin#tokens">Tokens</a></li>
+            <li><a href="/admin#users">Users</a></li>
+            <li><a href="/admin/#database">Database</a></li>
+        </ul>
+        <ul class="nav nav-sidebar">
+            <li><a href="#">User overview</a></li>
+            <li><a href="#">Change password</a></li>
+        </ul>
+    </div>
+</div>
+
+
+</body>
+</html>

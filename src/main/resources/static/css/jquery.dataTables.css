@@ -405,6 +405,10 @@ table.dataTable td {
 .dataTables_wrapper .dataTables_paginate {
   color: #c8c8c8;
 }
+
+.dataTables_wrapper .dataTables_length select {
+  color: #0c0c0c;
+}
 .dataTables_wrapper .dataTables_scroll {
   clear: both;
 }

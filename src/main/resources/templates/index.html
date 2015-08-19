@@ -33,11 +33,13 @@
 <div class="container-fluid">
     <div sec:authorize="hasRole('ROLE_USER')" class="row">
 
+        <!-- Include the sidebar from own fragment. -->
         <div th:replace="fragments/sidebar :: sidebar"></div>
 
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
             <h1 class="page-header">Overview</h1>
 
+            <!-- Placeholders contain various at-a-glance information about the system. -->
             <div class="row placeholders">
                 <div class="col-xs-6 col-sm-3 placeholder">
                     <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
@@ -51,7 +53,7 @@
                 </div>
             </div>
 
-            <!-- On-off buttons -->
+            <!-- On-off buttons. Turns system features on or off with a single click. -->
             <div class="row placeholders">
                 <div class="col-xs-6 col-sm-3 placeholder">
                     <a href="#"><span class="glyphicon glyphicon-off text-danger" aria-hidden="true"></span></a>
@@ -63,6 +65,7 @@
                 </div>
             </div>
 
+            <!-- At-a-glance system information like last temperature reading and last event. -->
             <div class="row">
                 <!-- Last temperature reading -->
                 <div class="col-xs-6 col-sm-3">
@@ -107,122 +110,112 @@
                 </div>
             </div>
 
-            <h2 class="sub-header" id="temperature">Temperature</h2>
-
-            <label class="radio-inline">
-                <input type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1" /> 24 hours
-            </label>
-            <label class="radio-inline">
-                <input type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2" /> 7 days
-            </label>
-            <label class="radio-inline">
-                <input type="radio" name="inlineRadioOptions" id="inlineRadio3" value="option3" /> 30 days
-            </label>
-            <div class="temp-graph">
-                <span class="glyphicon glyphicon-picture" aria-hidden="true"></span>
+            <!-- Temperatures section. This section shows graphs and various detailed information about the
+             temperature readings. -->
+            <h1 class="page-header" id="temperature">Temperature</h1>
+            <div class="row">
+                <!-- Group panels into smaller columns -->
+                <div class="col-xs-12 col-sm-9">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">Graph</h3>
+                        </div>
+                        <div class="panel-body">
+                            <label class="radio-inline">
+                                <input type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1" /> 24 hours
+                            </label>
+                            <label class="radio-inline">
+                                <input type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2" /> 7 days
+                            </label>
+                            <label class="radio-inline">
+                                <input type="radio" name="inlineRadioOptions" id="inlineRadio3" value="option3" /> 30 days
+                            </label>
+                            <!-- Placeholder for real graph. To be implemented in v0.4 -->
+                            <div class="temp-graph">
+                                <span class="glyphicon glyphicon-picture" aria-hidden="true"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xs-12 col-sm-3">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">About the graph</h3>
+                        </div>
+                        <div class="panel-body">
+                            <p>The graph is based on regular temperature readings from a monitoring device like the
+                            SecurityPi. A higher granularity on graph may be achieved by shortening the reading interval
+                            on the device.</p>
+                            <p>SecurityPi Server is set to purge the database for entries older than: never.</p>
+                        </div>
+                    </div>
+                </div>
             </div>
 
-            <h2 class="sub-header" id="motiondetection">Motion detection</h2>
-
-            <!-- Events -->
-            <h2 class="sub-header" id="events">Events</h2>
-            <div th:if="${events == null}">
-                <p>No events</p>
+            <!-- Motion detection section. Not much in here yet. Specification for motion detection not finished. -->
+            <h1 class="page-header" id="motiondetection">Motion detection</h1>
+            <div class="row">
+                <!-- Group panels into smaller columns -->
+                <div class="col-xs-12 col-sm-6">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">Motion detection</h3>
+                        </div>
+                        <div class="panel-body">
+                            <p>Motion detection is currently <span class="text-danger">OFF</span>.</p>
+                            <p>SecurityPi will not monitor and detect motion when disabled. You can turn on detection by clicking
+                                <a href="#">here</a> or by activating it on the SecurityPi hardware.</p>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <table class="table" id="eventTable" dt:table="true">
-                <thead>
-                <tr>
-                    <th>Timestamp</th>
-                    <th>Heading</th>
-                    <th>Message</th>
-                    <th>Severity</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr th:each="event : ${events}">
-                    <td th:text="${event.timestamp}">yyyy-MM-dd HH:mm:ss</td>
-                    <td th:text="${event.heading}">Some heading</td>
-                    <td th:text="${event.message}">A longer description.</td>
-                    <td th:text="${event.severity}">Severity</td>
-                </tr>
-                </tbody>
 
-            </table>
 
+            <!-- Events section. Loads all events from the system. Using datatables plugin to jQuery for nice formating
+             and sorting functionality. -->
+            <h1 class="page-header" id="events">Events</h1>
+            <div class="row">
+                <div class="col-xs-12 col-sm-12">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">All events</h3>
+                        </div>
+                        <div class="panel-body">
+                            <!-- In it's current state, the system will always contain at least one event, the "System started" event
+                            that is generated at startup. -->
+                            <div th:if="${events == null}">
+                                <p>No events</p>
+                            </div>
+                            <table class="table" id="eventTable" dt:table="true">
+                                <thead>
+                                <tr>
+                                    <th>Timestamp</th>
+                                    <th>Heading</th>
+                                    <th>Message</th>
+                                    <th>Severity</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr th:each="event : ${events}">
+                                    <td th:text="${event.timestamp}">yyyy-MM-dd HH:mm:ss</td>
+                                    <td th:text="${event.heading}">Some heading</td>
+                                    <td th:text="${event.message}">A longer description.</td>
+                                    <td th:text="${event.severity}">Severity</td>
+                                </tr>
+                                </tbody>
+
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
     <div th:replace="fragments/footer :: footer"></div>
 </div>
 
-
-
-<!--<div class="container">
-
-    <div sec:authorize="hasRole('ROLE_USER')" class="row">
-        <div class="col-md-4" id="temperature">
-            <h2>Temperature</h2>
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h3 class="panel-title">Last reading</h3>
-                </div>
-                <div class="panel-body">
-                    <span th:text="${tempReading.temperature}">0.00</span> degrees celsius.<br/>
-                    Last reading was done:
-                        <span th:if="${tempReading.timestamp == null}">N/A</span>
-                        <span th:text="${tempReading.timestamp} ? ${#dates.format(tempReading.timestamp, 'yyyy-MM-dd HH:mm')}">N/A</span>
-                </div>
-                <div class="panel-heading">
-                    <h3 class="panel-title">Average last 24 hours</h3>
-                </div>
-                <div class="panel-body">
-                    <span th:text="${tempAvg}">0.00</span> degrees celsius.
-                </div>
-            </div>
-            <p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>
-        </div>
-        <div class="col-md-4" id="motiondetection">
-            <h2>Motion detection</h2>
-            <p>Motion detection is currently <span class="text-danger">OFF</span>.</p>
-            <p>SecurityPi will not monitor and detect motion when disabled. You can turn on detection by clicking
-            <a href="#">here</a> or by activating it on the SecurityPi hardware.</p>
-            <p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>
-        </div>
-        <div class="col-md-4" id="events">
-            <h2>Other events</h2>
-
-            <div class="panel-group" id="accordion-events">
-                <div class="panel panel-default" th:if="${events.isEmpty()}">
-                    <div class="panel-heading accordion-toggle collapsed" data-toggle="collapse" data-target="#noevents-collapsed">
-                        <h3 class="panel-title">No events</h3>
-                    </div>
-                    <div id="noevents-collapsed" class="panel-collapse collapse">
-                        <div class="panel-body">
-                            <p>No events reported.</p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="panel panel-default" th:each="event : ${events}">
-                    <div class="panel-heading accordion-toggle collapsed" data-toggle="collapse" data-target="#event-collapsed" th:attr="data-target='#event-collapse-'+${event.id}">
-                        <h3 class="panel-title" th:text="${event.heading}" th:attrappend="class=${' text-' + event.severity}">Heading</h3>
-                    </div>
-                    <div id="event-collapsed" class="panel-collapse collapse" th:attr="id='event-collapse-'+${event.id}">
-                        <div class="panel-body">
-                            <p class="list-group-item-text"><span th:text="${#dates.format(event.timestamp, 'yyyy-MM-dd HH:mm')}"></span> -
-                                <span th:text="${event.message}"></span></p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <p><a class="btn btn-default" href="/events" role="button">View more &raquo;</a></p>
-        </div>
-    </div>
-
-    <div th:replace="fragments/footer :: footer"></div>
-</div>--> <!-- /container -->
-
+<!-- Load the DataTable function -->
 <script>
     $(document).ready(function() {
         $('#eventTable').DataTable();

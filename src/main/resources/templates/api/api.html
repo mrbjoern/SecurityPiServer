@@ -5,6 +5,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 </head>
 <body>
+<div>
     <h1>SecurityPi API</h1>
     <p>This is the SecurityPi Server API. While in development, the API is open with full access.</p>
     <p>Implementation of API tokens have begun, meaning you will need a token to be sent with the http header when
@@ -55,6 +56,26 @@
     </ul>
     <p>All other values will not be handled, and converted to default.</p>
 
+    <h3>Users</h3>
+    <p>User specific JSON:</p>
+    <code>{"username": username,
+        "password": password,
+        "enabled": bool,
+        "userRoles": [roles]}</code>
+    <h4>Post</h4>
+    <code>POST /api/user/create</code>
+    <p>Requires ROLE_ADMIN.</p>
+    <p>Create a new user.</p>
+    <code>POST /api/user/{id}/change/password</code>
+    <p>Requires ROLE_ADMIN or user ID must be the same as signed in user.</p>
+    <p>Change the users password. Only password have to be set in JSON.</p>
+    <code>POST /api/user/{id}/disable</code>
+    <p>Requires ROLE_ADMIN.</p>
+    <p>Disables user.</p>
+    <code>POST /api/user/{id}/enable</code>
+    <p>Requires ROLE_ADMIN.</p>
+    <p>Enables user.</p>
 
+</div>
 </body>
 </html>

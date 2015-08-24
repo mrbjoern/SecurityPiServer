@@ -74,6 +74,4 @@ public class ReportController {
 	public List<Event> getNumberOfEvents(@RequestParam(value = "number", defaultValue = "0") long number) {
 		return eventHandler.getNumberOfEvents((int)number);
 	}
-
-
 }

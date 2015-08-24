@@ -13,6 +13,7 @@ import javax.transaction.Transactional;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -72,12 +73,29 @@ public class TemperatureReadingsHandler {
 	 * Get the last n number of temperature readings. If the number of readings
 	 * are less than the number provided, all readings will be returned.
 	 *
+	 * If number = 0, all readings will be returned.
+	 *
 	 * @param number The number of readings to be returned
 	 * @return A linked list of readings to be returned sorted by latest reading first.
 	 */
 	public List<TemperatureReading> getReadings(int number) {
+		ArrayList<TemperatureReading> readings;
 
-		return new LinkedList<>();
+		try {
+			String hql = "FROM TemperatureReading ORDER BY timestamp desc";
+			Query query = entityManager.createQuery(hql);
+
+			if(number > 0) {
+				query.setFirstResult(0);
+				query.setMaxResults(number);
+			}
+
+			readings = (ArrayList<TemperatureReading>) query.getResultList();
+			return readings;
+		}
+		catch (NoResultException e) {
+			return new ArrayList<>();
+		}
 	}
 
 	/**

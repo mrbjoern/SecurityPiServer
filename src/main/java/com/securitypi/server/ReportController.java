@@ -9,13 +9,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.MultiValueMap;
 import org.springframework.validation.Errors;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.sql.Timestamp;
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * Reporting controller for SecurityPi Server. Handles reporting of events from SecirutyPi app or other devices.
@@ -54,6 +53,11 @@ public class ReportController {
          return temperatureReadingsHandler.getLastReading();
     }
 
+	@RequestMapping(value = "/temperatures/", method = {RequestMethod.GET}, produces = {"application/json"})
+	public List<TemperatureReading> getNumberOfTemperatureReadings(@RequestParam(value = "number", defaultValue = "0") long number) {
+		return temperatureReadingsHandler.getReadings((int) number);
+	}
+
 	@RequestMapping(value = "/event", method = RequestMethod.POST, produces = {"application/json"})
 	public ResponseEntity<Event> reportEvent(@RequestBody Event event) {
 
@@ -64,6 +68,11 @@ public class ReportController {
 		eventHandler.addEvent(event);
 
 		return new ResponseEntity<>(event, HttpStatus.OK);
+	}
+
+	@RequestMapping(value = "/events", method = {RequestMethod.GET}, produces = {"application/json"})
+	public List<Event> getNumberOfEvents(@RequestParam(value = "number", defaultValue = "0") long number) {
+		return eventHandler.getNumberOfEvents((int)number);
 	}
 
 

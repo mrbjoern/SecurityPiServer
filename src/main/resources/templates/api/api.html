@@ -25,27 +25,35 @@
     <h2>Reporting</h2>
 
     <h3>Temperatures</h3>
+    <p>Temperature specific JSON</p>
+    <code>{"temperature": temp,"timestamp":"yyyy-MM-dd HH:mm"}</code>
     <h4>Get</h4>
     <code>GET /api/report/temperature</code>
     <p>Will return the last reported temperature.</p>
+    <code>GET /api/report/temperatures</code>
+    <p>Will return all reported temperatures, sorted by desc.</p>
+    <code>GET /api/report/temperatures?number=NUMBER</code>
+    <p>Will return n number of reported temperatures, sorted by desc.</p>
     <h4>Post</h4>
     <code>POST /api/report/temperature</code>
-    <p>Reporting of temperatures uses the following format</p>
-    <code>{"temperature":TEMP,"timestamp":"yyyy-MM-dd HH:mm"}</code>
     <p>Timestamp is optional and should be handled by the server. Setting a custom timestamp should only be used if
         the server have been unavailable and readings have been buffered on the client.</p>
 
     <h3>Events</h3>
+    <p>Event specific JSON</p>
+    <code>{"heading":"HEADING","message":"MESSAGE","severity":"VALUE"}</code>
+    <h4>GET</h4>
+    <code>GET /api/report/events</code>
+    <p>Returns all events, sorted ascending by timestamp.</p>
+    <code>GET /api/report/events?number=NUMBER</code>
+    <p>Returns n-number of events, sorted ascending by timestamp.</p>
     <h4>Post</h4>
     <code>POST /api/report/event</code>
-    <p>Reporting of events uses the following format</p>
-    <code>{"heading":"HEADING","message":"MESSAGE"}</code>
-    <p>Both values are required. If either is missing, the API will return 400 Bad request. The response body contains
+    <p>Heading and message is mandatory. If either is missing, the API will return 400 Bad request. The response body contains
         the events id, header, message, severity and timestamp.</p>
     <h4>Optional</h4>
     <p>By default, no level of severity is set, resulting in "default" being returned by the server. To set your own
         level use the following format.</p>
-    <code>{"heading":"HEADING","message":"MESSAGE","severity":"VALUE"}</code>
     <p>Valid values</p>
     <ul>
         <li>default</li>

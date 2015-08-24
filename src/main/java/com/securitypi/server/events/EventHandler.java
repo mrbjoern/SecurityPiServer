@@ -27,6 +27,12 @@ public class EventHandler {
 		entityManager.persist(event);
 	}
 
+	/**
+	 * Get number of events, sorted ascending by timestamp. Returns number of events, or all events if number is > than
+	 * all current events. Returns all events if number == 0.
+	 * @param number
+	 * @return
+	 */
 	@ModelAttribute("events")
 	public List<Event> getNumberOfEvents(int number) {
 		List<Event> lastEvents = new LinkedList<>();
@@ -34,8 +40,11 @@ public class EventHandler {
 		try {
 			String hql = "FROM Event ORDER BY timestamp desc";
 			Query query = entityManager.createQuery(hql);
-			query.setFirstResult(0);
-			query.setMaxResults(number);
+
+			if(number > 0) {
+				query.setFirstResult(0);
+				query.setMaxResults(number);
+			}
 
 			lastEvents = query.getResultList();
 

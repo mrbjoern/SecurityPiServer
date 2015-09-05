@@ -31,12 +31,10 @@ import java.util.Set;
  * Where ACTION is not specified, only RequestMethod.GET should be supported. A list of all, or a subset
  * of users is assumed to be returned.
  */
-@RequestMapping("api/user")
+/*@RequestMapping("api/user")
 @Controller
 @PreAuthorize("hasRole('ROLE_USER')")
 public class UserController {
-
-	// TODO: Implement better alternative to redirect:referer
 
 	@Autowired
 	private UserHandler userHandler;
@@ -72,7 +70,7 @@ public class UserController {
 		return "redirect:" + request.getHeader("Referer");
 	}
 
-	@RequestMapping(value = "create", method =  {RequestMethod.POST})
+	/*@RequestMapping(value = "create", method = {RequestMethod.POST})
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	public String createUser(@ModelAttribute User newUser, HttpServletRequest request) {
 
@@ -98,9 +96,9 @@ public class UserController {
 		}
 
 		return "redirect:" + request.getHeader("Referer") + "?error";
-	}
+	}*/
 
-	@RequestMapping(value = "{id}/edit/roles")
+	/*@RequestMapping(value = "{id}/edit/roles")
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	public String grantUserRole(@PathVariable long id, @ModelAttribute RoleBean roles, HttpServletRequest request) {
 
@@ -148,4 +146,4 @@ public class UserController {
 		return "redirect:" + request.getHeader("Referer");
 	}
 
-}
+}*/

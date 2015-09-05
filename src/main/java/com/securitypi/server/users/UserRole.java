@@ -1,5 +1,7 @@
 package com.securitypi.server.users;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
@@ -13,6 +15,7 @@ public class UserRole {
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "username", nullable = false)
+	@JsonBackReference											// Used to avoid json infinite loop in REST controller.
 	private User user;
 
 	@NotNull

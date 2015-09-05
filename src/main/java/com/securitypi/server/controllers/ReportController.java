@@ -1,4 +1,4 @@
-package com.securitypi.server;
+package com.securitypi.server.controllers;
 
 import com.securitypi.server.events.Event;
 import com.securitypi.server.events.EventHandler;

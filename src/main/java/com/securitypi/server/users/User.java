@@ -1,5 +1,7 @@
 package com.securitypi.server.users;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.HashSet;
@@ -23,6 +25,7 @@ public class User {
 	private boolean enabled;
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
+	@JsonManagedReference										// Used to avoid json infinite loop in REST controller.
 	private Set<UserRole> userRoles = new HashSet<>(0);
 
 	public User() {}

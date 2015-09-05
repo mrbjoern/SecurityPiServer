@@ -19,6 +19,7 @@
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"
           th:src="@{/webjars/bootstrap/3.2.0/js/bootstrap.min.js}">
     </script>
+    <script src="../js/jquery.serialize-object.min.js"></script>
 </head>
 <body>
 
@@ -40,14 +41,17 @@
                     <span class="text-muted">No devices are connected</span>
                 </div>
                 <div class="col-xs-6 col-sm-3 placeholder">
-                    <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
+                    <span id="memoryOverviewIcon" class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
                     <h4>Used memory</h4>
-                    <span class="text-muted">The server uses 32MB out of 128MB of allocated memory</span>
+                    <span class="text-muted">The server has <span id="freeMemory"></span> mB free memory out of
+                        <span id="totalMemory"></span> mB allocated memory
+                    </span>
+                    <!--<span class="text-muted">The server uses 32MB out of 128MB of allocated memory</span>-->
                 </div>
                 <div class="col-xs-6 col-sm-3 placeholder">
                     <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
                     <h4>Database size</h4>
-                    <span class="text-muted">The database <span th:text="${database.databaseName}">securitypi</span> currently uses <span th:text="${database.databaseSize}">7140 kB</span></span>
+                    <span class="text-muted">The database currently uses <span id="databaseSize"></span> </span>
                 </div>
 
             </div>
@@ -63,10 +67,10 @@
                             <h3 class="panel-title">Create new token</h3>
                         </div>
                         <div class="panel-body">
-                            <form th:action="@{./api/admin/token/generate}" method="post">
+                            <form id="generateToken">
                                 <div class="form-group">
                                     <label for="friendly_name">Friendly name</label>
-                                    <input type="text" class="form-control" name="name" id="friendly_name" placeholder="SecurityPi"/>
+                                    <input type="text" class="form-control" name="friendly_name" id="friendly_name" placeholder="SecurityPi" />
                                 </div>
                                 <button type="submit" class="btn btn-default">Generate new token</button>
                             </form>
@@ -110,7 +114,7 @@
                                 <td th:text="${apitoken.token}">debug</td>
                                 <td th:text="${#dates.format(apitoken.created, 'yyyy-MM-dd HH:mm')}">yyyy-MM-dd HH:mm:ss</td>
                                 <td>
-                                    <form th:action="@{./api/admin/token/revoke/__${apitoken.token}__}" method="post">
+                                    <form class="revokeToken" th:action="@{./api/admin/token/revoke/__${apitoken.token}__}" method="post">
                                         <button type="submit" class="btn-danger btn-sm">Revoke</button>
                                     </form>
                                 </td>
@@ -131,6 +135,22 @@
                             <h3 class="panel-title">Create new user</h3>
                         </div>
                         <div class="panel-body">
+                            <div id="createUserError"></div>
+                            <form id="createUser">
+                                <div class="form-group">
+                                    <label for="username">Username</label>
+                                    <input type="text" class="form-control" name="username" id="username" placeholder="Awesomeuser"/>
+                                </div>
+                                <div class="form-group">
+                                    <label for="password">Password</label>
+                                    <input type="password" class="form-control" name="password" id="password" placeholder="Secure password"/>
+                                </div>
+                                <button type="submit" class="btn btn-default">Create new user</button>
+                            </form>
+
+                        </div>
+                        <!--
+                        <div class="panel-body">
                             <form th:action="@{./api/user/create}" th:object="${fake_user}" method="post">
                                 <span class="text-success" th:if="${param.success}">User created successfully</span>
                                 <div class="form-group">
@@ -143,7 +163,7 @@
                                 </div>
                                 <button type="submit" class="btn btn-default">Create new user</button>
                             </form>
-                        </div>
+                        </div>-->
                     </div>
                 </div>
 
@@ -165,6 +185,8 @@
                         <div class="panel-heading">
                             <h3 class="panel-title">Users</h3>
                         </div>
+                        <table class="table" id="userTable">
+                        </table>
                         <table class="table">
                             <tr>
                                 <th>Username</th>
@@ -260,6 +282,92 @@
     <div th:replace="fragments/footer :: footer"></div>
 </div> <!-- /container -->
 
+<script th:inline="javascript">
+    /*<![CDATA[*/
+    $.getJSON('/api/resources/database', function(data) {
+        var output = data.databaseSize;
+        console.log(data);
+        document.getElementById("databaseSize").innerHTML=output;
+    });
+
+    $.getJSON('/api/resources/memory', function(data) {
+        console.log(data);
+        document.getElementById('freeMemory').innerHTML=data.freeMemory;
+        document.getElementById('totalMemory').innerHTML=data.totalMemory;
+
+        var percentageFree = (data.freeMemory/data.totalMemory)*100;
+        console.log(percentageFree);
+        if(percentageFree <= 10.0) {
+            console.log(percentageFree);
+            document.getElementById('memoryOverviewIcon').className='glyphicon glyphicon-remove text-danger';
+        }
+        else {
+            document.getElementById('memoryOverviewIcon').className='glyphicon glyphicon-ok text-success';
+        }
+    })
+
+    jQuery(document).on('ready', function() {
+        jQuery('form#createUser').bind('submit', function(event){
+            event.preventDefault();
+
+            var json = $('form#createUser').serializeJSON();
+
+            $.ajax({
+                type: "POST",
+                url: "/api/user/create",
+                data: json,
+                contentType: "application/json;charset=utf-8",
+                dataType: "json",
+                success: function() {
+                    console.log("Data has been sent.");
+                    location.reload();
+                },
+                error: function() {
+                    console.log("Data was not sent.");
+                }
+            });
+        });
+
+        jQuery('form#generateToken').bind('submit', function(event) {
+            event.preventDefault();
+
+            var friendlyName = $('#friendly_name').val();
+            console.log(friendlyName);
+
+            $.ajax({
+                type: "POST",
+                url: "/api/token/generate?name=" + friendlyName,
+                /* Todo: Update table instead of reloading page. */
+                success: function() {
+                    console.log("Data has been sent.");
+                    location.reload();
+                },
+                error: function() {
+                    console.log("Data was not sent.");
+                }
+            });
+        });
+    });
+
+    /*function loadUserTable() {
+        console.log("LoadUserTable started");
+        $.getJSON('/api/user/all', function(td) {
+            $("#userTable").html("");
+            $("#userTable").append("<tr><th>Username</th><th>Roles</th><th>Enabled</th><th></th></tr>");
+            $.each(td, function(i, data){
+                console.log(data);
+                $("#userTable").append(
+                        "<tr>" +
+                            "<td>" + data.username + "</td>" +
+                            "<td></td>" +
+                            "<td>" + data.enabled + "</td>" +
+                            "<td>edit</td>" +
+                        "</tr>");
+            })
+        });
+    }*/
+    /*]]>*/
+</script>
 
 <!-- Bootstrap core JavaScript
 ================================================== -->
